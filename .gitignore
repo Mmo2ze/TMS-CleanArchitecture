@@ -1,0 +1,13 @@
+﻿/TMS.Api/obj
+/TMS.Application/obj
+/TMS.Contracts/obj
+/TMS.Domain/obj
+/TMS.Infrastructure/obj
+/TMS.Api/bin
+/TMS.Application/bin
+/TMS.Contracts/bin
+/TMS.Domain/bin
+/TMS.Infrastructure/bin
+
+
+
