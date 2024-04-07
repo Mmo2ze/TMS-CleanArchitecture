@@ -1,4 +1,4 @@
-﻿namespace TMS.Domain.Students;
+﻿namespace TMS.Domain.Common.Enums;
 
 public enum Gender
 {

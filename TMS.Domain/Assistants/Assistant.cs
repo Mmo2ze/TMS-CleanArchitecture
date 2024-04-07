@@ -7,7 +7,7 @@ public class Assistant
 {	
 	public AssistantId Id { get; private set; }
 	public string Name { get; private set; }
-	public string Email { get; private set; }
+	public string? Email { get; private set; }
 	public string Phone { get; private set; }
 	public TeacherId TeacherId { get; private set; }
 	private Assistant(AssistantId id, string name, string email, string phone, TeacherId teacherId)

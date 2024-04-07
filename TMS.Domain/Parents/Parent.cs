@@ -1,15 +1,18 @@
-﻿using TMS.Domain.Students;
+﻿using TMS.Domain.Common.Enums;
+using TMS.Domain.Students;
 
 namespace TMS.Domain.Parents;
 
 public class Parent
 {
 	
-	public ParentId Id { get; private set; } = null!;
-	public string Name { get; private set; } = null!;
+	private readonly List<Student> _children = [];
+	public ParentId Id { get; private set; } 
+	public string Name { get; private set; } 
 	public string? Email { get; private set; }
 	public string? Phone { get; private set; }
 	public Gender Gender { get;private set; }
+	public IReadOnlyList<Student> Children => _children.AsReadOnly();
 
 	private Parent(ParentId id, string name, Gender gender, string? email = null, string? phone = null)
 	{
