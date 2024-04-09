@@ -1,14 +1,10 @@
-﻿namespace TMS.Domain.Parents;
+﻿using TMS.Domain.Common;
 
-public record ParentId(Guid Value)
+namespace TMS.Domain.Parents;
+
+public record ParentId(string Value) : ValueObjectId<ParentId>(Value)
 {
-	public static ParentId Create(Guid value)
+	public ParentId() : this(Guid.NewGuid().ToString())
 	{
-		return new ParentId(value);
-	}
-	
-	public static ParentId CreateUnique()
-	{
-		return new ParentId(Guid.NewGuid());
 	}
 }

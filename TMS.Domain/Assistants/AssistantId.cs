@@ -1,14 +1,10 @@
-﻿namespace TMS.Domain.Assistants;
+﻿using TMS.Domain.Common;
 
-public record AssistantId(Guid Value)
+namespace TMS.Domain.Assistants;
+
+public record AssistantId(string Value) : ValueObjectId<AssistantId>(Value)
 {
-	public static AssistantId Create(Guid value)
+	public AssistantId() : this(Guid.NewGuid().ToString())
 	{
-		return new AssistantId(value);
-	}
-	
-	public static AssistantId CreateUnique()
-	{
-		return new AssistantId(Guid.NewGuid());
 	}
 }

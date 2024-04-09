@@ -16,6 +16,8 @@ public class Teacher
 	
 	public DateTime JoinDate { get; private set; } 
 	public DateTime EndOfSubscription { get; private set; }
+	public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
+	public IReadOnlyList<Student> Students => _students.AsReadOnly();
 	
 	
 	public void AddStudent(Student student)
@@ -34,8 +36,6 @@ public class Teacher
 	{
 			_assistants.Add(assistant);
 	} 
-	public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
-	public IReadOnlyList<Student> Students => _students.AsReadOnly();
 	private Teacher(TeacherId id,
 		string name,
 		string phone,

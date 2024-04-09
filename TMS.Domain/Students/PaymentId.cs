@@ -1,14 +1,10 @@
-﻿namespace TMS.Domain.Students;
+﻿using TMS.Domain.Common;
 
-public record PaymentId(Guid Value)
+namespace TMS.Domain.Students;
+
+public record PaymentId(string Value) : ValueObjectId<PaymentId>(Value)
 {
-	public static PaymentId Create(Guid value)
+	public PaymentId() : this(Guid.NewGuid().ToString())
 	{
-		return new PaymentId(value);
-	}
-	
-	public static PaymentId CreateUnique()
-	{
-		return new PaymentId(Guid.NewGuid());
 	}
 }

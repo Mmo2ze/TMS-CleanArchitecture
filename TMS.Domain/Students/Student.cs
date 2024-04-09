@@ -1,4 +1,6 @@
-﻿using TMS.Domain.Assistants;
+﻿using System.Collections.ObjectModel;
+using Microsoft.VisualBasic;
+using TMS.Domain.Assistants;
 using TMS.Domain.Common.Enums;
 using TMS.Domain.Parents;
 using TMS.Domain.Teachers;
@@ -9,7 +11,7 @@ public class Student
 {
 
 
-	private readonly List<Teacher> _teachers = [];
+	private readonly List<Teacher>  _teachers = [];
 	private readonly List<Attendance> _attendances = [];
 	private readonly List<Payment> _payments = [];
 
@@ -19,8 +21,9 @@ public class Student
 	public string? Phone { get; private set; }
 	public Gender Gender { get; private set; }
 	public Parent? Parent { get; private set; }
-	public IEnumerable<Teacher> Teachers => _teachers.AsReadOnly();
-	public IEnumerable<Payment> Payments => _payments.AsReadOnly();
+	
+	public IEnumerable<Teacher> Teachers => _teachers;
+	public IEnumerable<Payment> Payments => _payments;
 	public IEnumerable<Attendance> Attendances => _attendances.AsReadOnly();
 
 	private Student(StudentId id, string name, Gender gender, string? email = null, string? phone = null)

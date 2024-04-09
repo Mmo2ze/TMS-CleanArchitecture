@@ -1,14 +1,10 @@
-﻿namespace TMS.Domain.Teachers;
+﻿using TMS.Domain.Common;
 
-public record TeacherId(Guid Value)
+namespace TMS.Domain.Teachers;
+
+public record TeacherId(string Value) : ValueObjectId<TeacherId>(Value)
 {
-	public static TeacherId Create(Guid value)
+	public TeacherId() : this(Guid.NewGuid().ToString())
 	{
-		return new TeacherId(value);
 	}
-	
-	public static TeacherId CreateUnique()
-	{
-		return new TeacherId(Guid.NewGuid());
-	}
-}
+};

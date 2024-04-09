@@ -1,14 +1,10 @@
-﻿namespace TMS.Domain.Admins;
+﻿using TMS.Domain.Common;
 
-public record AdminId(Guid Value)
+namespace TMS.Domain.Admins;
+
+public record AdminId(string Value) : ValueObjectId<AdminId>(Value)
 {
-	public static AdminId Create(Guid value)
+	public AdminId() : this(Guid.NewGuid().ToString())
 	{
-		return new AdminId(value);
-	}
-	
-	public static AdminId CreateUnique()
-	{
-		return new AdminId(Guid.NewGuid());
 	}
 }
