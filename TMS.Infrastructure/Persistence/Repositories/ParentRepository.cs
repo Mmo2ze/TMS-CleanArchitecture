@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TMS.Application.Common.Persistence;
+using TMS.Domain.Common.Repositories;
 using TMS.Domain.Parents;
 
 namespace TMS.Infrastructure.Persistence.Repositories;

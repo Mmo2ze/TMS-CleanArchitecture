@@ -3,10 +3,9 @@ using ErrorOr;
 using MediatR;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
-using TMS.Application.Common.Persistence;
-using TMS.Application.Common.Results.Auth;
 using TMS.Application.Common.Variables;
 using TMS.Domain.Common.Errors;
+using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Authentication.Commands.SendCode;
 
@@ -41,7 +40,7 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<S
 					return Errors.Auth.YouAreNotAdmin;
 				break;
 			case UserAgent.Teacher:
-				if (!await _teacherRepository.IsTeacher(request.Phone) || !await _assistantRepository.IsAssistant(request.Phone))
+				if (!await _teacherRepository.IsTeacher(request.Phone, new CancellationToken()) || !await _assistantRepository.IsAssistant(request.Phone))
 					return Errors.Auth.NotTeacherOrAssistant;
 				break;
 		}

@@ -11,6 +11,9 @@ public interface IWhatsappApi
 
 	[Post("/WhatsappSendMessage")]
 	Task<string> SendCode([Body]SendMessageRequest request);
+	[Post("/WhatsappNumberHasIt")]
+	Task<HasWhatsappResponse> HasWhatsapp([Body]HasWhatsappRequest request);
+	
 
 }
 

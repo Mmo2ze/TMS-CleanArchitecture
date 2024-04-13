@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TMS.Application.Common.Persistence;
 using TMS.Domain.Admins;
+using TMS.Domain.Common.Repositories;
 
 namespace TMS.Infrastructure.Persistence.Repositories;
 

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace TMS.Application.Authentication.Commands;
+namespace TMS.Application.Authentication.Commands.SendCode;
 
 public class SendCodeValidator: AbstractValidator<SendCodeCommand>
 {

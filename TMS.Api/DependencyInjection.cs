@@ -19,16 +19,15 @@ public static class DependencyInjection
 		services.AddSwagger();
 		services.AddHttpContextAccessor();
 		AddCross(services);
-		AddMapster(services);
+		AddMaster(services);
 
 		return services;
 	}
 
-	private static void AddMapster(IServiceCollection services)
+	private static void AddMaster(IServiceCollection services)
 	{
-		var config = new TypeAdapterConfig();
+		var config =  TypeAdapterConfig.GlobalSettings;
 		config.Scan(Assembly.GetExecutingAssembly());
-
 		services.AddSingleton(config);
 		services.AddScoped<IMapper, ServiceMapper>();
 		

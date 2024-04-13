@@ -1,8 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 using TMS.Application.Common.Enums;
-using TMS.Application.Common.Results.Auth;
 
-namespace TMS.Application.Authentication.Commands;
+namespace TMS.Application.Authentication.Commands.SendCode;
 
 public record SendCodeCommand(string Phone,UserAgent UserAgent) : IRequest<ErrorOr<SendCodeResult>>;

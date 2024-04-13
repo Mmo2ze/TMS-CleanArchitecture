@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using System.Diagnostics.CodeAnalysis;
+using ErrorOr;
 using MapsterMapper;
 using Newtonsoft.Json;
 using TMS.Application.Common.Services;
@@ -21,9 +22,11 @@ public class WhatsappSender : IWhatsappSender
 		_mapper = mapper;
 	}
 
-	public bool IsValidNumber(string number)
+	public async Task<bool> IsValidNumber(string number)
 	{
-		throw new NotImplementedException();
+		var request = HasWhatsappRequest.Create(number);
+	    var response  = await _whatsappApi.HasWhatsapp(request); 
+	    return response.status == "valid";
 	}
 
 	public async Task<ErrorOr<string>> SendMessage(string number, string message)

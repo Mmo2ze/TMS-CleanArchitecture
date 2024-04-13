@@ -4,14 +4,16 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Authentication.Commands;
+using TMS.Application.Authentication.Commands.SendCode;
 using TMS.Application.Authentication.Queries;
+using TMS.Application.Authentication.Queries.VerifyCode;
 using TMS.Application.Common.Interfaces.Auth;
-using TMS.Application.Common.Persistence;
 using TMS.Application.Common.Variables;
 using TMS.Contracts.Authentication.SendCode;
 using TMS.Contracts.Authentication.VerifyCode;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Enums;
+using TMS.Domain.Common.Repositories;
 using TMS.Domain.Parents;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
@@ -67,18 +69,6 @@ public class AuthController : ApiController
 			Problem
 		);
 	}
-	
-	[AllowAnonymous]
-	[HttpPost]
-	public IActionResult AddTeacher([FromBody] string teacherName)
-	{
-	var teacher = Teacher.Create(teacherName,teacherName,Subject.Maths,DateTime.UtcNow.AddYears(1));
-	var assistant = Assistant.Create(teacherName,teacherName,teacherName,teacher.Id);
-	var student = Student.Create(teacherName,Gender.Male,null,teacher.Id.Value);
-	var payment = Payment.Create(student.Id,100,DateTime.UtcNow,DateOnly.FromDateTime(DateTime.UtcNow),teacher.Id,assistant.Id);
-	var parent = Parent.Create(teacherName,Gender.Female,teacherName,student.Phone);
-	_teacherRepository.Add(teacher);
-	return Ok(teacher);
-	}
+
 	
 }

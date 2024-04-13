@@ -4,11 +4,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
-using TMS.Application.Common.Persistence;
-using TMS.Application.Common.Results.Auth;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
 using TMS.Domain.Common.Errors;
+using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Authentication.Queries.VerifyCode;
 
@@ -132,7 +131,7 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 
 	private async Task GetTeacherClaims(string phone, List<Claim> claims)
 	{
-		var teacher = await _teacherRepository.GetTeacherByPhone(phone);
+		var teacher = await _teacherRepository.GetByPhone(phone);
 		if (teacher is not null)
 		{
 			claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.TeacherR.Role));

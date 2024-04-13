@@ -24,11 +24,11 @@ namespace TMS.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentTeacher", b =>
                 {
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("StudentsId")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<Guid>("TeachersId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("TeachersId")
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("StudentsId", "TeachersId");
 
@@ -39,8 +39,8 @@ namespace TMS.Infrastructure.Migrations
 
             modelBuilder.Entity("TMS.Domain.Admins.Admin", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -70,8 +70,8 @@ namespace TMS.Infrastructure.Migrations
 
             modelBuilder.Entity("TMS.Domain.Assistants.Assistant", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(128)
@@ -87,8 +87,9 @@ namespace TMS.Infrastructure.Migrations
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)");
 
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -103,10 +104,40 @@ namespace TMS.Infrastructure.Migrations
                     b.ToTable("Assistants", (string)null);
                 });
 
-            modelBuilder.Entity("TMS.Domain.Parents.Parent", b =>
+            modelBuilder.Entity("TMS.Domain.OutBox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("OccurredOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("RetryCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OutboxMessages");
+                });
+
+            modelBuilder.Entity("TMS.Domain.Parents.Parent", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(128)
@@ -138,14 +169,14 @@ namespace TMS.Infrastructure.Migrations
 
             modelBuilder.Entity("TMS.Domain.Students.Payment", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid?>("AssistantId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("AssistantId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateOnly>("BillDate")
                         .HasColumnType("date");
@@ -153,11 +184,13 @@ namespace TMS.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -172,8 +205,8 @@ namespace TMS.Infrastructure.Migrations
 
             modelBuilder.Entity("TMS.Domain.Students.Student", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
                         .HasColumnType("varchar(255)");
@@ -185,8 +218,8 @@ namespace TMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("ParentId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("varchar(255)");
@@ -206,15 +239,15 @@ namespace TMS.Infrastructure.Migrations
 
             modelBuilder.Entity("TMS.Domain.Teachers.Teacher", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<DateTime>("EndOfSubscription")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("EndOfSubscription")
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("datetime(6)");
@@ -295,8 +328,8 @@ namespace TMS.Infrastructure.Migrations
 
                     b.OwnsMany("TMS.Domain.Students.Attendance", "Attendances", b1 =>
                         {
-                            b1.Property<Guid>("StudentId")
-                                .HasColumnType("char(36)");
+                            b1.Property<string>("StudentId")
+                                .HasColumnType("varchar(255)");
 
                             b1.Property<int>("Id")
                                 .HasColumnType("int");
@@ -308,8 +341,9 @@ namespace TMS.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("longtext");
 
-                            b1.Property<Guid>("TeacherId")
-                                .HasColumnType("char(36)");
+                            b1.Property<string>("TeacherId")
+                                .IsRequired()
+                                .HasColumnType("varchar(255)");
 
                             b1.HasKey("StudentId", "Id");
 

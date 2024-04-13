@@ -1,56 +1,74 @@
 ﻿using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
+using TMS.Domain.Teachers.Events;
+using TMS.Domain.Teachers.Events.DomainEvents;
 
 namespace TMS.Domain.Teachers;
 
-public class Teacher
+public class Teacher : Aggregate
 {
-	private readonly List<Assistant> _assistants = [];
-	private readonly List<Student> _students = [];
-	public TeacherId Id { get; private set; }
-	public string Name { get; private set; }
-	public string? Email { get; private set;}
-	public string Phone { get; private set; } 
-	public Subject Subject { get; private set; }
-	
-	public DateTime JoinDate { get; private set; } 
-	public DateTime EndOfSubscription { get; private set; }
-	public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
-	public IReadOnlyList<Student> Students => _students.AsReadOnly();
-	
-	
-	public void AddStudent(Student student)
-	{
-		_students.Add(student);
-	}
-	public void AddSubscription(TimeSpan subscription)
-	{
-		if(EndOfSubscription > DateTime.UtcNow)
-			EndOfSubscription = DateTime.UtcNow;
-		EndOfSubscription = EndOfSubscription.Add(subscription);
-	}
-	
-	
-	public void AddAssistant(Assistant assistant)
-	{
-			_assistants.Add(assistant);
-	} 
-	private Teacher(TeacherId id,
-		string name,
-		string phone,
-		DateTime endOfSubscription, Subject subject, string? email = null)
-	{
-		Id = id;
-		Name = name;
-		Email = email;
-		Phone = phone;
-		JoinDate = DateTime.UtcNow;
-		EndOfSubscription = endOfSubscription;
-		Subject = subject;
-	}
-	public static Teacher Create(string name, string phone, Subject subject, DateTime endOfSubscription, string? email = null)
-	{
-		return new Teacher(TeacherId.CreateUnique(), name, phone, endOfSubscription, subject, email);
-	}
+    private readonly List<Assistant> _assistants = [];
+    private readonly List<Student> _students = [];
+    public TeacherId Id { get; private set; }
+    public string Name { get; private set; }
+    public string? Email { get; private set; }
+    public string Phone { get; private set; }
+    public Subject Subject { get; private set; }
+
+    public DateTime JoinDate { get; private set; }
+    public DateOnly EndOfSubscription { get; private set; }
+    public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
+    public IReadOnlyList<Student> Students => _students.AsReadOnly();
+
+
+    public void AddStudent(Student student)
+    {
+        _students.Add(student);
+    }
+
+    public void AddSubscription(int days)
+    {
+        var dateNow = DateOnly.FromDateTime(DateTime.UtcNow);
+        if (EndOfSubscription < dateNow)
+            EndOfSubscription = dateNow;
+        EndOfSubscription = EndOfSubscription.AddDays(days);
+        RaiseIntegrationEvent(new TeacherSubscriptionUpdateIntegrationEvent(Guid.NewGuid(),
+            EndOfSubscription,
+            Phone,
+            Name));
+     
+    }
+
+
+    public void AddAssistant(Assistant assistant)
+    {
+        _assistants.Add(assistant);
+    }
+
+    private Teacher(TeacherId id,
+        string name,
+        string phone,
+        DateOnly endOfSubscription, Subject subject, string? email = null)
+    {
+        Id = id;
+        Name = name;
+        Email = email;
+        Phone = phone;
+        JoinDate = DateTime.UtcNow;
+        EndOfSubscription = endOfSubscription;
+        Subject = subject;
+    }
+
+    public static Teacher Create(string name, string phone, Subject subject, int subscriptionPeriodInDays,
+        string? email = null)
+    {
+        var endOfSubscription = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(subscriptionPeriodInDays);
+        var teacher = new Teacher(TeacherId.CreateUnique(), name, phone, endOfSubscription, subject, email);
+        teacher.RaiseIntegrationEvent(new TeacherCreatedIntegrationEvent(Guid.NewGuid(), teacher.Phone, teacher.Name,
+            teacher.EndOfSubscription));
+        teacher.RaiseDomainEvent(new TeacherCreatedDomainEvent(Guid.NewGuid(), teacher.Phone, teacher.Name, teacher.EndOfSubscription));
+        return teacher;
+    }
 }
