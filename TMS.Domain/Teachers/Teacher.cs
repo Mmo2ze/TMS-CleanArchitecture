@@ -2,8 +2,6 @@
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
-using TMS.Domain.Teachers.Events;
-using TMS.Domain.Teachers.Events.DomainEvents;
 
 namespace TMS.Domain.Teachers;
 
@@ -34,10 +32,7 @@ public class Teacher : Aggregate
         if (EndOfSubscription < dateNow)
             EndOfSubscription = dateNow;
         EndOfSubscription = EndOfSubscription.AddDays(days);
-        RaiseIntegrationEvent(new TeacherSubscriptionUpdateIntegrationEvent(Guid.NewGuid(),
-            EndOfSubscription,
-            Phone,
-            Name));
+
      
     }
 
@@ -66,9 +61,7 @@ public class Teacher : Aggregate
     {
         var endOfSubscription = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(subscriptionPeriodInDays);
         var teacher = new Teacher(TeacherId.CreateUnique(), name, phone, endOfSubscription, subject, email);
-        teacher.RaiseIntegrationEvent(new TeacherCreatedIntegrationEvent(Guid.NewGuid(), teacher.Phone, teacher.Name,
-            teacher.EndOfSubscription));
-        teacher.RaiseDomainEvent(new TeacherCreatedDomainEvent(Guid.NewGuid(), teacher.Phone, teacher.Name, teacher.EndOfSubscription));
+        
         return teacher;
     }
 }

@@ -10,3 +10,4 @@ public record AddTeacherCommand(
 	Subject Subject,
 	string? Email,
 	int SubscriptionPeriodInDays) : IRequest<ErrorOr<AddTeacherResult>>;
+	

@@ -37,7 +37,6 @@ public class TeacherRepository : ITeacherRepository
     public async Task Add(Teacher teacher, CancellationToken cancellationToken = default)
     {
             await _dbContext.AddAsync(teacher,cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task<List<Teacher>> GetTeachers(int requestPage, int requestPageSize, CancellationToken cancellationToken = default)
@@ -47,6 +46,11 @@ public class TeacherRepository : ITeacherRepository
             .Take(requestPageSize)
             .OrderBy(x => x.JoinDate)
             .ToListAsync(cancellationToken: cancellationToken);
+    }
+    
+    public async Task SaveChanges(CancellationToken cancellationToken)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task UpdateTeacher(Teacher teacher, CancellationToken cancellationToken)
