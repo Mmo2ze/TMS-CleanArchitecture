@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using IntegrationEvents;
+using MediatR;
 using TMS.Application.Common.MessageTemplates;
 using TMS.Application.Common.Services;
 using TMS.Domain.Common.Errors;
-using TMS.Domain.Teachers.Events;
 
 namespace TMS.Application.TeacherApp.Events;
 

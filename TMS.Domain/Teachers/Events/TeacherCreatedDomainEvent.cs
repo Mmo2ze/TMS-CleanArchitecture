@@ -1,6 +1,6 @@
 ﻿using TMS.Domain.Common.Models;
 
-namespace TMS.Domain.Teachers.Events.DomainEvents;
+namespace TMS.Domain.Teachers.Events;
 
 public record TeacherCreatedDomainEvent(
     Guid Id,

@@ -1,6 +1,6 @@
 ﻿using IntegrationEvents;
 using MediatR;
-using TMS.Domain.Teachers.Events.DomainEvents;
+using TMS.Domain.Teachers.Events;
 
 namespace TMS.Application.TeacherApp.Events;
 

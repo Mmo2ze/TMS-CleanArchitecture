@@ -1,6 +1,6 @@
 ﻿using TMS.Domain.Common.Models;
 
-namespace TMS.Domain.Teachers.Events;
+namespace IntegrationEvents;
 
 public record TeacherSubscriptionUpdateIntegrationEvent(
     Guid Id,

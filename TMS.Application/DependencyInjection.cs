@@ -17,22 +17,7 @@ public static class DependencyInjection
             typeof(ValidationBehavior<,>));
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        services.AddMassTransit(busConfigurator =>
-        {
-            busConfigurator.SetKebabCaseEndpointNameFormatter();
-            busConfigurator.UsingInMemory((context, configurator) =>
-            {
-                configurator.ConfigureEndpoints(context);
-            });
-            // busConfigurator.UsingRabbitMq((context, configurator) =>
-            // {
-            //     configurator.Host("localhost", "/", h =>
-            //     {
-            //         h.Username("guest");
-            //         h.Password("guest");
-            //     });
-            // });
-        });
+        
 
         return services;
     }
