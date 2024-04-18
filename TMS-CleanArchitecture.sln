@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Domain", "TMS.Domain\TM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Contracts", "TMS.Contracts\TMS.Contracts.csproj", "{4C552329-EA51-4F8A-A543-26A49D2AAE72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEvents", "IntegrationEvents\IntegrationEvents.csproj", "{53371DA2-CBBF-4367-B605-A36B67C5A6E7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.MessagingContracts", "TMS.MessagingContracts\TMS.MessagingContracts.csproj", "{E6E0EC9E-5563-4F13-A8F4-74B78A5231C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Consumer", "TMS.Consumer\TMS.Consumer.csproj", "{E0AD1794-C03B-4B77-AB9F-D9A45C5BDCC4}"
@@ -42,10 +40,6 @@ Global
 		{4C552329-EA51-4F8A-A543-26A49D2AAE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C552329-EA51-4F8A-A543-26A49D2AAE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C552329-EA51-4F8A-A543-26A49D2AAE72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{53371DA2-CBBF-4367-B605-A36B67C5A6E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53371DA2-CBBF-4367-B605-A36B67C5A6E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53371DA2-CBBF-4367-B605-A36B67C5A6E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53371DA2-CBBF-4367-B605-A36B67C5A6E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6E0EC9E-5563-4F13-A8F4-74B78A5231C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6E0EC9E-5563-4F13-A8F4-74B78A5231C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6E0EC9E-5563-4F13-A8F4-74B78A5231C5}.Release|Any CPU.ActiveCfg = Release|Any CPU

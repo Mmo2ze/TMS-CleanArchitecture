@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\IntegrationEvents\IntegrationEvents.csproj" />
       <ProjectReference Include="..\TMS.Domain\TMS.Domain.csproj" />
       <ProjectReference Include="..\TMS.MessagingContracts\TMS.MessagingContracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Common\Interfaces\" />
+      <Folder Include="TeacherApp\Events\" />
     </ItemGroup>
 
     <ItemGroup>
