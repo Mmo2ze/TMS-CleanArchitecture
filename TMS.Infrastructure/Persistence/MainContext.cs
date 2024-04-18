@@ -22,7 +22,6 @@ public class MainContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .Ignore<List<IntegrationEvent>>()
             .Ignore<List<DomainEvent>>()
             .ApplyConfigurationsFromAssembly(typeof(MainContext).Assembly);
 
@@ -44,11 +43,6 @@ public class MainContext : DbContext
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Assistant> Assistants { get; set; }
     public DbSet<Parent> Parents { get; set; }
-    public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        //optionsBuilder.AddInterceptors(_domainEventToOutBoxMessageInterceptor);
-        base.OnConfiguring(optionsBuilder);
-    }
+
 }

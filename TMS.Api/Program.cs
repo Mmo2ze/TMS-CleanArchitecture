@@ -17,7 +17,7 @@ builder.Services.AddMassTransit(busConfigurator =>
 
 	busConfigurator.AddEntityFrameworkOutbox<MainContext>(o =>
     {
-	    o.UseMySql();
+	    o.UsePostgres();
         // enable the bus outbox
         o.QueryDelay = TimeSpan.FromMilliseconds(2000);
         o.UseBusOutbox();

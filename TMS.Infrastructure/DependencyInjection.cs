@@ -12,7 +12,6 @@ using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Services;
 using TMS.Domain.Common.Repositories;
 using TMS.Infrastructure.Auth;
-using TMS.Infrastructure.BackGroundJobs;
 using TMS.Infrastructure.Persistence;
 using TMS.Infrastructure.Persistence.interceptors;
 using TMS.Infrastructure.Persistence.Repositories;
@@ -23,7 +22,7 @@ using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
 
 namespace TMS.Infrastructure;
 
-public static class DependencyInjection
+public static class DependencyInjectio
 {
     public static void AddInfrastructure(this IServiceCollection services,
         ConfigurationManager builderConfiguration)
@@ -35,21 +34,7 @@ public static class DependencyInjection
         services.AddPersistence(builderConfiguration);
         services.AddAuthentication(builderConfiguration);
         services.AddLogging();
-        services.AddQuartz(configure =>
-        {
-            var jobKey = new JobKey(nameof(ProcessesOutBoxMessagesJob));
-            configure
-                .AddJob<ProcessesOutBoxMessagesJob>(jobKey)
-                .AddTrigger(
-                    trigger =>
-                        trigger.ForJob(jobKey)
-                            .WithSimpleSchedule(
-                                schedule =>
-                                    schedule.WithIntervalInSeconds(10)
-                                        .RepeatForever()));
-
-            configure.UseMicrosoftDependencyInjectionJobFactory();
-        });
+        
         //services.AddQuartzHostedService();
         AddWhatsappService(services);
     }
@@ -99,11 +84,7 @@ public static class DependencyInjection
         var databaseSettings = configuration.GetSection(MainContextSettings.SectionName).Get<MainContextSettings>()!;
         services.AddDbContext<MainContext>(options =>
         {
-            options.UseMySql(
-                    connectionString:
-                    $@"Server={databaseSettings.Server};port=3306;User ID={databaseSettings.Username};
-						database={databaseSettings.DataBaseName};Password='{databaseSettings.Password}';",
-                    new MySqlServerVersion(new Version(8, 0, 25)))
+           options.UseNpgsql(configuration.GetConnectionString("Postgres"))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
         });

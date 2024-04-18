@@ -38,17 +38,9 @@ builder.Services.AddRefitClient<IWhatsappApi>()
     );
 builder.Services.Configure<RabbitMqTransportOptions>(builder.Configuration.GetSection(MainContextSettings.SectionName));
 
-var databaseSettings =
-    builder.Configuration.GetSection(MainContextSettings.SectionName).Get<MainContextSettings>()!;
 builder.Services.AddDbContext<MainContext>(o =>
 {
-    o.UseMySql(
-            connectionString:
-            $@"Server={databaseSettings.Server};port=3306;User ID={databaseSettings.Username};
-						database={databaseSettings.DataBaseName};Password='{databaseSettings.Password}';",
-            new MySqlServerVersion(new Version(8, 0, 25)))
-        .EnableSensitiveDataLogging()
-        .EnableDetailedErrors();
+    o.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 });
 builder.Services.AddMassTransit(x =>
 {
