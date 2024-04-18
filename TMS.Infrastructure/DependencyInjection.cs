@@ -50,7 +50,7 @@ public static class DependencyInjection
 
             configure.UseMicrosoftDependencyInjectionJobFactory();
         });
-        services.AddQuartzHostedService();
+        //services.AddQuartzHostedService();
         AddWhatsappService(services);
     }
 

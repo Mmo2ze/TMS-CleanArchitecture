@@ -41,6 +41,7 @@ public class Teacher : Aggregate
     {
         _assistants.Add(assistant);
     }
+    
 
     private Teacher(TeacherId id,
         string name,

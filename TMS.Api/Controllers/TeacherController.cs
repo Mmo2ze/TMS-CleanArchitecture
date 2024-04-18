@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using MapsterMapper;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,8 @@ using TMS.Domain.Admins;
 using TMS.Domain.Common.Models;
 using TMS.Domain.OutBox;
 using TMS.Domain.Teachers;
+using TMS.Infrastructure.Persistence;
+using TMS.MessagingContracts;
 
 namespace TMS.Api.Controllers;
 
@@ -26,13 +29,17 @@ public class TeacherController : ApiController
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly MainContext _dbContext;
     private readonly IWhatsappSender _sender;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public TeacherController(IMediator mediator, IMapper mapper, IWhatsappSender sender)
+    public TeacherController(IMediator mediator, IMapper mapper, IWhatsappSender sender, MainContext dbContext, IPublishEndpoint publishEndpoint)
     {
         _mediator = mediator;
         _mapper = mapper;
         _sender = sender;
+        _dbContext = dbContext;
+        _publishEndpoint = publishEndpoint;
     }
 
     [HttpGet]
@@ -79,6 +86,15 @@ public class TeacherController : ApiController
         );
     }
     
+    [HttpGet("test")]
+    public async Task<IActionResult> Test()
+    {
+        var teacher = Teacher.Create("test", "123", Subject.Maths, 1, "test");
+        await _dbContext.AddAsync(teacher);
+        await _publishEndpoint.Publish(new TeacherCreatedEvent(teacher.Id.Value, teacher.Name, teacher.Phone));
+        await _dbContext.SaveChangesAsync();
+        return Ok();
+    }
 
 
     

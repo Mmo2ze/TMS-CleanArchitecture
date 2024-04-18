@@ -34,9 +34,9 @@ public class TeacherRepository : ITeacherRepository
         return _dbContext.Teachers.AnyAsync(predicate, cancellationToken: cancellationToken);
     }
 
-    public async Task Add(Teacher teacher, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Teacher teacher, CancellationToken cancellationToken = default)
     {
-            await _dbContext.AddAsync(teacher,cancellationToken);
+            await _dbContext.AddAsync(teacher, cancellationToken);
     }
 
     public Task<List<Teacher>> GetTeachers(int requestPage, int requestPageSize, CancellationToken cancellationToken = default)
@@ -48,7 +48,7 @@ public class TeacherRepository : ITeacherRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
     
-    public async Task SaveChanges(CancellationToken cancellationToken)
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await _dbContext.SaveChangesAsync(cancellationToken);
     }

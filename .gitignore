@@ -3,11 +3,18 @@
 /TMS.Contracts/obj
 /TMS.Domain/obj
 /TMS.Infrastructure/obj
+/TMS.Consumer/obj
+/IntegrationEvents/obj
+/TMS.MessagingContracts/obj
 /TMS.Api/bin
 /TMS.Application/bin
 /TMS.Contracts/bin
 /TMS.Domain/bin
 /TMS.Infrastructure/bin
+/TMS.Consumer/bin
+/IntegrationEvents/bin
+/TMS.MessagingContracts/bin
+
 
 
 

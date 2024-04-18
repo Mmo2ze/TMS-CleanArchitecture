@@ -1,7 +1,9 @@
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using TMS.Api;
 using TMS.Application;
 using TMS.Infrastructure;
+using TMS.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,14 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApi(builder.Configuration);
 builder.Services.AddMassTransit(busConfigurator =>
 {
+
+	busConfigurator.AddEntityFrameworkOutbox<MainContext>(o =>
+    {
+	    o.UseMySql();
+        // enable the bus outbox
+        o.QueryDelay = TimeSpan.FromMilliseconds(2000);
+        o.UseBusOutbox();
+    });
 	busConfigurator.SetKebabCaseEndpointNameFormatter();
 	busConfigurator.AddConsumers(typeof(Program).Assembly);
 	busConfigurator.UsingRabbitMq((context, configurator) =>

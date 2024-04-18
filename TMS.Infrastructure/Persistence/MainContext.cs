@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using TMS.Domain.Admins;
@@ -8,18 +9,14 @@ using TMS.Domain.OutBox;
 using TMS.Domain.Parents;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
-using TMS.Infrastructure.Persistence.interceptors;
 
 namespace TMS.Infrastructure.Persistence;
 
 public class MainContext : DbContext
 {
-    private readonly ConvertDomainEventToOutBoxMessageInterceptor _domainEventToOutBoxMessageInterceptor;
 
-    public MainContext(DbContextOptions<MainContext> options,
-        ConvertDomainEventToOutBoxMessageInterceptor domainEventToOutBoxMessageInterceptor) : base(options)
+    public MainContext(DbContextOptions<MainContext> options) : base(options)
     {
-        _domainEventToOutBoxMessageInterceptor = domainEventToOutBoxMessageInterceptor;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +33,10 @@ public class MainContext : DbContext
             .ToList()
             .ForEach(p => p.ValueGenerated = ValueGenerated.Never);
         base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
     }
 
     public DbSet<Student> Students { get; set; }
@@ -47,7 +48,7 @@ public class MainContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.AddInterceptors(_domainEventToOutBoxMessageInterceptor);
+        //optionsBuilder.AddInterceptors(_domainEventToOutBoxMessageInterceptor);
         base.OnConfiguring(optionsBuilder);
     }
 }

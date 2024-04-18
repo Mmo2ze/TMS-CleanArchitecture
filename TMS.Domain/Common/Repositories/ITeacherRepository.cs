@@ -11,8 +11,8 @@ public interface ITeacherRepository
     Task<Teacher?> GetTeacher(Expression<Func<Teacher, bool>> predicate, CancellationToken cancellationToken = default);
     Task<bool> Any(Expression<Func<Teacher, bool>> predicate ,CancellationToken cancellationToken = default);
 
-    Task Add(Teacher teacher, CancellationToken cancellationToken = default);
+    Task AddAsync(Teacher teacher, CancellationToken cancellationToken = default);
     Task<List<Teacher>> GetTeachers(int requestPage, int requestPageSize, CancellationToken cancellationToken = default);
     Task UpdateTeacher(Teacher teacher, CancellationToken cancellationToken);
-    Task SaveChanges(CancellationToken cancellationToken = default);
+    Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

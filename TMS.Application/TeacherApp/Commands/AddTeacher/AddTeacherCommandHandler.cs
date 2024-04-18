@@ -12,9 +12,9 @@ namespace TMS.Application.TeacherApp.Commands.AddTeacher;
 public class AddTeacherCommandHandler : IRequestHandler<AddTeacherCommand, ErrorOr<AddTeacherResult>>
 {
     private readonly ITeacherRepository _teacherRepository;
-    private readonly IBus _bus;
+    private readonly IPublishEndpoint _bus;
 
-    public AddTeacherCommandHandler(ITeacherRepository teacherRepository, IBus bus)
+    public AddTeacherCommandHandler(ITeacherRepository teacherRepository, IPublishEndpoint bus )
     {
         _teacherRepository = teacherRepository;
         _bus = bus;
@@ -35,13 +35,12 @@ public class AddTeacherCommandHandler : IRequestHandler<AddTeacherCommand, Error
         // Create teacher 
         var teacher = Teacher.Create(request.Name, request.Phone, request.Subject, request.SubscriptionPeriodInDays,
             request.Email);
-        await _teacherRepository.Add(teacher, cancellationToken);
-        await _teacherRepository.SaveChanges(cancellationToken);
+        await _teacherRepository.AddAsync(teacher, cancellationToken);
         await _bus.Publish(new TeacherCreatedEvent(
             teacher.Id.Value,
             teacher.Name,
             teacher.Phone), cancellationToken);
-
+        await _teacherRepository.SaveChangesAsync(cancellationToken);
         var summary = new TeacherSummary(teacher.Id, teacher.Name, teacher.Phone, 0, teacher.Subject,
             teacher.EndOfSubscription);
         var result = new AddTeacherResult(summary);
