@@ -15,4 +15,6 @@ public interface ITeacherRepository
     Task<List<Teacher>> GetTeachers(int requestPage, int requestPageSize, CancellationToken cancellationToken = default);
     Task UpdateTeacher(Teacher teacher, CancellationToken cancellationToken);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<Teacher?> GetByIdAsync(TeacherId requestTeacherId, CancellationToken cancellationToken);
+    Task UpdateAsync(Teacher teacher, CancellationToken cancellationToken);
 }

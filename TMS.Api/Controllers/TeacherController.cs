@@ -1,23 +1,20 @@
-﻿using ErrorOr;
-using MapsterMapper;
+﻿using MapsterMapper;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
-using TMS.Application.TeacherApp.Commands.AddTeacher;
-using TMS.Application.TeacherApp.Commands.UpdateSubscription;
-using TMS.Application.TeacherApp.Queries.GetTeacher;
-using TMS.Application.TeacherApp.Queries.GetTeachers;
-using TMS.Contracts.Teacher.AddTeacher;
+using TMS.Application.Teachers.Commands.Create;
+using TMS.Application.Teachers.Commands.Update;
+using TMS.Application.Teachers.Commands.UpdateSubscription;
+using TMS.Application.Teachers.Queries.GetTeacher;
+using TMS.Application.Teachers.Queries.GetTeachers;
+using TMS.Contracts.Teacher.Create;
 using TMS.Contracts.Teacher.GetTeacher;
 using TMS.Contracts.Teacher.GetTeachers;
+using TMS.Contracts.Teacher.Update;
 using TMS.Contracts.Teacher.UpdateTeacherSubscrioption;
-using TMS.Domain.Admins;
-using TMS.Domain.Common.Models;
-using TMS.Domain.OutBox;
 using TMS.Domain.Teachers;
 using TMS.Infrastructure.Persistence;
 using TMS.MessagingContracts;
@@ -29,17 +26,12 @@ public class TeacherController : ApiController
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    private readonly MainContext _dbContext;
-    private readonly IWhatsappSender _sender;
-    private readonly IPublishEndpoint _publishEndpoint;
 
-    public TeacherController(IMediator mediator, IMapper mapper, IWhatsappSender sender, MainContext dbContext, IPublishEndpoint publishEndpoint)
+    public TeacherController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
-        _sender = sender;
-        _dbContext = dbContext;
-        _publishEndpoint = publishEndpoint;
+
     }
 
     [HttpGet]
@@ -51,10 +43,11 @@ public class TeacherController : ApiController
     }
 
     [HttpPost]
-    public IActionResult Post(AddTeacherRequest request)
+    public IActionResult Post(CreateTeacherRequest request)
     {
-        var result = _mediator.Send(_mapper.Map<AddTeacherCommand>(request)).Result;
-        var response = _mapper.Map<AddTeacherResponse>(result.Value);
+        var command = _mapper.Map<CreateTeacherCommand>(request);
+        var result = _mediator.Send(command).Result;
+        var response = _mapper.Map<CreateTeacherResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem
@@ -66,7 +59,20 @@ public class TeacherController : ApiController
     {
         var request = new GetTeacherRequest(id);
         var result = await _mediator.Send(_mapper.Map<GetTeacherQuery>(request));
-        var response = _mapper.Map<AddTeacherResponse>(result);
+        var response = _mapper.Map<CreateTeacherResponse>(result);
+        return result.Match(
+            _ => Ok(response),
+            Problem
+        );
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(string id, UpdateTeacherRequest request)
+    {
+        request = request with { TeacherId = id };
+        var command = _mapper.Map<UpdateTeacherCommand>(request);
+        var result = await _mediator.Send(_mapper.Map<UpdateTeacherCommand>(command));
+        var response = _mapper.Map<UpdateTeacherResponse>(result);
         return result.Match(
             _ => Ok(response),
             Problem
@@ -86,15 +92,8 @@ public class TeacherController : ApiController
         );
     }
     
-    [HttpGet("test")]
-    public async Task<IActionResult> Test()
-    {
-        var teacher = Teacher.Create("test", "123", Subject.Maths, 1, "test");
-        await _dbContext.AddAsync(teacher);
-        await _publishEndpoint.Publish(new TeacherCreatedEvent(teacher.Id.Value, teacher.Name, teacher.Phone));
-        await _dbContext.SaveChangesAsync();
-        return Ok();
-    }
+    
+    
 
 
     

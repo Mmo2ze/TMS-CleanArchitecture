@@ -1,5 +1,4 @@
-﻿using TMS.Domain.Admins;
-using TMS.Domain.Teachers;
+﻿using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Assistants;
 

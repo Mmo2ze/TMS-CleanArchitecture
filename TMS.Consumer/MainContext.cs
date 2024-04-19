@@ -1,8 +1,5 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using TMS.Domain.Common.Models;
-using TMS.Infrastructure.Persistence.interceptors;
 
 namespace TMS.Consumer;
 

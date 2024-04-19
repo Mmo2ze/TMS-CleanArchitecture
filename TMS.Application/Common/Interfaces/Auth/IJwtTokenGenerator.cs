@@ -1,6 +1,5 @@
 ﻿
 using System.Security.Claims;
-using TMS.Application.Common.Enums;
 
 namespace TMS.Application.Common.Interfaces.Auth;
 

@@ -1,6 +1,4 @@
-﻿using TMS.Application.TeacherApp.Queries.GetTeachers;
-
-namespace TMS.Contracts.Teacher.GetTeachers;
+﻿namespace TMS.Contracts.Teacher.GetTeachers;
 
 public record GetTeachersResponse(
 	IEnumerable<TeacherSummaryResponse> Teachers,

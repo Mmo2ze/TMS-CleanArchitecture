@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <Folder Include="Common\Interfaces\" />
-      <Folder Include="TeacherApp\Events\" />
     </ItemGroup>
 
     <ItemGroup>

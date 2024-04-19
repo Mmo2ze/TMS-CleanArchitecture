@@ -1,26 +1,41 @@
 using MassTransit;
 using TMS.Application.Common.Services;
-using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
+using TMS.Consumer.MessageTemplates;
 using TMS.MessagingContracts;
+using TMS.MessagingContracts.Teacher;
 
 namespace TMS.Consumer.Consumers;
 
 public class TeacherCreatedConsumer : IConsumer<TeacherCreatedEvent>
 {
     private readonly IWhatsappSender _whatsappSender;
-    private static int _counter = 0;
 
     public TeacherCreatedConsumer(IWhatsappSender whatsappSender)
     {
         _whatsappSender = whatsappSender;
     }
 
-    public Task Consume(ConsumeContext<TeacherCreatedEvent> context)
+    public async Task Consume(ConsumeContext<TeacherCreatedEvent> context)
     {
         var message = context.Message;
-        _whatsappSender.SendMessage(message.Phone, "Welcome to our school!");
-        Console.WriteLine($"Teacher created: {message.Name} with phone: {message.Phone}");
-        return Task.CompletedTask;
+        string? whatsappMessage;
+        string? whatsappPhone;
+        if (await NotHasWhatsapp(message))
+        {
+            whatsappMessage = MsgTemplate.Admin.TeacherPhoneNotHaveWhatsapp(message.Name, message.TeacherPhone);
+            whatsappPhone = message.CreatedByPhone;
+        }
+        else
+        {
+            whatsappMessage = MsgTemplate.Teacher.WelcomeTeacher(message.Name, message.EOfSubscription);
+            whatsappPhone = message.TeacherPhone;
+        }
 
+        var messageID = await _whatsappSender.SendMessage(whatsappPhone,whatsappMessage );
+    }
+
+    private async Task<bool> NotHasWhatsapp(TeacherCreatedEvent message)
+    {
+        return !await _whatsappSender.IsValidNumber(message.TeacherPhone);
     }
 }

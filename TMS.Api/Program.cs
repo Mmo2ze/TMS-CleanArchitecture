@@ -1,5 +1,4 @@
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using TMS.Api;
 using TMS.Application;
 using TMS.Infrastructure;

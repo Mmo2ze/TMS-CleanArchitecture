@@ -33,7 +33,7 @@ public class ValidationBehavior<TRequest, TResponse>
 			return await next();
 		}
 		var errors = validatorResult.Errors.ConvertAll(validatorFailure => Error.Validation(
-			validatorFailure.PropertyName,
+			validatorFailure.ErrorCode,
 			validatorFailure.ErrorMessage));
 			return (dynamic)errors;
 		

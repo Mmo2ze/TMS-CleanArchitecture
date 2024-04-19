@@ -53,6 +53,17 @@ public class TeacherRepository : ITeacherRepository
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public Task<Teacher?> GetByIdAsync(TeacherId requestTeacherId, CancellationToken cancellationToken)
+    {
+        return _dbContext.Teachers.FirstOrDefaultAsync(teacher => teacher.Id == requestTeacherId, cancellationToken);
+    }
+
+    public Task UpdateAsync(Teacher teacher, CancellationToken cancellationToken)
+    {
+         _dbContext.Update(teacher);
+         return Task.CompletedTask;
+    }
+
     public Task UpdateTeacher(Teacher teacher, CancellationToken cancellationToken)
     {
         _dbContext.Update(teacher);

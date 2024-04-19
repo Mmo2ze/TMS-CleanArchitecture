@@ -1,5 +1,4 @@
-﻿using TMS.Domain.Admins;
-using TMS.Domain.Assistants;
+﻿using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
 
@@ -64,5 +63,14 @@ public class Teacher : Aggregate
         var teacher = new Teacher(TeacherId.CreateUnique(), name, phone, endOfSubscription, subject, email);
         
         return teacher;
+    }
+
+    public void Update(string requestName, string requestPhone, string? requestEmail)
+    {
+        if(Phone != requestPhone)
+            RaiseDomainEvent(new TeacherPhoneChangedDoaminEvent(Guid.NewGuid(),Id.Value, requestPhone));
+        Name = requestName;
+        Phone = requestPhone;
+        Email = requestEmail;
     }
 }

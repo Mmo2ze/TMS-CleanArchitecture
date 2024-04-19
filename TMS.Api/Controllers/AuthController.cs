@@ -1,22 +1,13 @@
-﻿using ErrorOr;
-using MapsterMapper;
+﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TMS.Application.Authentication.Commands;
 using TMS.Application.Authentication.Commands.SendCode;
-using TMS.Application.Authentication.Queries;
 using TMS.Application.Authentication.Queries.VerifyCode;
 using TMS.Application.Common.Interfaces.Auth;
-using TMS.Application.Common.Variables;
 using TMS.Contracts.Authentication.SendCode;
 using TMS.Contracts.Authentication.VerifyCode;
-using TMS.Domain.Assistants;
-using TMS.Domain.Common.Enums;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Parents;
-using TMS.Domain.Students;
-using TMS.Domain.Teachers;
 using TMS.Infrastructure.Auth;
 
 namespace TMS.Api.Controllers;

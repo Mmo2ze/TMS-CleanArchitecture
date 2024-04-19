@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
-using TMS.Application.TeacherApp.Queries.GetTeacher;
+using TMS.Application.Teachers.Queries.GetTeacher;
 
 namespace TMS.Contracts.Teacher.GetTeacher;
 

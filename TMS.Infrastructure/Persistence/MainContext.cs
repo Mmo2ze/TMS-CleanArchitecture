@@ -1,11 +1,9 @@
 ﻿using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
-using TMS.Domain.OutBox;
 using TMS.Domain.Parents;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
@@ -14,7 +12,7 @@ namespace TMS.Infrastructure.Persistence;
 
 public class MainContext : DbContext
 {
-
+ 
     public MainContext(DbContextOptions<MainContext> options) : base(options)
     {
     }

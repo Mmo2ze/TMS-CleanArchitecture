@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Refit;
 using TMS.Application.Common.Services;
+using TMS.Domain.Common.Repositories;
 using TMS.Infrastructure.Persistence;
+using TMS.Infrastructure.Persistence.Repositories;
 using TMS.Infrastructure.Services.WhatsappSender;
 using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
 using MainContext = TMS.Consumer.MainContext;
@@ -56,7 +58,7 @@ builder.Services.AddMassTransit(x =>
         o.DuplicateDetectionWindow = TimeSpan.FromSeconds(30);
         o.UseMySql();
     });
-
+    builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
     x.UsingRabbitMq((context, cfg) =>
     {

@@ -1,19 +1,16 @@
-﻿using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Quartz;
 using Refit;
 using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Services;
 using TMS.Domain.Common.Repositories;
 using TMS.Infrastructure.Auth;
 using TMS.Infrastructure.Persistence;
-using TMS.Infrastructure.Persistence.interceptors;
 using TMS.Infrastructure.Persistence.Repositories;
 using TMS.Infrastructure.Services;
 using TMS.Infrastructure.Services.WhatsappSender;
@@ -22,7 +19,7 @@ using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
 
 namespace TMS.Infrastructure;
 
-public static class DependencyInjectio
+public static class DependencyInjection
 {
     public static void AddInfrastructure(this IServiceCollection services,
         ConfigurationManager builderConfiguration)
@@ -34,8 +31,6 @@ public static class DependencyInjectio
         services.AddPersistence(builderConfiguration);
         services.AddAuthentication(builderConfiguration);
         services.AddLogging();
-        
-        //services.AddQuartzHostedService();
         AddWhatsappService(services);
     }
 
@@ -88,11 +83,11 @@ public static class DependencyInjectio
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
         });
-        services.AddScoped<ConvertDomainEventToOutBoxMessageInterceptor>();
         services.AddScoped<IAdminRepository, AdminRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<IAssistantRepository, AssistantRepository>();
         services.AddScoped<IParentRepository, ParentRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<IUnitOfWork,UnitOfWork>();
     }
 }
