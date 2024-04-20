@@ -1,6 +1,6 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 
 namespace TMS.Application.Teachers.Queries.GetTeachers;
 
-public record GetTeachersQuery(int Page, int PageSize) : IRequest<ErrorOr<GetTeachersResult>>, IRequest<GetTeachersResult>;
+public record GetTeachersQuery(int Page, int PageSize)
+    :  IRequest<GetTeachersResult>;

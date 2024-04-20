@@ -4,9 +4,9 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Application.Teachers.Commands.Update;
 
-public record UpdateTeacherCommand(
+public record UpdateTeacherPartialCommand(
     TeacherId TeacherId,
-    string Name,
-    string Phone,
-    Subject Subject,
+    string? Name,
+    string? Phone,
+    Subject ?Subject,
     string? Email) : IRequest<ErrorOr<UpdateTeacherResult>>;

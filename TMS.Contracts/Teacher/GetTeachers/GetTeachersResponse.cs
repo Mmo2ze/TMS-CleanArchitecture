@@ -14,5 +14,5 @@ public record TeacherSummaryResponse(
 	string Phone,
 	int StudentsCount,
 	string Subject,
-	DateTime EndOfSubscription
+	DateOnly EndOfSubscription
 	);

@@ -1,6 +1,7 @@
 ﻿using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
+using TMS.Domain.Teachers.Events;
 
 namespace TMS.Domain.Teachers;
 
@@ -31,8 +32,6 @@ public class Teacher : Aggregate
         if (EndOfSubscription < dateNow)
             EndOfSubscription = dateNow;
         EndOfSubscription = EndOfSubscription.AddDays(days);
-
-     
     }
 
 
@@ -40,7 +39,7 @@ public class Teacher : Aggregate
     {
         _assistants.Add(assistant);
     }
-    
+
 
     private Teacher(TeacherId id,
         string name,
@@ -57,20 +56,30 @@ public class Teacher : Aggregate
     }
 
     public static Teacher Create(string name, string phone, Subject subject, int subscriptionPeriodInDays,
+        string createdByPhone,
         string? email = null)
     {
         var endOfSubscription = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(subscriptionPeriodInDays);
         var teacher = new Teacher(TeacherId.CreateUnique(), name, phone, endOfSubscription, subject, email);
-        
+        teacher.RaiseDomainEvent(new TeacherCreatedDomainEvent(Guid.NewGuid(), teacher.Id.Value, teacher.Phone,
+            teacher.Name, teacher.EndOfSubscription, createdByPhone));
         return teacher;
     }
 
-    public void Update(string requestName, string requestPhone, string? requestEmail)
+    public void Update(string? requestName, string? requestPhone, Subject? subject, string? requestEmail)
     {
-        if(Phone != requestPhone)
-            RaiseDomainEvent(new TeacherPhoneChangedDoaminEvent(Guid.NewGuid(),Id.Value, requestPhone));
-        Name = requestName;
-        Phone = requestPhone;
+        
+        if (PhoneChanged(requestPhone))
+            RaiseDomainEvent(new TeacherPhoneChangedDoaminEvent(Guid.NewGuid(), Id.Value, requestPhone!));
+        
+        Name = requestName ?? Name;
+        Phone = requestPhone ?? Phone;
+        Subject = subject ?? Subject;
         Email = requestEmail;
+    }
+
+    private bool PhoneChanged(string? requestPhone)
+    {
+        return requestPhone is not null && requestPhone != Phone;
     }
 }

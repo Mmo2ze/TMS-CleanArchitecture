@@ -7,18 +7,22 @@ using TMS.Domain.Common.Models;
 using TMS.Domain.Parents;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
+using TMS.Infrastructure.Persistence.Interceptors;
 
 namespace TMS.Infrastructure.Persistence;
 
 public class MainContext : DbContext
 {
- 
-    public MainContext(DbContextOptions<MainContext> options) : base(options)
+
+    private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
+    public MainContext(DbContextOptions<MainContext> options, PublishDomainEventsInterceptor publishDomainEventsInterceptor) : base(options)
     {
+        _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
         modelBuilder
             .Ignore<List<DomainEvent>>()
             .ApplyConfigurationsFromAssembly(typeof(MainContext).Assembly);
@@ -34,6 +38,12 @@ public class MainContext : DbContext
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(_publishDomainEventsInterceptor);
+        base.OnConfiguring(optionsBuilder);
     }
 
     public DbSet<Student> Students { get; set; }

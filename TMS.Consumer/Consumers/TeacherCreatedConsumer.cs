@@ -1,7 +1,6 @@
 using MassTransit;
 using TMS.Application.Common.Services;
 using TMS.Consumer.MessageTemplates;
-using TMS.MessagingContracts;
 using TMS.MessagingContracts.Teacher;
 
 namespace TMS.Consumer.Consumers;

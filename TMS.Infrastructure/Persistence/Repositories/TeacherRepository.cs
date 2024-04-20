@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Teachers;
@@ -58,11 +59,15 @@ public class TeacherRepository : ITeacherRepository
         return _dbContext.Teachers.FirstOrDefaultAsync(teacher => teacher.Id == requestTeacherId, cancellationToken);
     }
 
-    public Task UpdateAsync(Teacher teacher, CancellationToken cancellationToken)
+    public async Task<Error?> DeleteAsync(TeacherId requestId, CancellationToken cancellationToken)
     {
-         _dbContext.Update(teacher);
-         return Task.CompletedTask;
+        var teacher = await _dbContext.Teachers.FirstOrDefaultAsync(teacher => teacher.Id == requestId, cancellationToken);
+        if (teacher == null)
+            return Error.NotFound();
+        _dbContext.Teachers.Remove(teacher);
+        return null;
     }
+
 
     public Task UpdateTeacher(Teacher teacher, CancellationToken cancellationToken)
     {

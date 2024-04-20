@@ -18,7 +18,7 @@ public class GetTeacherQueryHandler:IRequestHandler<GetTeacherQuery,ErrorOr<GetT
 
     public async Task<ErrorOr<GetTeacherResult>> Handle(GetTeacherQuery request, CancellationToken cancellationToken)
     {
-        var teacher = await _teacherRepository.GetTeacher(teacher => teacher.Id == request.Id);
+        var teacher = await _teacherRepository.GetTeacher(teacher => teacher.Id == request.Id, cancellationToken);
         if (teacher is null)
             return Errors.Teacher.TeacherNotFound;
         

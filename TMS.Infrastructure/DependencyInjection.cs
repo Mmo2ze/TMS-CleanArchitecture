@@ -11,6 +11,7 @@ using TMS.Application.Common.Services;
 using TMS.Domain.Common.Repositories;
 using TMS.Infrastructure.Auth;
 using TMS.Infrastructure.Persistence;
+using TMS.Infrastructure.Persistence.Interceptors;
 using TMS.Infrastructure.Persistence.Repositories;
 using TMS.Infrastructure.Services;
 using TMS.Infrastructure.Services.WhatsappSender;
@@ -75,8 +76,7 @@ public static class DependencyInjection
 
     private static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        ArgumentNullException.ThrowIfNull(configuration);
-        var databaseSettings = configuration.GetSection(MainContextSettings.SectionName).Get<MainContextSettings>()!;
+        services.AddScoped<PublishDomainEventsInterceptor>();
         services.AddDbContext<MainContext>(options =>
         {
            options.UseNpgsql(configuration.GetConnectionString("Postgres"))

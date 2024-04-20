@@ -14,7 +14,7 @@ public class GetTeachersQueryHandler : IRequestHandler<GetTeachersQuery, GetTeac
 
 	public async Task<GetTeachersResult> Handle(GetTeachersQuery request, CancellationToken cancellationToken)
 	{
-		var teachers = await _teacherRepository.GetTeachers(request.Page, request.PageSize);
+		var teachers = await _teacherRepository.GetTeachers(request.Page, request.PageSize, cancellationToken);
 		var teacherSummaries = teachers.Select(t => new TeacherSummary
 			(t.Id, t.Name, t.Phone, t.Students.Count,t.Subject, t.EndOfSubscription));
 		var result = new GetTeachersResult(teacherSummaries, teachers.Count, request.PageSize, request.Page, true);

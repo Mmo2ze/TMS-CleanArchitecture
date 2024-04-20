@@ -10,5 +10,5 @@ public record GetTeacherResponse(
     int StudentsCount,
     bool IsActive,
     Subject Subject,
-    DateTime EndOfSubscription
+    DateOnly EndOfSubscription
     );

@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using ErrorOr;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Common.Repositories;
@@ -16,5 +17,5 @@ public interface ITeacherRepository
     Task UpdateTeacher(Teacher teacher, CancellationToken cancellationToken);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
     Task<Teacher?> GetByIdAsync(TeacherId requestTeacherId, CancellationToken cancellationToken);
-    Task UpdateAsync(Teacher teacher, CancellationToken cancellationToken);
+    Task<Error?> DeleteAsync(TeacherId requestId, CancellationToken cancellationToken);
 }

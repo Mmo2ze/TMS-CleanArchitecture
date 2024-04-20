@@ -4,4 +4,4 @@ using TMS.Application.Teachers.Queries.GetTeacher;
 
 namespace TMS.Contracts.Teacher.GetTeacher;
 
-public record GetTeacherRequest(string Id):IRequest<ErrorOr<GetTeacherResult>>;
+public record GetTeacherRequest(string Id);

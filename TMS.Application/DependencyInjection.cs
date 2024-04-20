@@ -13,7 +13,6 @@ public static class DependencyInjection
         services.AddMediatR(options =>
         {
             options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
-            options.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
         });
         services.AddScoped(
             typeof(IPipelineBehavior<,>),
