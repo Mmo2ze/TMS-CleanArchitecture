@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <Folder Include="Common\Interfaces\" />
+      <Folder Include="Common\Modules\" />
     </ItemGroup>
 
     <ItemGroup>

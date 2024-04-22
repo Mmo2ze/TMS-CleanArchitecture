@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
+using TMS.Application.Teachers.Queries.GetTeachers;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Teachers;
 
@@ -40,15 +41,20 @@ public class TeacherRepository : ITeacherRepository
             await _dbContext.AddAsync(teacher, cancellationToken);
     }
 
-    public Task<List<Teacher>> GetTeachers(int requestPage, int requestPageSize, CancellationToken cancellationToken = default)
+    public async Task<IQueryable<Teacher>> GetTeachers(int requestPage, int requestPageSize, CancellationToken cancellationToken = default)
+    {
+        var teachers = await GetTeachers(cancellationToken);
+        return teachers.Skip((requestPage - 1) * requestPageSize).Take(requestPageSize);
+          
+    }
+
+    public async Task<IQueryable<Teacher>> GetTeachers(CancellationToken cancellationToken = default)
     {
         return _dbContext.Teachers
-            .Skip((requestPage - 1) * requestPageSize)
-            .Take(requestPageSize)
-            .OrderBy(x => x.JoinDate)
-            .ToListAsync(cancellationToken: cancellationToken);
+            .OrderBy(x => x.JoinDate);
     }
-    
+
+
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await _dbContext.SaveChangesAsync(cancellationToken);

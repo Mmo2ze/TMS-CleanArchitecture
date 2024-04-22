@@ -1,9 +1,12 @@
 ﻿using MediatR;
+using TMS.Application.Common.Mapping;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
+using TMS.Domain.Teachers;
 
 namespace TMS.Application.Teachers.Queries.GetTeachers;
 
-public class GetTeachersQueryHandler : IRequestHandler<GetTeachersQuery, GetTeachersResult>
+public class GetTeachersQueryHandler : IRequestHandler<GetTeachersQuery, PaginatedList<TeacherSummary>>
 {
 	private readonly ITeacherRepository _teacherRepository;
 
@@ -12,12 +15,12 @@ public class GetTeachersQueryHandler : IRequestHandler<GetTeachersQuery, GetTeac
 		_teacherRepository = teacherRepository;
 	}
 
-	public async Task<GetTeachersResult> Handle(GetTeachersQuery request, CancellationToken cancellationToken)
+	public async Task<PaginatedList<TeacherSummary>> Handle(GetTeachersQuery request, CancellationToken cancellationToken)
 	{
-		var teachers = await _teacherRepository.GetTeachers(request.Page, request.PageSize, cancellationToken);
-		var teacherSummaries = teachers.Select(t => new TeacherSummary
-			(t.Id, t.Name, t.Phone, t.Students.Count,t.Subject, t.EndOfSubscription));
-		var result = new GetTeachersResult(teacherSummaries, teachers.Count, request.PageSize, request.Page, true);
-		return result;
+		var teachers = await _teacherRepository.GetTeachers( cancellationToken);
+		var teachersSummaries = await teachers.
+			Select(t=>TeacherSummary.FromTeacher(t))
+			.PaginatedListAsync(request.Page,request.PageSize);
+		return  teachersSummaries;
 	}
 }

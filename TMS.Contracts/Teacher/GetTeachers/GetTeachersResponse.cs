@@ -1,12 +1,13 @@
-﻿namespace TMS.Contracts.Teacher.GetTeachers;
+﻿using TMS.Domain.Common.Models;
 
-public record GetTeachersResponse(
-	IEnumerable<TeacherSummaryResponse> Teachers,
-	int TotalCount,
-	int Page,
-	int PageSize,
-	bool HasNext
-	);
+namespace TMS.Contracts.Teacher.GetTeachers;
+
+public class GetTeachersResponse:PaginatedList<TeacherSummaryResponse>
+{
+	public GetTeachersResponse(IReadOnlyCollection<TeacherSummaryResponse> items, int count, int pageNumber, int pageSize) : base(items, count, pageNumber, pageSize)
+	{
+	}
+}
 
 public record TeacherSummaryResponse(
 	string Id,

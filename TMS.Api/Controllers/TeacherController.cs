@@ -14,6 +14,7 @@ using TMS.Contracts.Teacher.GetTeacher;
 using TMS.Contracts.Teacher.GetTeachers;
 using TMS.Contracts.Teacher.Update;
 using TMS.Contracts.Teacher.UpdateTeacherSubscrioption;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Teachers;
 
 namespace TMS.Api.Controllers;
@@ -35,7 +36,7 @@ public class TeacherController : ApiController
     {
         var query = _mapper.Map<GetTeachersQuery>(request);
         var result = _mediator.Send(query).Result;
-        var response = _mapper.Map<GetTeachersResponse>(result);
+        var response = _mapper.Map<PaginatedList<TeacherSummaryResponse>>(result);
         return Ok(response);
     }
 

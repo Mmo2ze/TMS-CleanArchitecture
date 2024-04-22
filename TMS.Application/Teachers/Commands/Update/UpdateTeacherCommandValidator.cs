@@ -11,7 +11,6 @@ public class UpdateTeacherCommandValidator : AbstractValidator<UpdateTeacherComm
     public UpdateTeacherCommandValidator(ITeacherRepository teacherRepository)
     {
         _teacherRepository = teacherRepository;
-
         RuleFor(x => x.Name).NotEmpty().Length(6, 26);
         RuleFor(x => x.Phone).NotEmpty().Length(9, 16).Matches("^[0-9]*$");
         RuleFor(x => x.Email).EmailAddress()
@@ -24,14 +23,17 @@ public class UpdateTeacherCommandValidator : AbstractValidator<UpdateTeacherComm
             .WithValidationError(ValidationErrors.Teacher.EmailAlreadyExists);
     }
 
-    private async Task<bool> BeUniquePhone(UpdateTeacherCommand command, string phone, CancellationToken cancellationToken)
+    private async Task<bool> BeUniquePhone(UpdateTeacherCommand command, string phone,
+        CancellationToken cancellationToken)
     {
-        return  ! await _teacherRepository.Any(teacher => teacher.Phone == phone && teacher.Id != command.TeacherId, cancellationToken);
+        return !await _teacherRepository.Any(teacher => teacher.Phone == phone && teacher.Id != command.TeacherId,
+            cancellationToken);
     }
 
 
-    private async Task<bool> BeUniqueEmail(UpdateTeacherCommand command,string email, CancellationToken token)
+    private async Task<bool> BeUniqueEmail(UpdateTeacherCommand command, string? email, CancellationToken token)
     {
-        return !await _teacherRepository.Any(teacher => teacher.Email == email && teacher.Id != command.TeacherId, token);
+            return !await _teacherRepository.Any(teacher => teacher.Email == email && teacher.Id != command.TeacherId,
+                token);
     }
 }
