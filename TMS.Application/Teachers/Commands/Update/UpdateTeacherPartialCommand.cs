@@ -8,5 +8,6 @@ public record UpdateTeacherPartialCommand(
     TeacherId TeacherId,
     string? Name,
     string? Phone,
-    Subject ?Subject,
-    string? Email) : IRequest<ErrorOr<UpdateTeacherResult>>;
+    Subject? Subject,
+    string? Email,
+    TeacherStatus? Status) : IRequest<ErrorOr<TeacherSummary>>;

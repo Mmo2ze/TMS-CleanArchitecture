@@ -1,4 +1,4 @@
-﻿using TMS.Application.Teachers.Queries.GetTeachers;
+﻿using TMS.Domain.Teachers;
 
 namespace TMS.Contracts.Teacher.Create;
 

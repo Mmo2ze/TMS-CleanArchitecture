@@ -1,13 +1,13 @@
 using ErrorOr;
 using MediatR;
-using TMS.Application.Teachers.Queries.GetTeachers;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
+using TMS.Domain.Teachers;
 
 namespace TMS.Application.Teachers.Commands.Update;
 
 public class UpdateTeacherPartialCommandHandler :
-    IRequestHandler<UpdateTeacherPartialCommand, ErrorOr<UpdateTeacherResult>>
+    IRequestHandler<UpdateTeacherPartialCommand, ErrorOr<TeacherSummary>>
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -17,14 +17,14 @@ public class UpdateTeacherPartialCommandHandler :
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ErrorOr<UpdateTeacherResult>> Handle(UpdateTeacherPartialCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<TeacherSummary>> Handle(UpdateTeacherPartialCommand request, CancellationToken cancellationToken)
     {
         var teacher = await _teacherRepository.GetByIdAsync(request.TeacherId, cancellationToken);
         if (teacher == null)
             return Errors.Teacher.TeacherNotFound;
-        teacher.Update(request.Name, request.Phone, request.Subject, request.Email);
+        teacher.Update(request.Name, request.Phone, request.Subject, request.Email, request.Status);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        var summary = TeacherSummary.FromTeacher(teacher);
-        return new UpdateTeacherResult(summary);
+        return TeacherSummary.FromTeacher(teacher);
+
     }
 }

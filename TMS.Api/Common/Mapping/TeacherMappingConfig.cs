@@ -1,11 +1,8 @@
 ﻿using Mapster;
-using TMS.Application.Teachers.Commands.Update;
 using TMS.Application.Teachers.Commands.UpdateSubscription;
 using TMS.Application.Teachers.Queries.GetTeacher;
-using TMS.Application.Teachers.Queries.GetTeachers;
+using TMS.Contracts.Teacher.Common;
 using TMS.Contracts.Teacher.GetTeacher;
-using TMS.Contracts.Teacher.GetTeachers;
-using TMS.Contracts.Teacher.Update;
 using TMS.Contracts.Teacher.UpdateTeacherSubscrioption;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Teachers;

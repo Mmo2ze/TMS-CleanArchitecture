@@ -1,6 +1,4 @@
-using TMS.Domain.Teachers;
-
-namespace TMS.Application.Teachers.Queries.GetTeachers;
+namespace TMS.Domain.Teachers;
 
 public record TeacherSummary(
     TeacherId Id,
@@ -8,14 +6,18 @@ public record TeacherSummary(
     string Phone,
     int StudentsCount,
     Subject Subject,
-    DateOnly EndOfSubscription)
+    TeacherStatus Status,
+    DateOnly EndOfSubscription,
+    string? Email)
 {
     public static TeacherSummary FromTeacher(Teacher teacher) =>
-        new TeacherSummary(
+        new(
             teacher.Id,
             teacher.Name,
             teacher.Phone,
             teacher.Students.Count,
             teacher.Subject,
-            teacher.EndOfSubscription);
+            teacher.Status,
+            teacher.EndOfSubscription,
+            teacher.Email);
 }

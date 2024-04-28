@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace TMS.MessagingContracts.Teacher;
 
 public record TeacherCreatedEvent(

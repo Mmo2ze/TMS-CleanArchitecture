@@ -6,4 +6,5 @@ public record UpdateTeacherRequest(
     string Name,
     string Phone,
     Subject Subject,
+    TeacherStatus Status,
     string? Email);

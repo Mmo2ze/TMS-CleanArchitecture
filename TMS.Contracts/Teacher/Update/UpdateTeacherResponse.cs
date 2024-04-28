@@ -1,5 +1,5 @@
-using TMS.Application.Teachers.Queries.GetTeachers;
+using TMS.Contracts.Teacher.Common;
 
 namespace TMS.Contracts.Teacher.Update;
 
-public record UpdateTeacherResponse(TeacherSummary Teacher);
+public record UpdateTeacherResponse(TeacherSummaryResponse Teacher);

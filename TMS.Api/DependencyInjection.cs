@@ -50,7 +50,7 @@ public static class DependencyInjection
 
 
 
-	private static IServiceCollection AddSwagger(this IServiceCollection services)
+	private static void AddSwagger(this IServiceCollection services)
 	{
 		
 		services.AddEndpointsApiExplorer();
@@ -69,6 +69,5 @@ public static class DependencyInjection
 			);
 			options.OperationFilter<SecurityRequirementsOperationFilter>();
 		});
-		return services;
 	}
 }

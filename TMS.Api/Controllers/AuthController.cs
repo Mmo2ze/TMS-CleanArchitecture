@@ -17,7 +17,7 @@ public class AuthController : ApiController
 {
 	private readonly ISender _mediator;
 	private readonly IMapper _mapper;
-	private ICookieManger _cookieManger;
+	private readonly ICookieManger _cookieManger;
 	private readonly ITeacherRepository _teacherRepository;
 
 	public AuthController(ISender mediator, IMapper mapper, ICookieManger cookieManger, ITeacherRepository teacherRepository)
@@ -60,6 +60,4 @@ public class AuthController : ApiController
 			Problem
 		);
 	}
-
-	
 }

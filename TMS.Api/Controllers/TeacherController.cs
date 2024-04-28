@@ -9,6 +9,7 @@ using TMS.Application.Teachers.Commands.Update;
 using TMS.Application.Teachers.Commands.UpdateSubscription;
 using TMS.Application.Teachers.Queries.GetTeacher;
 using TMS.Application.Teachers.Queries.GetTeachers;
+using TMS.Contracts.Teacher.Common;
 using TMS.Contracts.Teacher.Create;
 using TMS.Contracts.Teacher.GetTeacher;
 using TMS.Contracts.Teacher.GetTeachers;
@@ -45,7 +46,7 @@ public class TeacherController : ApiController
     {
         var command = _mapper.Map<CreateTeacherCommand>(request);
         var result = _mediator.Send(command).Result;
-        var response = _mapper.Map<CreateTeacherResponse>(result.Value);
+        var response = _mapper.Map<TeacherSummaryResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem
@@ -70,7 +71,7 @@ public class TeacherController : ApiController
         var command = _mapper.Map<UpdateTeacherCommand>(request);
         command = command with { TeacherId = TeacherId.Create(id) };
         var result =  _mediator.Send(_mapper.Map<UpdateTeacherCommand>(command)).Result;
-        var response = _mapper.Map<UpdateTeacherResponse>(result);
+        var response = _mapper.Map<TeacherSummaryResponse>(result.Value);
         return Task.FromResult(result.Match(
             _ => Ok(response),
             Problem
@@ -83,7 +84,7 @@ public class TeacherController : ApiController
         var command = _mapper.Map<UpdateTeacherPartialCommand>(request);
         command = command with { TeacherId = TeacherId.Create(id) };
         var result = await _mediator.Send(command);
-        var response = _mapper.Map<UpdateTeacherResponse>(result.Value);
+        var response = _mapper.Map<TeacherSummaryResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem

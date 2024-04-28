@@ -9,4 +9,5 @@ public record UpdateTeacherCommand(
     string Name,
     string Phone,
     Subject Subject,
-    string? Email) : IRequest<ErrorOr<UpdateTeacherResult>>;
+    TeacherStatus Status,
+    string? Email) : IRequest<ErrorOr<TeacherSummary>>;

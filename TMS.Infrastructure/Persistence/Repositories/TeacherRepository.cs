@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
-using TMS.Application.Teachers.Queries.GetTeachers;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Teachers;
 

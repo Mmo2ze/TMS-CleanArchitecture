@@ -8,7 +8,6 @@ namespace TMS.Application.Teachers.Commands.UpdateSubscription;
 public class UpdateTeacherSubscriptionCommandHandler:IRequestHandler<UpdateTeacherSubscriptionCommand, ErrorOr<UpdateTeacherSubscriptionResult>>
 {
     private readonly ITeacherRepository _teacherRepository;
-
     public UpdateTeacherSubscriptionCommandHandler(ITeacherRepository teacherRepository)
     {
         _teacherRepository = teacherRepository;

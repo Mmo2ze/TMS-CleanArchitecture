@@ -1,12 +1,11 @@
 ﻿using ErrorOr;
 using MediatR;
-using TMS.Application.Teachers.Queries.GetTeachers;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Teachers;
 
 namespace TMS.Application.Teachers.Commands.Create;
 
-public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand, ErrorOr<CreateTeacherResult>>
+public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand, ErrorOr<TeacherSummary>>
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +16,7 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ErrorOr<CreateTeacherResult>> Handle(CreateTeacherCommand request,
+    public async Task<ErrorOr<TeacherSummary>> Handle(CreateTeacherCommand request,
         CancellationToken cancellationToken)
     {
         // Validation
@@ -29,8 +28,8 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
             request.Email);
         await _teacherRepository.AddAsync(teacher, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        var summary = TeacherSummary.FromTeacher(teacher);
-        return new CreateTeacherResult(summary);
+        return  TeacherSummary.FromTeacher(teacher);
+
         
     }
 }

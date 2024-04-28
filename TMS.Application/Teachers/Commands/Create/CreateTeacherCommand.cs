@@ -9,5 +9,5 @@ public  record CreateTeacherCommand(
 	string Phone,
 	Subject Subject,
 	string? Email,
-	int SubscriptionPeriodInDays) : IRequest<ErrorOr<CreateTeacherResult>>;
+	int SubscriptionPeriodInDays) : IRequest<ErrorOr<TeacherSummary>>;
 	

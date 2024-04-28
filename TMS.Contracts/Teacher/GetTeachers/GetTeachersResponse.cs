@@ -1,4 +1,5 @@
-﻿using TMS.Domain.Common.Models;
+﻿using TMS.Contracts.Teacher.Common;
+using TMS.Domain.Common.Models;
 
 namespace TMS.Contracts.Teacher.GetTeachers;
 
@@ -8,12 +9,3 @@ public class GetTeachersResponse:PaginatedList<TeacherSummaryResponse>
 	{
 	}
 }
-
-public record TeacherSummaryResponse(
-	string Id,
-	string Name,
-	string Phone,
-	int StudentsCount,
-	string Subject,
-	DateOnly EndOfSubscription
-	);
