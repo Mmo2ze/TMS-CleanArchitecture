@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
@@ -42,7 +43,9 @@ public class StudentConfiguration: IEntityTypeConfiguration<Student>
 				.WithMany()
 				.HasForeignKey(a => a.TeacherId);
 			ab.HasIndex(a => new {a.Date,a.TeacherId,a.StudentId}).IsUnique();
-
+			builder.HasMany<RefreshToken>()
+				.WithOne()
+				.HasForeignKey(rt => rt.StudentId);
 		});
 		
 		// Configure indexes

@@ -21,11 +21,12 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 	private readonly IAssistantRepository _assistantRepository;
 	private readonly IParentRepository _parentRepository;
 	private readonly IStudentRepository _studentRepository;
+	private readonly ICookieManger _cookieManger;
 
 	public VerifyCodeQueryHandler(ICodeManger codeManger, IJwtTokenGenerator jwtTokenGenerator,
 		IClaimsReader claimsReader, IAdminRepository adminRepository, IStudentRepository studentRepository,
 		ITeacherRepository teacherRepository, IAssistantRepository assistantRepository,
-		IParentRepository parentRepository)
+		IParentRepository parentRepository, ICookieManger cookieManger)
 	{
 		_codeManger = codeManger;
 		_jwtTokenGenerator = jwtTokenGenerator;
@@ -35,6 +36,7 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 		_teacherRepository = teacherRepository;
 		_assistantRepository = assistantRepository;
 		_parentRepository = parentRepository;
+		_cookieManger = cookieManger;
 	}
 
 	[Authorize]
@@ -80,9 +82,11 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 			default:
 				return Errors.Auth.InvalidCredentials;
 		}
-
-		var token = _jwtTokenGenerator.GenerateToken(claims, period);
-		var response = new VerifyCodeResult(token, isRegistered);
+		var userId = _claimsReader.GetByClaimType(JwtVariables.CustomClaimTypes.Id);
+		var refreshToken = _jwtTokenGenerator.RefreshToken(claims, period,agent,userId);
+		if (refreshToken.IsError)
+			return refreshToken.FirstError;
+		var response = new VerifyCodeResult(refreshToken.Value.Token, isRegistered);
 		return response;
 	}
 

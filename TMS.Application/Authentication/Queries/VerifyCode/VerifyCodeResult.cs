@@ -1,3 +1,5 @@
-﻿namespace TMS.Application.Authentication.Queries.VerifyCode;
+﻿using TMS.Domain.Common.Models;
 
-public record VerifyCodeResult(string Token,bool IsRegistered);
+namespace TMS.Application.Authentication.Queries.VerifyCode;
+
+public record VerifyCodeResult(string Token, bool IsRegistered);

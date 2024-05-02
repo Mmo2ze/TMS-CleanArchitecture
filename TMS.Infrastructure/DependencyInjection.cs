@@ -55,7 +55,6 @@ public static class DependencyInjection
     }
 
     private static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
-
     {
         var jwtSettings = configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>()!;
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
@@ -81,13 +80,16 @@ public static class DependencyInjection
         {
            options.UseNpgsql(configuration.GetConnectionString("Postgres"))
                 .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
+                .EnableDetailedErrors()
+               ;
         });
         services.AddScoped<IAdminRepository, AdminRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<IAssistantRepository, AssistantRepository>();
         services.AddScoped<IParentRepository, ParentRepository>();
-        services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<IStudentRepository, StudentRepository>();       
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
         services.AddScoped<IUnitOfWork,UnitOfWork>();
     }
 }

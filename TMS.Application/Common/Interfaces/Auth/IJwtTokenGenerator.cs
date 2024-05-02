@@ -1,10 +1,16 @@
 ﻿
 using System.Security.Claims;
+using ErrorOr;
+using TMS.Application.Authentication.Commands.SendCode;
+using TMS.Application.Authentication.Common;
+using TMS.Application.Common.Enums;
+using TMS.Domain.Common.Models;
 
 namespace TMS.Application.Common.Interfaces.Auth;
 
 public interface IJwtTokenGenerator
 {
-	string GenerateToken(List<Claim> claims,DateTime expireTime );
-	string GenerateToken(List<Claim> claims, TimeSpan period);
+	string GenerateJwtToken(List<Claim> claims, DateTime expireTime, UserAgent agent, string? userId);
+	string GenerateJwtToken(List<Claim> claims, TimeSpan period,UserAgent agent,string? userId);
+	ErrorOr<AuthenticationResult> RefreshToken(List<Claim> claims, TimeSpan expireTime , UserAgent agent, string userId);
 }

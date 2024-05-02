@@ -1,11 +1,12 @@
-﻿namespace TMS.Domain.Admins;
+﻿using Microsoft.AspNetCore.Identity;
+using TMS.Domain.Common.Models;
 
-public class Admin
+namespace TMS.Domain.Admins;
+
+public class Admin:User
 {
 	public AdminId Id { get; set; } 
-	public string Name { get; set; }
-	public string Email { get; set; }
-	public string Phone { get; set; }
+
 	private Admin(AdminId id, string name, string email, string phone)
 	{
 		Id = id;

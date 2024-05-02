@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Authentication.Commands.RefreshToken;
 using TMS.Application.Authentication.Commands.SendCode;
 using TMS.Application.Authentication.Queries.VerifyCode;
 using TMS.Application.Common.Interfaces.Auth;
@@ -57,6 +58,17 @@ public class AuthController : ApiController
 		var response = _mapper.Map<VerifyCodeResponse>(result.Value);
 		return result.Match(
 			_ => Ok(response),
+			Problem
+		);
+	}
+	[AllowAnonymous]
+	[HttpPost("refresh-token")]
+	public IActionResult RefreshToken()
+	{
+		var command = new RefreshTokenCommand();
+		var result = _mediator.Send(command).Result;
+		return result.Match(
+			_ => Ok(result.Value),
 			Problem
 		);
 	}

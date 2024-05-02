@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Classes;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Sessions;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
@@ -44,6 +45,11 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.HasMany<Session>()
             .WithOne()
             .HasForeignKey(p => p.TeacherId).IsRequired();
+        builder.HasMany<RefreshToken>()
+            .WithOne()
+            .HasForeignKey(rt => rt.TeacherId);
+        
+        
         // Configure index
         builder.HasIndex(s => s.Phone).IsUnique();
         builder.HasIndex(s => s.Email).IsUnique();

@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using TMS.Domain.Admins;
@@ -11,7 +12,7 @@ using TMS.Infrastructure.Persistence.Interceptors;
 
 namespace TMS.Infrastructure.Persistence;
 
-public class MainContext : DbContext
+public class MainContext :DbContext
 {
 
     private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
@@ -51,6 +52,7 @@ public class MainContext : DbContext
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Assistant> Assistants { get; set; }
     public DbSet<Parent> Parents { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
 
 }

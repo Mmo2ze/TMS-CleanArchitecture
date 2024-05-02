@@ -1,13 +1,12 @@
-﻿using TMS.Domain.Teachers;
+﻿using TMS.Domain.Common.Models;
+using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Assistants;
 
-public class Assistant
+public class Assistant:User
 {	
 	public AssistantId Id { get; private set; }
-	public string Name { get; private set; }
-	public string? Email { get; private set; }
-	public string Phone { get; private set; }
+
 	public TeacherId TeacherId { get; private set; }
 	private Assistant(AssistantId id, string name, string email, string phone, TeacherId teacherId)
 	{

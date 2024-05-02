@@ -1,16 +1,15 @@
 ﻿using TMS.Domain.Common.Enums;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
 
 namespace TMS.Domain.Parents;
 
-public class Parent
+public class Parent:User
 {
 	
 	private readonly List<Student> _children = [];
-	public ParentId Id { get; private set; } 
-	public string Name { get; private set; } 
-	public string? Email { get; private set; }
-	public string? Phone { get; private set; }
+	public ParentId Id { get; private set; }
+	public override string? Phone { get; protected set; }
 	public Gender Gender { get;private set; }
 	public IReadOnlyList<Student> Children => _children.AsReadOnly();
 

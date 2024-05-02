@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Assistants;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
 
 namespace TMS.Infrastructure.Persistence.Config;
@@ -26,7 +27,9 @@ public class AssistantConfiguration: IEntityTypeConfiguration<Assistant>
 		builder.HasMany<Payment>()
 			.WithOne()
 			.HasForeignKey(p => p.AssistantId);
-
+		builder.HasMany<RefreshToken>()
+			.WithOne()
+			.HasForeignKey(rt => rt.AssistantId);
 		// Configure index
 		builder.HasIndex(s => s.Phone).IsUnique();
 		builder.HasIndex(s => s.Email).IsUnique();

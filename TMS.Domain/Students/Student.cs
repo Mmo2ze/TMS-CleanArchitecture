@@ -1,12 +1,13 @@
 ﻿using TMS.Domain.Assistants;
 using TMS.Domain.Classes;
 using TMS.Domain.Common.Enums;
+using TMS.Domain.Common.Models;
 using TMS.Domain.Parents;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Students;
 
-public class Student
+public class Student:User
 {
 
 
@@ -16,9 +17,8 @@ public class Student
 	private readonly List<Class> _classes = [];
 
 	public StudentId Id { get; private set; }
-	public string Name { get; private set; }
-	public string? Email { get; private set; }
-	public string? Phone { get; private set; }
+
+	public override string? Phone { get; protected set; }
 	public Gender Gender { get; private set; }
 	public Parent? Parent { get; private set; }
 	
