@@ -1,4 +1,4 @@
-namespace TMS.Domain.Classes;
+namespace TMS.Domain.Groups;
 
 public enum Grade
 {

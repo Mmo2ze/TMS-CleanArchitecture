@@ -20,7 +20,7 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Api.Controllers;
 
-[Authorize(Roles = JwtVariables.Roles.AdminR.Role)]
+[Authorize(Roles = Roles.Admin.Role)]
 public class TeacherController : ApiController
 {
     private readonly IMediator _mediator;

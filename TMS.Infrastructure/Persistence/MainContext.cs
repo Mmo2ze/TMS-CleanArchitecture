@@ -1,10 +1,10 @@
 ﻿using MassTransit;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
+using TMS.Domain.Groups;
 using TMS.Domain.Parents;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
@@ -53,6 +53,7 @@ public class MainContext :DbContext
     public DbSet<Assistant> Assistants { get; set; }
     public DbSet<Parent> Parents { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Group> Groups { get; set; }
 
 
 }

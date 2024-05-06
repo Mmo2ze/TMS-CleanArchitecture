@@ -1,10 +1,8 @@
 ﻿
 using System.Security.Claims;
 using ErrorOr;
-using TMS.Application.Authentication.Commands.SendCode;
 using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
-using TMS.Domain.Common.Models;
 
 namespace TMS.Application.Common.Interfaces.Auth;
 

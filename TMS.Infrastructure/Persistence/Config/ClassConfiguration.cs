@@ -1,19 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.Classes;
-using TMS.Domain.Students;
+using TMS.Domain.Groups;
 
 namespace TMS.Infrastructure.Persistence.Config;
 
-public class ClassConfiguration : IEntityTypeConfiguration<Class>
+public class ClassConfiguration : IEntityTypeConfiguration<Group>
 {
-    public void Configure(EntityTypeBuilder<Class> builder)
+    public void Configure(EntityTypeBuilder<Group> builder)
     {
         builder.HasKey(c => c.Id);
-        builder.ToTable("Classes");
+        builder.ToTable("Groups");
         builder.Property(t => t.Id).HasConversion(
             v => v.Value,
-            v => ClassId.Create(v)
+            v => GroupId.Create(v)
         );
         builder.Property(c => c.Name).HasMaxLength(35).IsRequired();
         builder.Property(t => t.Grade).HasConversion(
@@ -24,7 +23,7 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
         
         builder.HasMany(t => t.Sessions)
             .WithOne()
-            .HasForeignKey(a => a.ClassId);
+            .HasForeignKey(a => a.GroupId);
         builder.HasMany(c => c.Students)
             .WithMany(s => s.Classes);
         

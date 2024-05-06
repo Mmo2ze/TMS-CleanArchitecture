@@ -2,7 +2,6 @@
 using ErrorOr;
 using MassTransit.Initializers;
 using MediatR;
-using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Services;
@@ -61,11 +60,6 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<S
         if (expireDate.IsError)
             return expireDate.FirstError;
         var result = GenerateToken(request, expireDate.Value, request.UserAgent, userId);
-        if (result.IsError) return result;
-
-        _cookieManger.SetProperty(CookieVariables.Id, userId!, expireDate.Value);
-        _cookieManger.SetProperty(CookieVariables.Phone, request.Phone, expireDate.Value);
-        _cookieManger.SetProperty(CookieVariables.Agent, request.UserAgent.ToString(), expireDate.Value);
         return result;
     }
 
@@ -75,9 +69,9 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<S
         var claims = new List<Claim>
         {
             new(ClaimTypes.MobilePhone, request.Phone),
-            new Claim(JwtVariables.CustomClaimTypes.Id, userId!),
-            new(ClaimTypes.Role, JwtVariables.Roles.CodeSent),
-            new(JwtVariables.CustomClaimTypes.Agent, request.UserAgent.ToString())
+            new Claim(CustomClaimTypes.Id, userId!),
+            new(ClaimTypes.Role, Roles.CodeSent),
+            new(CustomClaimTypes.Agent, request.UserAgent.ToString())
         };
         var refreshToken = _tokenGenerator.RefreshToken(claims, expireDate - _dateTimeProvider.Now, agent, userId);
         if (refreshToken.IsError)

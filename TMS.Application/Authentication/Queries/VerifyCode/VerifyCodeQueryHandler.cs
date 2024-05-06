@@ -42,7 +42,7 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 	[Authorize]
 	public async Task<ErrorOr<VerifyCodeResult>> Handle(VerifyCodeQuery request, CancellationToken cancellationToken)
 	{
-		var agentString = _claimsReader.GetByClaimType(JwtVariables.CustomClaimTypes.Agent);
+		var agentString = _claimsReader.GetByClaimType(CustomClaimTypes.Agent);
 		var phone = _claimsReader.GetByClaimType(ClaimTypes.MobilePhone);
 		if (agentString is null || phone is null)
 			return Errors.Auth.InvalidCredentials;
@@ -59,7 +59,7 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 		var claims = new List<Claim>
 		{
 			new(ClaimTypes.MobilePhone, phone),
-			new(JwtVariables.CustomClaimTypes.Agent, agentString)
+			new(CustomClaimTypes.Agent, agentString)
 		};
 
 		switch (agent)
@@ -82,12 +82,13 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 			default:
 				return Errors.Auth.InvalidCredentials;
 		}
-		var userId = _claimsReader.GetByClaimType(JwtVariables.CustomClaimTypes.Id);
+		var userId = _claimsReader.GetByClaimType(CustomClaimTypes.Id);
 		var refreshToken = _jwtTokenGenerator.RefreshToken(claims, period,agent,userId);
 		if (refreshToken.IsError)
 			return refreshToken.FirstError;
-		var response = new VerifyCodeResult(refreshToken.Value.Token, isRegistered);
-		return response;
+		
+		return new VerifyCodeResult(refreshToken.Value.Token, isRegistered);
+		
 	}
 
 
@@ -98,13 +99,13 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 		var parent = await _parentRepository.GetParentByPhone(phone);
 		if (parent is not null)
 		{
-			claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.ParentR.Role));
-			claims.Add(new Claim(JwtVariables.CustomClaimTypes.Id, parent.Id.ToString()));
+			claims.Add(new Claim(ClaimTypes.Role, Roles.Parent.Role));
+			claims.Add(new Claim(CustomClaimTypes.Id, parent.Id.ToString()));
 			claims.Add(new Claim(ClaimTypes.Name, parent.Name));
 		}
 		else
 		{
-			claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.ParentR.ParentNonRegister));
+			claims.Add(new Claim(ClaimTypes.Role, Roles.Parent.ParentNonRegister));
 			isRegistered = false;
 			period = TimeSpan.FromHours(1);
 		}
@@ -119,13 +120,13 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 		var student = await _studentRepository.GetStudentByPhone(phone);
 		if (student is not null)
 		{
-			claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.StudentR.Role));
-			claims.Add(new Claim(JwtVariables.CustomClaimTypes.Id, student.Id.ToString()));
+			claims.Add(new Claim(ClaimTypes.Role, Roles.Student.Role));
+			claims.Add(new Claim(CustomClaimTypes.Id, student.Id.ToString()));
 			claims.Add(new Claim(ClaimTypes.Name, student.Name));
 		}
 		else
 		{
-			claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.StudentR.StudentNonRegister));
+			claims.Add(new Claim(ClaimTypes.Role, Roles.Student.StudentNonRegister));
 			isRegistered = false;
 			period = TimeSpan.FromHours(1);
 		}
@@ -138,23 +139,26 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
 		var teacher = await _teacherRepository.GetByPhone(phone);
 		if (teacher is not null)
 		{
-			claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.TeacherR.Role));
-			claims.Add(new Claim(JwtVariables.CustomClaimTypes.Id, teacher.Id.ToString()));
+			claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
+			claims.Add(new Claim(CustomClaimTypes.Id, teacher.Id.Value));
 			claims.Add(new Claim(ClaimTypes.Name, teacher.Name));
+			claims.Add(new Claim(CustomClaimTypes.TeacherId , teacher.Id.Value));
+
 		}
 		else
 		{
 			var assistant = await _assistantRepository.GetAssistantByPhone(phone);
-			claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.TeacherR.Assistant));
-			claims.Add(new Claim(JwtVariables.CustomClaimTypes.Id, assistant!.Id.ToString()));
+			claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
+			claims.Add(new Claim(CustomClaimTypes.Id, assistant!.Id.Value));
 			claims.Add(new Claim(ClaimTypes.Name, assistant.Name));
+			claims.Add(new Claim(CustomClaimTypes.TeacherId , assistant.TeacherId.Value));
 		}
 	}
 
 	private async Task GetAdminClaims(string phone, List<Claim> claims)
 	{
 		var admin = await _adminRepository.GetAdminByPhone(phone);
-		claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.AdminR.Role));
-		claims.Add(new Claim(JwtVariables.CustomClaimTypes.Id, admin!.Id.ToString()));
+		claims.Add(new Claim(ClaimTypes.Role, Roles.Admin.Role));
+		claims.Add(new Claim(CustomClaimTypes.Id, admin!.Id.Value));
 	}
 }

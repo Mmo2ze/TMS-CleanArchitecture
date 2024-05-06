@@ -5,6 +5,7 @@ using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Variables;
+using TMS.Domain.Admins;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
@@ -37,40 +38,39 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
         if (!isFound)
             return Errors.Auth.InvalidCredentials;
 
-        var phone = _cookieManger.GetProperty(CookieVariables.Phone);
+        var userId = _cookieManger.GetProperty(CookieVariables.Id);
         var agent = Enum.Parse<UserAgent>(_cookieManger.GetProperty(CookieVariables.Agent));
-        if (string.IsNullOrEmpty(phone))
+        if (string.IsNullOrEmpty(userId))
             return Errors.Auth.InvalidCredentials;
 
 
 
-        var claims = await GetClaims(phone, agent);
-        var userId = claims.First(c => c.Type == JwtVariables.CustomClaimTypes.Id).Value;
+        var claims = await GetClaims(userId, agent);
 
         return _jwtTokenGenerator.RefreshToken(claims, TimeSpan.FromDays(120), agent, userId);
     }
 
-    private async Task<List<Claim>> GetClaims(string phone, UserAgent agent)
+    private async Task<List<Claim>> GetClaims(string userId, UserAgent agent)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.MobilePhone, phone),
-            new(JwtVariables.CustomClaimTypes.Agent, agent.ToString())
+            new(ClaimTypes.MobilePhone, userId),
+            new(CustomClaimTypes.Agent, agent.ToString())
         };
         switch (agent)
         {
             case UserAgent.Admin:
-                await GetAdminClaims(phone, claims);
+                await GetAdminClaims(userId, claims);
                 break;
         }
 
         return claims;
     }
 
-    private async Task GetAdminClaims(string phone, List<Claim> claims)
+    private async Task GetAdminClaims(string userId, List<Claim> claims)
     {
-        var admin = await _adminRepository.GetAdminByPhone(phone);
-        claims.Add(new Claim(ClaimTypes.Role, JwtVariables.Roles.AdminR.Role));
-        claims.Add(new Claim(JwtVariables.CustomClaimTypes.Id, admin!.Id.Value));
+        var admin = await _adminRepository.GetAdminById(AdminId.Create(userId));
+        claims.Add(new Claim(ClaimTypes.Role, Roles.Admin.Role));
+        claims.Add(new Claim(CustomClaimTypes.Id, admin!.Id.Value));
     }
 }

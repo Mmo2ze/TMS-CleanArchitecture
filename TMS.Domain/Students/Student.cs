@@ -1,7 +1,7 @@
 ﻿using TMS.Domain.Assistants;
-using TMS.Domain.Classes;
 using TMS.Domain.Common.Enums;
 using TMS.Domain.Common.Models;
+using TMS.Domain.Groups;
 using TMS.Domain.Parents;
 using TMS.Domain.Teachers;
 
@@ -14,7 +14,7 @@ public class Student:User
 	private readonly List<Teacher>  _teachers = [];
 	private readonly List<Attendance> _attendances = [];
 	private readonly List<Payment> _payments = [];
-	private readonly List<Class> _classes = [];
+	private readonly List<Group> _classes = [];
 
 	public StudentId Id { get; private set; }
 
@@ -25,7 +25,7 @@ public class Student:User
 	public IEnumerable<Teacher> Teachers => _teachers;
 	public IEnumerable<Payment> Payments => _payments;
 	public IEnumerable<Attendance> Attendances => _attendances.AsReadOnly();
-	public IEnumerable<Class> Classes => _classes.AsReadOnly();
+	public IEnumerable<Group> Classes => _classes.AsReadOnly();
 	private Student(StudentId id, string name, Gender gender, string? email = null, string? phone = null)
 	{
 		Id = id;

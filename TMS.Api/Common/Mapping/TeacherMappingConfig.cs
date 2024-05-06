@@ -22,7 +22,7 @@ public class TeacherMappingConfig : IRegister
                 source.TotalCount,
                 source.PageNumber,
                 source.GetPageSize()));
-
+        
         config.NewConfig<GetTeacherResult, GetTeacherResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
         config.NewConfig<GetTeacherResult, GetTeacherResponse>()

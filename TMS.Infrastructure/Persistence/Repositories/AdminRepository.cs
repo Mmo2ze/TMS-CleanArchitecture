@@ -22,4 +22,10 @@ public class AdminRepository : IAdminRepository
 	{
 		return  _dbContext.Admins.FirstOrDefaultAsync(admin => admin.Phone == phone);
 	}
+
+	public Task<Admin?> GetAdminById(AdminId id)
+	{
+		
+		return  _dbContext.Admins.FirstOrDefaultAsync(admin => admin.Id == id);
+	}
 }

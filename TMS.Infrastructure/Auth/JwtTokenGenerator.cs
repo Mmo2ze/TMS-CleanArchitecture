@@ -5,7 +5,6 @@ using System.Text;
 using ErrorOr;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using TMS.Application.Authentication.Commands.SendCode;
 using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
@@ -114,6 +113,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             return Error.Unexpected("unexpected error occurred while saving refresh token");
         }
         _cookieManger.SetProperty(CookieVariables.RefreshToken, baseRefreshToken.Token, expireTime);
+        _cookieManger.SetProperty(CookieVariables.Agent, agent.ToString(), expireTime);
+        _cookieManger.SetProperty(CookieVariables.Id, userId, expireTime);
+        
         return new AuthenticationResult(token,baseRefreshToken.Expires);
     }
 

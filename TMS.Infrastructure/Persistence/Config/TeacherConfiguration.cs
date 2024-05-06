@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.Classes;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Sessions;
 using TMS.Domain.Students;
@@ -35,7 +34,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.HasMany(t => t.Assistants)
             .WithOne()
             .HasForeignKey(a => a.TeacherId);
-        builder.HasMany(t => t.Classes)
+        builder.HasMany(t => t.Groups)
             .WithOne()
             .HasForeignKey(a => a.TeacherId);
 

@@ -5,5 +5,5 @@ namespace TMS.Infrastructure.Services.WhatsappSender.ApiDefinition.Requests;
 public class BaseRequest
 {
 	[AliasAs("token")]
-	public string Token { get; init; } = "JIRce4dfFw78JTcBqonJMCGvD2uNMWDb7UC0KIFu42w2Ltkg/6nvwWIwE/vJlqbC";
+	public string Token { get; init; } = "cEULYWjA1xuVhbgTtmDSeA/K2CofpGb6TgrgUBHF+7oTWR039bdYC+oLrSi7UVbToUJGeKyZaXaeXRYiEkgFRw==";
 }

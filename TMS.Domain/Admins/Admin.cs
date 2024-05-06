@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using TMS.Domain.Common.Models;
+﻿using TMS.Domain.Common.Models;
 
 namespace TMS.Domain.Admins;
 

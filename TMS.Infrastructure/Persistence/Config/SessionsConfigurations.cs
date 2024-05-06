@@ -14,13 +14,13 @@ public class SessionsConfigurations: IEntityTypeConfiguration<Session>
             v => v.Value,
             v => SessionId.Create(v)
         );
-        builder.Property(s => s.ClassId).IsRequired();
+        builder.Property(s => s.GroupId).IsRequired();
         builder.Property(s => s.TeacherId).IsRequired();
         builder.Property(s => s.Day).IsRequired();
         builder.Property(s => s.StartTime).IsRequired();
         builder.Property(s => s.EndTime).IsRequired();
         
-        builder.HasIndex(a=> new {a.Day,a.TeacherId,a.ClassId}).IsUnique();
+        builder.HasIndex(a=> new {a.Day,a.TeacherId, ClassId = a.GroupId}).IsUnique();
         
     }
 }

@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<ICodeManger, CodeManger>();
         services.AddSingleton<ICookieManger, CookieManger>();
         services.AddSingleton<IClaimsReader, ClaimsReader>();
+        services.AddSingleton<ITeacherHelper, TeacherHelper>();
         services.AddPersistence(builderConfiguration);
         services.AddAuthentication(builderConfiguration);
         services.AddLogging();
@@ -89,7 +90,7 @@ public static class DependencyInjection
         services.AddScoped<IParentRepository, ParentRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();       
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-
+        services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IUnitOfWork,UnitOfWork>();
     }
 }

@@ -3,4 +3,5 @@
 public interface IClaimsReader
 {
 	string? GetByClaimType(string claimType);
+	List<string> GetRoles();
 }

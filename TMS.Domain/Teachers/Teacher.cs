@@ -1,6 +1,6 @@
 ﻿using TMS.Domain.Assistants;
-using TMS.Domain.Classes;
 using TMS.Domain.Common.Models;
+using TMS.Domain.Groups;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers.Events;
 
@@ -10,7 +10,7 @@ public class Teacher : Aggregate
 {
     private readonly List<Assistant> _assistants = [];
     private readonly List<Student> _students = [];
-    private readonly List<Class> _classes = [];
+    private readonly List<Group> _groups = [];
     public TeacherId Id { get; private set; }
     public string Name { get; private set; }
     public string? Email { get; private set; }
@@ -20,7 +20,7 @@ public class Teacher : Aggregate
 
     public DateTime JoinDate { get; private set; }
     public DateOnly EndOfSubscription { get; private set; }
-    public IReadOnlyList<Class> Classes => _classes.AsReadOnly();
+    public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
     public IReadOnlyList<Student> Students => _students.AsReadOnly();
 
@@ -87,5 +87,10 @@ public class Teacher : Aggregate
     private bool PhoneChanged(string? requestPhone)
     {
         return requestPhone is not null && requestPhone != Phone;
+    }
+
+    public void AddGroup(Group group)
+    {
+        _groups.Add(group);
     }
 }

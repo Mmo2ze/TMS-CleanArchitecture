@@ -12,8 +12,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Assistants\Queries\" />
       <Folder Include="Common\Interfaces\" />
-      <Folder Include="Students\" />
+      <Folder Include="Students\Commands\Create\" />
+      <Folder Include="Students\Queries\" />
     </ItemGroup>
 
     <ItemGroup>
