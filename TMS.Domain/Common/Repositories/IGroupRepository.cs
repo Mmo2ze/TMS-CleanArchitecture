@@ -8,6 +8,6 @@ public interface IGroupRepository
 {
     IQueryable<Group> GetGroups(int page, int pageSize, TeacherId teacherId);
     IQueryable<Group> GetGroups(TeacherId teacherId);
-    Task<Group> GetGroup(GroupId groupId);
+    Task<Group?> GetGroup(GroupId groupId);
     
 }

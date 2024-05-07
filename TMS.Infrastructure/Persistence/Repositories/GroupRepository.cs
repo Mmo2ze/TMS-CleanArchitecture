@@ -29,8 +29,8 @@ public class GroupRepository: IGroupRepository
             .AsQueryable();
     }
 
-    public Task<Group> GetGroup(GroupId groupId)
+    public async Task<Group?> GetGroup(GroupId groupId)
     {
-        throw new NotImplementedException();
+        return  _context.Groups.FirstOrDefault(g => g.Id == groupId);
     }
 }
