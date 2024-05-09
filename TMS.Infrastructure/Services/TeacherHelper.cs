@@ -38,7 +38,7 @@ public class TeacherHelper : ITeacherHelper
     public AssistantId? GetAssistantId()
     {
         var assistantId = _claimsReader.GetByClaimType(CustomClaimTypes.Id);
-        return assistantId == null || AssistantId.IsValidId(assistantId) ? null 
+        return assistantId == null || !AssistantId.IsValidId(assistantId) ? null 
             : new AssistantId(assistantId);
     }
 }

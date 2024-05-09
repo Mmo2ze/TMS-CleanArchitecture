@@ -26,7 +26,7 @@ public class CodeManger : ICodeManger
         await Task.CompletedTask;
         var verificationCode = Codes.FirstOrDefault(x => x.Phone == handel && x.Identify == identify);
         if (verificationCode is null)
-            return Errors.Auth.InvalidCode;
+            return Errors.Auth.InvalidCredentials;
         verificationCode.TryCount++;
         if (verificationCode.ExpireDate < DateTime.Now)
             return Errors.Auth.CodeExpired(verificationCode.ExpireDate);
