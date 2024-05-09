@@ -30,7 +30,7 @@ public class TeacherCreatedConsumer : IConsumer<TeacherCreatedEvent>
             whatsappPhone = message.TeacherPhone;
         }
 
-        var messageId = await _whatsappSender.SendMessage(whatsappPhone,whatsappMessage );
+        var messageId = await _whatsappSender.Send(whatsappPhone,whatsappMessage );
     }
 
     private async Task<bool> NotHasWhatsapp(TeacherCreatedEvent message)

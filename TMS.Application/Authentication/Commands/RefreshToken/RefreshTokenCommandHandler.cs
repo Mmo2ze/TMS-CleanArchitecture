@@ -5,9 +5,9 @@ using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Variables;
-using TMS.Domain.Admins;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
+using TMS.Domain.Teachers;
 
 namespace TMS.Application.Authentication.Commands.RefreshToken;
 
@@ -16,15 +16,15 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly ICookieManger _cookieManger;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly IAdminRepository _adminRepository;
+    private readonly IClaimGenerator _claimGenerator;
 
     public RefreshTokenCommandHandler(IRefreshTokenRepository refreshTokenRepository, ICookieManger cookieManger,
-        IJwtTokenGenerator jwtTokenGenerator, IAdminRepository adminRepository)
+        IJwtTokenGenerator jwtTokenGenerator, IClaimGenerator claimGenerator)
     {
         _refreshTokenRepository = refreshTokenRepository;
         _cookieManger = cookieManger;
         _jwtTokenGenerator = jwtTokenGenerator;
-        _adminRepository = adminRepository;
+        _claimGenerator = claimGenerator;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(RefreshTokenCommand request,
@@ -45,9 +45,11 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
 
 
 
-        var claims = await GetClaims(userId, agent);
-
-        return _jwtTokenGenerator.RefreshToken(claims, TimeSpan.FromDays(120), agent, userId);
+        var claims = await _claimGenerator.GenerateClaims(userId, agent);
+        
+        return 
+            claims.IsError ? claims.FirstError :
+            _jwtTokenGenerator.RefreshToken(claims.Value, TimeSpan.FromDays(120), agent, userId);
     }
 
     private async Task<List<Claim>> GetClaims(string userId, UserAgent agent)
@@ -62,15 +64,36 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
             case UserAgent.Admin:
                 await GetAdminClaims(userId, claims);
                 break;
+            case UserAgent.Teacher:
+                await GetTeacherClaims(userId, claims);
+                break;
         }
 
         return claims;
     }
 
+    private async Task GetTeacherClaims(string userId, List<Claim> claims)
+    {
+        if (TeacherId.IsValidId(userId))
+        {
+                claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
+                claims.Add(new Claim(CustomClaimTypes.Id, userId));
+                claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
+
+        }
+        else
+        {
+
+                claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
+                claims.Add(new Claim(CustomClaimTypes.Id,userId));
+                claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
+            
+        }
+    }
+
     private async Task GetAdminClaims(string userId, List<Claim> claims)
     {
-        var admin = await _adminRepository.GetAdminById(AdminId.Create(userId));
         claims.Add(new Claim(ClaimTypes.Role, Roles.Admin.Role));
-        claims.Add(new Claim(CustomClaimTypes.Id, admin!.Id.Value));
+        claims.Add(new Claim(CustomClaimTypes.Id, userId));
     }
 }

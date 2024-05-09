@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Assistants;
+using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
 
@@ -19,9 +20,9 @@ public class AssistantConfiguration: IEntityTypeConfiguration<Assistant>
 				v => v.Value,
 				v => AssistantId.Create(v)
 			);
-		builder.Property(a => a.Name).IsRequired().HasMaxLength(26);
-		builder.Property(a => a.Email).HasMaxLength(128);
-		builder.Property(a => a.Phone).IsRequired().HasMaxLength(16);
+		builder.Property(a => a.Name).IsRequired().HasMaxLength(Constrains.Assistant.Name.Max);
+		builder.Property(a => a.Email).HasMaxLength(Constrains.Email.Max);
+		builder.Property(a => a.Phone).IsRequired().HasMaxLength(Constrains.Phone.Max);
 		
 		// Configure relationships
 		builder.HasMany<Payment>()

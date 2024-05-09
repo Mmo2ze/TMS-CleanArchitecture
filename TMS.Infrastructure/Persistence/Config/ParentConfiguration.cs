@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Parents;
 
@@ -18,9 +19,9 @@ public class ParentConfiguration: IEntityTypeConfiguration<Parent>
 				v => v.Value,
 				v => ParentId.Create(v)
 			);
-		builder.Property(p => p.Name).IsRequired().HasMaxLength(26);
-		builder.Property(p => p.Email).HasMaxLength(128);
-		builder.Property(p => p.Phone).HasMaxLength(16);
+		builder.Property(p => p.Name).IsRequired().HasMaxLength(Constrains.Parent.NameMaxLength);
+		builder.Property(p => p.Email).HasMaxLength(Constrains.Email.Max);
+		builder.Property(p => p.Phone).HasMaxLength(Constrains.Phone.Max);
 		
 		// Configure relationships
 		builder.HasMany(p => p.Children)

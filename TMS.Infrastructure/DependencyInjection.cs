@@ -25,8 +25,9 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services,
         ConfigurationManager builderConfiguration)
     {
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<ICodeManger, CodeManger>();
+        services.AddScoped<IClaimGenerator, ClaimGenerator>();
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<ICookieManger, CookieManger>();
         services.AddSingleton<IClaimsReader, ClaimsReader>();
         services.AddSingleton<ITeacherHelper, TeacherHelper>();
@@ -79,18 +80,18 @@ public static class DependencyInjection
         services.AddScoped<PublishDomainEventsInterceptor>();
         services.AddDbContext<MainContext>(options =>
         {
-           options.UseNpgsql(configuration.GetConnectionString("Postgres"))
+            options.UseNpgsql(configuration.GetConnectionString("Postgres"))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors()
-               ;
+                ;
         });
         services.AddScoped<IAdminRepository, AdminRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<IAssistantRepository, AssistantRepository>();
         services.AddScoped<IParentRepository, ParentRepository>();
-        services.AddScoped<IStudentRepository, StudentRepository>();       
+        services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
-        services.AddScoped<IUnitOfWork,UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

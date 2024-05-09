@@ -1,16 +1,14 @@
 using Mapster;
-using MapsterMapper;
+using TMS.Application.Groups.Commands.Update;
 using TMS.Application.Groups.Queries.GetGroups;
 using TMS.Contracts.Group.GetGroups;
-using TMS.Contracts.Teacher.Common;
+using TMS.Contracts.Group.Update;
 using TMS.Domain.Common.Models;
-using TMS.Domain.Teachers;
 
 namespace TMS.Api.Common.Mapping;
 
 public class GroupMapping : IRegister
 {
-    
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<PaginatedList<GetGroupResult>, PaginatedList<GetGroupResponse>>()
@@ -20,10 +18,11 @@ public class GroupMapping : IRegister
                 source.TotalCount,
                 source.PageNumber,
                 source.GetPageSize()));
-        
-        config.NewConfig<GetGroupResult,GetGroupResponse>()
+
+        config.NewConfig<GetGroupResult, GetGroupResponse>()
             .Map(dest => dest.GroupId, src => src.GroupId.Value);
-        
+
+        config.NewConfig<UpdateGroupResult, UpdateGroupResponse>()
+            .Map(dest => dest.GroupId, src => src.Id.Value);
     }
 }
-

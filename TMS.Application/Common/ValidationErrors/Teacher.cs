@@ -1,6 +1,6 @@
 namespace TMS.Application.Common.ValidationErrors;
 
-public static  class ValidationErrors
+public static partial  class ValidationErrors
 {
     public static class Teacher
     {

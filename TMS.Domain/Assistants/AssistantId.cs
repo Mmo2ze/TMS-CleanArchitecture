@@ -1,6 +1,4 @@
-﻿using TMS.Domain.Common.Models;
-
-namespace TMS.Domain.Assistants;
+﻿namespace TMS.Domain.Assistants;
 
 public record AssistantId(string Value) : ValueObjectId<AssistantId>(Value)
 {

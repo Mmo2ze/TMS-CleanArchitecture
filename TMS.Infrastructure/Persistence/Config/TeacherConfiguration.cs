@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Sessions;
 using TMS.Domain.Students;
@@ -18,9 +19,9 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             v => v.Value,
             v => TeacherId.Create(v)
         );
-        builder.Property(t => t.Name).IsRequired().HasMaxLength(26);
-        builder.Property(t => t.Email).HasMaxLength(128);
-        builder.Property(t => t.Phone).IsRequired().HasMaxLength(16);
+        builder.Property(t => t.Name).IsRequired().HasMaxLength(Constrains.Teacher.Name);
+        builder.Property(t => t.Email).HasMaxLength(Constrains.Email.Max);
+        builder.Property(t => t.Phone).IsRequired().HasMaxLength(Constrains.Phone.Max);
         builder.Property(t => t.JoinDate);
         builder.Property(t => t.Subject).HasConversion(
             v => v.ToString(),

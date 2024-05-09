@@ -1,6 +1,4 @@
-﻿using TMS.Domain.Common.Models;
-
-namespace TMS.Domain.Parents;
+﻿namespace TMS.Domain.Parents;
 
 public record ParentId(string Value) : ValueObjectId<ParentId>(Value)
 {

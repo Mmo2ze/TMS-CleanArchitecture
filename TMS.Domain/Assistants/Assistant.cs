@@ -1,5 +1,4 @@
-﻿using TMS.Domain.Common.Models;
-using TMS.Domain.Teachers;
+﻿using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Assistants;
 

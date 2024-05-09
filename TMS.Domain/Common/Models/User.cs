@@ -1,5 +1,3 @@
-using ErrorOr;
-
 namespace TMS.Domain.Common.Models;
 
 public class User

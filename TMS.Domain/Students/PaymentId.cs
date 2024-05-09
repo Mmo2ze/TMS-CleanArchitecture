@@ -1,6 +1,4 @@
-﻿using TMS.Domain.Common.Models;
-
-namespace TMS.Domain.Students;
+﻿namespace TMS.Domain.Students;
 
 public record PaymentId(string Value) : ValueObjectId<PaymentId>(Value)
 {

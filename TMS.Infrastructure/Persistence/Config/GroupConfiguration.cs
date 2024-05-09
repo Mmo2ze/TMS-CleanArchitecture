@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TMS.Domain.Common.Constrains;
 using TMS.Domain.Groups;
 
 namespace TMS.Infrastructure.Persistence.Config;
 
-public class ClassConfiguration : IEntityTypeConfiguration<Group>
+public class GroupConfiguration : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
@@ -14,7 +15,7 @@ public class ClassConfiguration : IEntityTypeConfiguration<Group>
             v => v.Value,
             v => GroupId.Create(v)
         );
-        builder.Property(c => c.Name).HasMaxLength(35).IsRequired();
+        builder.Property(c => c.Name).HasMaxLength(Constrains.Group.Name.Max).IsRequired();
         builder.Property(t => t.Grade).HasConversion(
             v => v.ToString(),
             v => Enum.Parse<Grade>(v)

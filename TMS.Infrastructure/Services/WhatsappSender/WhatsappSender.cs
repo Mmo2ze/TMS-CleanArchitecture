@@ -28,7 +28,7 @@ public class WhatsappSender : IWhatsappSender
 	    return response.status == "valid";
 	}
 
-	public async Task<ErrorOr<string>> SendMessage(string number, string message)
+	public async Task<ErrorOr<string>> Send(string number, string message)
 	{
 		var request = SendMessageRequest.SendPhoneMessage(number, message);
 		var responseJson = await _whatsappApi.SendCode(request);

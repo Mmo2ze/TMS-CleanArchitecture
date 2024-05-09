@@ -1,5 +1,4 @@
 ﻿using TMS.Domain.Common.Enums;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Students;
 
 namespace TMS.Domain.Parents;

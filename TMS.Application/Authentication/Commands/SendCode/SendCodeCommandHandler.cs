@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using ErrorOr;
+using MassTransit;
 using MassTransit.Initializers;
 using MediatR;
 using TMS.Application.Common.Enums;
@@ -8,6 +9,7 @@ using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
+using TMS.MessagingContracts.Authentication;
 
 namespace TMS.Application.Authentication.Commands.SendCode;
 
@@ -19,21 +21,22 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<S
     private readonly ITeacherRepository _teacherRepository;
     private readonly IAssistantRepository _assistantRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly ICookieManger _cookieManger;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public SendCodeCommandHandler(ICodeManger codeManger,
         IJwtTokenGenerator tokenGenerator,
         IAdminRepository adminRepository,
         ITeacherRepository teacherRepository,
-        IAssistantRepository assistantRepository, ICookieManger cookieManger, IDateTimeProvider dateTimeProvider)
+        IAssistantRepository assistantRepository, IDateTimeProvider dateTimeProvider,
+        IPublishEndpoint publishEndpoint)
     {
         _codeManger = codeManger;
         _tokenGenerator = tokenGenerator;
         _adminRepository = adminRepository;
         _teacherRepository = teacherRepository;
         _assistantRepository = assistantRepository;
-        _cookieManger = cookieManger;
         _dateTimeProvider = dateTimeProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<ErrorOr<SendCodeResult>> Handle(SendCodeCommand request, CancellationToken cancellationToken)
@@ -56,10 +59,10 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<S
                 break;
         }
 
-        var expireDate = await _codeManger.GenerateCode(request.Phone, request.UserAgent);
-        if (expireDate.IsError)
-            return expireDate.FirstError;
-        var result = GenerateToken(request, expireDate.Value, request.UserAgent, userId);
+        var verificationCode = _codeManger.GenerateCode(request.Phone, request.UserAgent);
+        await _publishEndpoint.Publish(new VerificationCodeCreatedEvent(verificationCode.Code, verificationCode.Phone), cancellationToken);
+        var result = GenerateToken(request, verificationCode.ExpireDate, request.UserAgent, userId);
+
         return result;
     }
 

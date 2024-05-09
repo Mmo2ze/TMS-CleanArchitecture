@@ -1,6 +1,5 @@
 ﻿using TMS.Domain.Assistants;
 using TMS.Domain.Common.Enums;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
 using TMS.Domain.Teachers;

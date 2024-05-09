@@ -1,11 +1,8 @@
 using MapsterMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Assistants.Commands.Create;
-using TMS.Application.Authentication.Commands.RefreshToken;
 using TMS.Contracts.Assistant.Create;
-using IMediator = MassTransit.Mediator.IMediator;
 
 namespace TMS.Api.Controllers;
 

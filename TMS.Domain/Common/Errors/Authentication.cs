@@ -16,4 +16,6 @@ public static partial class Errors
 		public static Error YouAreNotAdmin => Error.Unauthorized("Auth.YouAreNotAdmin", "You are not an admin");
 	    public static Error NotTeacherOrAssistant => Error.Unauthorized("Auth.NotTeacherOrAssistant", "You are not a teacher or assistant");
 	}
+
+
 }

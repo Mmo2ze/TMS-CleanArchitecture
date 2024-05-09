@@ -1,4 +1,3 @@
-using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 
 namespace TMS.Application.Groups.Queries.GetGroups;

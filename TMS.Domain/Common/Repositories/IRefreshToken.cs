@@ -1,5 +1,3 @@
-using TMS.Domain.Common.Models;
-
 namespace TMS.Domain.Common.Repositories;
 
 public interface IRefreshTokenRepository

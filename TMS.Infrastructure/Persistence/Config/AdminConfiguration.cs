@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Admins;
+using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Models;
 
 namespace TMS.Infrastructure.Persistence.Config;
@@ -16,9 +17,9 @@ public class AdminConfiguration : IEntityTypeConfiguration<Admin>
             v => v.Value,
             v => AdminId.Create(v)
         );
-        builder.Property(a => a.Name).IsRequired().HasMaxLength(26);
-        builder.Property(a => a.Email).HasMaxLength(128);
-        builder.Property(a => a.Phone).IsRequired().HasMaxLength(16);
+        builder.Property(a => a.Name).IsRequired().HasMaxLength(Constrains.Admin.Name.Max);
+        builder.Property(a => a.Email).HasMaxLength(Constrains.Email.Max);
+        builder.Property(a => a.Phone).IsRequired().HasMaxLength(Constrains.Phone.Max);
 
         builder.HasMany<RefreshToken>()
             .WithOne()

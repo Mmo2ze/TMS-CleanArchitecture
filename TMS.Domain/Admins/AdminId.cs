@@ -1,6 +1,4 @@
-﻿using TMS.Domain.Common.Models;
-
-namespace TMS.Domain.Admins;
+﻿namespace TMS.Domain.Admins;
 
 public record AdminId(string Value) : ValueObjectId<AdminId>(Value)
 {

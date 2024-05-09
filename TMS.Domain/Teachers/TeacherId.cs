@@ -1,6 +1,4 @@
-﻿using TMS.Domain.Common.Models;
-
-namespace TMS.Domain.Teachers;
+﻿namespace TMS.Domain.Teachers;
 
 public record TeacherId(string Value) : ValueObjectId<TeacherId>(Value)
 {

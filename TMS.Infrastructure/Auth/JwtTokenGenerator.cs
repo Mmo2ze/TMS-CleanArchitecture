@@ -44,12 +44,13 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
             SecurityAlgorithms.HmacSha256);
-
+        var jwtExpireMinutes = _jwtSettings.ExpireMinutes;
+        var jwtExpireTime = _dateTimeProvider.Now.AddMinutes(jwtExpireMinutes);
         var securityToken = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,
             claims: claims,
             audience: _jwtSettings.Audience,
-            expires: _dateTimeProvider.Now.AddMinutes(5),
+            expires: jwtExpireTime,
             signingCredentials: signingCredentials);
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
@@ -59,7 +60,8 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return GenerateJwtToken(claims, _dateTimeProvider.Now.Add(period), agent, userId);
     }
 
-    public ErrorOr<AuthenticationResult> RefreshToken(List<Claim> claims,TimeSpan expireTime, UserAgent agent, string userId)
+    public ErrorOr<AuthenticationResult> RefreshToken(List<Claim> claims, TimeSpan expireTime, UserAgent agent,
+        string userId)
     {
         var token = GenerateJwtToken(claims, TimeSpan.FromMinutes(5), agent, userId);
         var baseRefreshToken = GenerateRefreshToken(expireTime);
@@ -73,7 +75,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
                 baseRefreshToken.AdminId = admin.Id;
                 break;
             case UserAgent.Teacher:
-                if (userId.StartsWith("te"))
+                if (TeacherId.IsValidId(userId))
                 {
                     var teacher = _dbContext.Teachers.Find(new TeacherId(userId));
                     if (teacher is null)
@@ -85,7 +87,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator
                     var assistant = _dbContext.Assistants.Find(new AssistantId(userId));
                     if (assistant is null)
                         return Errors.Auth.InvalidCredentials;
+                    baseRefreshToken.AssistantId = assistant.Id;
                 }
+
                 break;
             case UserAgent.Student:
                 var student = _dbContext.Students.Find(new StudentId(userId));
@@ -112,11 +116,12 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         {
             return Error.Unexpected("unexpected error occurred while saving refresh token");
         }
+
         _cookieManger.SetProperty(CookieVariables.RefreshToken, baseRefreshToken.Token, expireTime);
         _cookieManger.SetProperty(CookieVariables.Agent, agent.ToString(), expireTime);
         _cookieManger.SetProperty(CookieVariables.Id, userId, expireTime);
-        
-        return new AuthenticationResult(token,baseRefreshToken.Expires);
+
+        return new AuthenticationResult(token, baseRefreshToken.Expires);
     }
 
     private RefreshToken GenerateRefreshToken(TimeSpan expireTime)
