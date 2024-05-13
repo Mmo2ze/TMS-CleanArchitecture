@@ -6,6 +6,7 @@ using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
+using TMS.Domain.RefreshTokens;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 using TMS.Infrastructure.Persistence.Interceptors;
@@ -16,7 +17,7 @@ public class MainContext :DbContext
 {
 
     private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
-    public MainContext(DbContextOptions<MainContext> options, PublishDomainEventsInterceptor publishDomainEventsInterceptor) : base(options)
+    public MainContext(DbContextOptions< MainContext> options, PublishDomainEventsInterceptor publishDomainEventsInterceptor) : base(options)
     {
         _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
     }

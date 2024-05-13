@@ -4,23 +4,22 @@ using TMS.Domain.Parents;
 
 namespace TMS.Infrastructure.Persistence.Repositories;
 
-public class ParentRepository:IParentRepository
+public class ParentRepository:Repository<Parent,ParentId>,IParentRepository
 {
-	private readonly MainContext _dbContext;
 
-	public ParentRepository(MainContext dbContext)
+	public ParentRepository(MainContext dbContext):base(dbContext)
 	{
-		_dbContext = dbContext;
+	
 	}
 
 	public Task<bool> IsParent(string phone)
 	{
 
-		return _dbContext.Parents.AnyAsync(p => p.Phone == phone);
+		return DbContext.Parents.AnyAsync(p => p.Phone == phone);
 	}
 
 	public Task<Parent?> GetParentByPhone(string phone)
 	{
-		return _dbContext.Parents.FirstOrDefaultAsync(p => p.Phone == phone);
+		return DbContext.Parents.FirstOrDefaultAsync(p => p.Phone == phone);
 	}
 }

@@ -15,6 +15,7 @@ using TMS.Domain.Assistants;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Parents;
+using TMS.Domain.RefreshTokens;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 using TMS.Infrastructure.Persistence;

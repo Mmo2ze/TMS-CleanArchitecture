@@ -3,7 +3,7 @@ using TMS.Domain.Students;
 
 namespace TMS.Domain.Parents;
 
-public class Parent:User
+public class Parent:User<ParentId>
 {
 	
 	private readonly List<Student> _children = [];
@@ -12,9 +12,8 @@ public class Parent:User
 	public Gender Gender { get;private set; }
 	public IReadOnlyList<Student> Children => _children.AsReadOnly();
 
-	private Parent(ParentId id, string name, Gender gender, string? email = null, string? phone = null)
+	private Parent(ParentId id, string name, Gender gender, string? email = null, string? phone = null):base(id)
 	{
-		Id = id;
 		Name = name;
 		Email = email;
 		Gender = gender;

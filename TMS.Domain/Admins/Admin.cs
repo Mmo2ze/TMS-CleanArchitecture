@@ -1,12 +1,10 @@
 ﻿namespace TMS.Domain.Admins;
 
-public class Admin:User
+public class Admin:User<AdminId>
 {
-	public AdminId Id { get; set; } 
 
-	private Admin(AdminId id, string name, string email, string phone)
+	private Admin(AdminId id, string name, string email, string phone):base(id)
 	{
-		Id = id;
 		Name = name;
 		Email = email;
 		Phone = phone;

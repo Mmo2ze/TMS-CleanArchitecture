@@ -5,12 +5,11 @@ using TMS.Domain.Teachers.Events;
 
 namespace TMS.Domain.Teachers;
 
-public class Teacher : Aggregate
+public class Teacher : Aggregate<TeacherId>
 {
     private readonly List<Assistant> _assistants = [];
     private readonly List<Student> _students = [];
     private readonly List<Group> _groups = [];
-    public TeacherId Id { get; private set; }
     public string Name { get; private set; }
     public string? Email { get; private set; }
     public string Phone { get; private set; }
@@ -46,9 +45,8 @@ public class Teacher : Aggregate
     private Teacher(TeacherId id,
         string name,
         string phone,
-        DateOnly endOfSubscription, Subject subject,  TeacherStatus status ,string? email = null)
+        DateOnly endOfSubscription, Subject subject,  TeacherStatus status ,string? email = null) : base(id)
     {
-        Id = id;
         Name = name;
         Email = email;
         Phone = phone;

@@ -4,7 +4,7 @@ using TMS.Domain.Parents;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
-namespace TMS.Domain.Common.Models;
+namespace TMS.Domain.RefreshTokens;
 
 public class RefreshToken
 {
@@ -20,5 +20,5 @@ public class RefreshToken
     public ParentId? ParentId { get; set; }
     public AssistantId? AssistantId { get; set; }
 
-
+    
 }

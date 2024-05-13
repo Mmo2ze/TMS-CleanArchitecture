@@ -5,11 +5,10 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Groups;
 
-public class Group:Aggregate
+public class Group:Aggregate<GroupId>
 {
     private readonly List<Student> _students = [];
     private readonly List<Session> _sessions = [];
-    public GroupId Id { get; private set; }
     public string Name { get; private set; }
     public Grade Grade { get; private set; }
     public double BasePrice { get; private set; }
@@ -22,9 +21,8 @@ public class Group:Aggregate
     public IReadOnlyList<Session> Sessions => _sessions.AsReadOnly();
     
 
-    private Group(GroupId id, string name, Grade grade, double basePrice,TeacherId teacherId)
+    private Group(GroupId id, string name, Grade grade, double basePrice,TeacherId teacherId):base(id)
     {
-        Id = id;
         Name = name;
         Grade = grade;
         BasePrice = basePrice;
@@ -41,7 +39,7 @@ public class Group:Aggregate
         if(PriceChanged(basePrice) )
         { 
             BasePrice = basePrice!.Value;
-            RaiseDomainEvent(new ClassPriceChangedDomainEvent(Guid.NewGuid(),Id, BasePrice));
+            RaiseDomainEvent(new GroupPriceChangedDomainEvent(Guid.NewGuid(),Id, BasePrice));
         }
         Name = name ?? Name;
         Grade = grade ?? Grade;

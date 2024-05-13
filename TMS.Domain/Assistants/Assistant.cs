@@ -2,14 +2,12 @@
 
 namespace TMS.Domain.Assistants;
 
-public class Assistant:User
+public class Assistant:User<AssistantId>
 {	
-	public AssistantId Id { get; private set; }
 
 	public TeacherId TeacherId { get; private set; }
-	private Assistant(AssistantId id, string name, string? email, string phone, TeacherId teacherId)
+	private Assistant(AssistantId id, string name, string? email, string phone, TeacherId teacherId):base(id)
 	{
-		Id = id;
 		Name = name;
 		Email = email;
 		Phone = phone;

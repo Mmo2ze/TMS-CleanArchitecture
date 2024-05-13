@@ -35,7 +35,7 @@ public class PublishDomainEventsInterceptor : SaveChangesInterceptor
             return ;
         }
 
-        var entities = dbContext.ChangeTracker.Entries<Aggregate>()
+        var entities = dbContext.ChangeTracker.Entries<IAggregate>()
             .Where(entry => entry.Entity.DomainEvents.Any())
             .Select(entry => entry.Entity)
             .ToList();

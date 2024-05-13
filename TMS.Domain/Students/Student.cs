@@ -6,7 +6,7 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Students;
 
-public class Student:User
+public class Student:User<StudentId>
 {
 
 
@@ -25,9 +25,8 @@ public class Student:User
 	public IEnumerable<Payment> Payments => _payments;
 	public IEnumerable<Attendance> Attendances => _attendances.AsReadOnly();
 	public IEnumerable<Group> Classes => _classes.AsReadOnly();
-	private Student(StudentId id, string name, Gender gender, string? email = null, string? phone = null)
+	private Student(StudentId id, string name, Gender gender, string? email = null, string? phone = null):base(id)
 	{
-		Id = id;
 		Name = name;
 		Email = email;
 		Gender = gender;

@@ -1,4 +1,3 @@
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
 using TMS.Domain.Common.Errors;
@@ -52,12 +51,12 @@ public class CodeMangerServiceTests
     {
         var phone = "1234567890";
         var userAgent = UserAgent.Admin;
-        var code = _codeManger.GenerateCode(phone, userAgent);
+        _codeManger.GenerateCode(phone, userAgent);
         var result = await _codeManger.VerifyCode(phone, userAgent, "bad code");
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
              result = await _codeManger.VerifyCode(phone, userAgent, "bad code");
-        }
+        } 
         Assert.Equal(Errors.Auth.ToManyTry, result);
     }
     
