@@ -64,7 +64,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     public ErrorOr<AuthenticationResult> RefreshToken(List<Claim> claims, TimeSpan expireTime, UserAgent agent,
         string userId)
     {
-        var token = GenerateJwtToken(claims, TimeSpan.FromMinutes(5), agent, userId);
+        var token = GenerateJwtToken(claims, TimeSpan.FromMinutes(_jwtSettings.ExpireMinutes), agent, userId);
         var baseRefreshToken = GenerateRefreshToken(expireTime);
         switch (agent)
         {

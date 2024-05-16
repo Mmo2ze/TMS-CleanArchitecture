@@ -7,17 +7,17 @@ public record GetMessagesResponse
 }
 	public record Message
 	{
-		public string id { get; set; }
-		public string from { get; set; }
-		public string to { get; set; }
-		public object author { get; set; }
-		public string pushname { get; set; }
-		public string message_type { get; set; }
-		public string status { get; set; }
-		public string body { get; set; }
-		public string caption { get; set; }
-		public int forwarded { get; set; }
-		public object quoted_message_id { get; set; }
-		public string mentioned_ids { get; set; }
-		public DateTime timestamp { get; set; }
+		public string Id { get; set; }
+		public string From { get; set; }
+		public string To { get; set; }
+		public object Author { get; set; }
+		public string Pushname { get; set; }
+		public string MessageType { get; set; }
+		public string Status { get; set; }
+		public string Body { get; set; }
+		public string Caption { get; set; }
+		public int Forwarded { get; set; }
+		public object QuotedMessageId { get; set; }
+		public string MentionedIds { get; set; }
+		public DateTime Timestamp { get; set; }
 	}

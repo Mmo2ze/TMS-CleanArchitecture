@@ -4,7 +4,7 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Common.Repositories;
 
-public interface ITeacherRepository
+public interface ITeacherRepository:IRepository<Teacher,TeacherId>
 {
     Task<bool> IsTeacher(string phone,  CancellationToken cancellationToken = default);
     Task<Teacher?> GetByPhone(string phone, CancellationToken cancellationToken = default);

@@ -29,7 +29,7 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<S
         ITeacherRepository teacherRepository,
         IAssistantRepository assistantRepository, IDateTimeProvider dateTimeProvider,
         IPublishEndpoint publishEndpoint)
-    {
+    { 
         _codeManger = codeManger;
         _tokenGenerator = tokenGenerator;
         _adminRepository = adminRepository;

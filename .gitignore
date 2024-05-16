@@ -14,6 +14,14 @@
 /TMS.Consumer/bin
 /IntegrationEvents/bin
 /TMS.MessagingContracts/bin
+/postgres
+/redis
+/rabbitmq
+/BasicTests/obj
+/BasicTests/bin
+/TMS.Infrastructure/Migrations
+
+
 
 
 

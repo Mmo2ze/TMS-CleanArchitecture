@@ -4,7 +4,7 @@ namespace TMS.Infrastructure.Services.WhatsappSender.ApiDefinition.Responses;
 public record SendMessageError
 {
 	[JsonPropertyName("sent")] public string Sent { get; set; } = string.Empty;
-	[JsonPropertyName("message")] public string message = string.Empty;
+	[JsonPropertyName("message")] public string Message = string.Empty;
 }
 
 public record SendMessageSucces

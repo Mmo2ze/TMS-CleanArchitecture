@@ -8,7 +8,7 @@ namespace TMS.Domain.Teachers;
 public class Teacher : Aggregate<TeacherId>
 {
     private readonly List<Assistant> _assistants = [];
-    private readonly List<Student> _students = [];
+    private readonly List<Account> _students = [];
     private readonly List<Group> _groups = [];
     public string Name { get; private set; }
     public string? Email { get; private set; }
@@ -20,12 +20,8 @@ public class Teacher : Aggregate<TeacherId>
     public DateOnly EndOfSubscription { get; private set; }
     public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
-    public IReadOnlyList<Student> Students => _students.AsReadOnly();
+    public IReadOnlyList<Account> Students => _students.AsReadOnly();
 
-    public void AddStudent(Student student)
-    {
-        _students.Add(student);
-    }
 
     public void AddSubscription(int days)
     {
@@ -33,6 +29,7 @@ public class Teacher : Aggregate<TeacherId>
         if (EndOfSubscription < dateNow)
             EndOfSubscription = dateNow;
         EndOfSubscription = EndOfSubscription.AddDays(days);
+        RaiseDomainEvent(new SubscriptionAddedDomainEvent(Guid.NewGuid(), Id, Name, Phone, days, EndOfSubscription));
     }
 
 
@@ -45,7 +42,7 @@ public class Teacher : Aggregate<TeacherId>
     private Teacher(TeacherId id,
         string name,
         string phone,
-        DateOnly endOfSubscription, Subject subject,  TeacherStatus status ,string? email = null) : base(id)
+        DateOnly endOfSubscription, Subject subject, TeacherStatus status, string? email = null) : base(id)
     {
         Name = name;
         Email = email;
@@ -61,7 +58,8 @@ public class Teacher : Aggregate<TeacherId>
         string? email = null)
     {
         var endOfSubscription = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(subscriptionPeriodInDays);
-        var teacher = new Teacher(TeacherId.CreateUnique(), name, phone, endOfSubscription, subject, TeacherStatus.Pending,email);
+        var teacher = new Teacher(TeacherId.CreateUnique(), name, phone, endOfSubscription, subject,
+            TeacherStatus.Pending, email);
         teacher.RaiseDomainEvent(new TeacherCreatedDomainEvent(Guid.NewGuid(), teacher.Id.Value, teacher.Phone,
             teacher.Name, teacher.EndOfSubscription, createdByPhone));
         return teacher;
@@ -70,10 +68,9 @@ public class Teacher : Aggregate<TeacherId>
     public void Update(string? requestName, string? requestPhone, Subject? subject, string? requestEmail,
         TeacherStatus? status)
     {
-        
         if (PhoneChanged(requestPhone))
             RaiseDomainEvent(new TeacherPhoneChangedDoaminEvent(Guid.NewGuid(), Id.Value, requestPhone!));
-        
+
         Name = requestName ?? Name;
         Phone = requestPhone ?? Phone;
         Subject = subject ?? Subject;

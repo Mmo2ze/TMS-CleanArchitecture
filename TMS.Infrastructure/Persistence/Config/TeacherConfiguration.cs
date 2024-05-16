@@ -20,7 +20,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             v => v.Value,
             v => TeacherId.Create(v)
         );
-        builder.Property(t => t.Name).IsRequired().HasMaxLength(Constrains.Teacher.Name);
+        builder.Property(t => t.Name).IsRequired().HasMaxLength(Constrains.Teacher.Name.Max);
         builder.Property(t => t.Email).HasMaxLength(Constrains.Email.Max);
         builder.Property(t => t.Phone).IsRequired().HasMaxLength(Constrains.Phone.Max);
         builder.Property(t => t.JoinDate);
@@ -49,8 +49,12 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.HasMany<RefreshToken>()
             .WithOne()
             .HasForeignKey(rt => rt.TeacherId);
-        
-        
+
+        builder.HasMany(t => t.Students)
+            .WithOne()
+            .HasForeignKey(s => s.TeacherId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         // Configure index
         builder.HasIndex(s => s.Phone).IsUnique();
         builder.HasIndex(s => s.Email).IsUnique();

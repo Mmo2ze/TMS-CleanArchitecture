@@ -25,19 +25,22 @@ public class WhatsappSender : IWhatsappSender
 	{
 		var request = HasWhatsappRequest.Create(number);
 	    var response  = await _whatsappApi.HasWhatsapp(request); 
-	    return response.status == "valid";
+	    return response.Status == "valid";
 	}
 
 	public async Task<ErrorOr<string>> Send(string number, string message)
 	{
 		var request = SendMessageRequest.SendPhoneMessage(number, message);
 		var responseJson = await _whatsappApi.SendCode(request);
-		const string invalidNumber = "This number doesn't have a WhatsApp account associated to it.";
+		const string invalidNumber = "Invalid WhatsApp number or Group ID";
+		const string numberDontHaveWhatsApp = "This number doesn't have a WhatsApp account associated to it.";
 		var successResponse = JsonSerializer.Deserialize<SendMessageSucces>(responseJson);
 		if (successResponse is not null && successResponse.Sent == "true") return successResponse.MessageId;
 		var errorResponse = JsonConvert.DeserializeObject<SendMessageError>(responseJson);
-		if (errorResponse is not null && errorResponse.message == invalidNumber)
+		if (errorResponse is not null && errorResponse.Message == numberDontHaveWhatsApp)
 			return Errors.Whatsapp.WhatsappNotInstalled;
+		if(errorResponse is not null && errorResponse.Message == invalidNumber)
+			return Errors.Whatsapp.InvalidNumber;
 		return Errors.Whatsapp.WhatsappServiceFailed;
 
 	}

@@ -13,6 +13,7 @@ using TMS.Infrastructure.Persistence;
 using TMS.Infrastructure.Persistence.Repositories;
 using TMS.Infrastructure.Services.WhatsappSender;
 using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
+using TMS.MessagingContracts.Teacher;
 using MainContext = TMS.Consumer.MainContext;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -51,17 +52,19 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumers(assembly);
     x.AddSagaStateMachines(assembly);
     x.AddSagas(assembly);
-    x.AddActivities(assembly);
-
+    x.AddActivities(assembly);  
+    
     x.AddEntityFrameworkOutbox<MainContext>(o =>
     {
         o.DuplicateDetectionWindow = TimeSpan.FromSeconds(30);
         o.UseMySql();
+        o.QueryDelay = TimeSpan.FromSeconds(1);
     });
     builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
+        //cfg.PrefetchCount = 1;
         cfg.Host("localhost", "/", h =>
         {
             h.Username("guest");

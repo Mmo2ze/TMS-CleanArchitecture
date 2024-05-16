@@ -10,24 +10,18 @@ namespace TMS.Application.Groups.Queries.GetGroups;
 
 public class GetGroupsCommandHandler: IRequestHandler<GetGroupsCommand, ErrorOr<PaginatedList<GetGroupResult>>>
 {
-    private readonly ITeacherHelper _teacherHelper;
     private IGroupRepository _groupRepository;
     
-    public GetGroupsCommandHandler(  ITeacherHelper teacherHelper, IGroupRepository groupRepository)
+    public GetGroupsCommandHandler(   IGroupRepository groupRepository)
     {
-        _teacherHelper = teacherHelper;
         _groupRepository = groupRepository;
     }
 
     public async Task<ErrorOr<PaginatedList<GetGroupResult>>> Handle(GetGroupsCommand request, CancellationToken cancellationToken)
     {
-        var teacherId = _teacherHelper.GetTeacherId();
-        if (teacherId is null)
-        {
-            return Errors.Auth.InvalidCredentials;
-        }
 
-        var groups =   _groupRepository.GetGroups(teacherId);
+
+        var groups =   _groupRepository.GetGroups();
         var result = await groups
             .Select(g => GetGroupResult.FromGroup(g))
             .PaginatedListAsync(request.Page, request.PageSize);

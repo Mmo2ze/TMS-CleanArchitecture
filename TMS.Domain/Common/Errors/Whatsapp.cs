@@ -14,5 +14,8 @@ public static partial class Errors
 
 		public static Error WhatsappServiceFailed =>
 			Error.Failure("Whatsapp.WhatsappServiceFailed", "Whatsapp service failed");
+
+		public static Error InvalidNumber => 
+			Error.Validation("Whatsapp.InvalidNumber", "Invalid number");
 	}
 }

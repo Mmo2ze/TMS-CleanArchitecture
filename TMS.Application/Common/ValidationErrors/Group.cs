@@ -8,4 +8,10 @@ public static partial class ValidationErrors
         public static readonly ValidationError NotFound = new("Group.NotFound", "Group not found");
         
     }
+
+    public static class Student
+    {
+        public static readonly ValidationError NotFound = new("Student.NotFound", "Student not found");
+
+    }
 }

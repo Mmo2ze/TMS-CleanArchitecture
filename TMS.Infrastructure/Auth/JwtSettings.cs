@@ -7,5 +7,5 @@ public class JwtSettings
 	public string Secret { get; init; } = null!;
 	public string Audience { get; init; } = null!;
 	public int ExpiryDays { get; set; }
-	public double ExpireMinutes { get; set; }
+	public int ExpireMinutes { get; set; }
 }

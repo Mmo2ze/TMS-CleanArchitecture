@@ -1,21 +1,23 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups.Events;
 
 namespace TMS.Application.Groups.Events;
 
-public class GroupPriceUpdatedDomainEventHandler:INotificationHandler<GroupPriceChangedDomainEvent>
+public class GroupPriceUpdatedDomainEventHandler : INotificationHandler<GroupPriceChangedDomainEvent>
 {
     private IStudentRepository _studentRepository;
 
-    public GroupPriceUpdatedDomainEventHandler( IStudentRepository studentRepository)
+    public GroupPriceUpdatedDomainEventHandler(IStudentRepository studentRepository)
     {
         _studentRepository = studentRepository;
     }
 
-    public Task Handle(GroupPriceChangedDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(GroupPriceChangedDomainEvent notification, CancellationToken cancellationToken)
     {
-        throw new Exception();
+        
+            //var students =  _studentRepository.GetByGroupIdQuery(notification.GroupId);
 
     }
 }

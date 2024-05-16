@@ -5,7 +5,7 @@ using TMS.MessagingContracts.Authentication;
 
 namespace TMS.Consumer.Consumers;
 
-public class VerificationCodeCreatedConsumer: IConsumer<VerificationCodeCreatedEvent>
+public class VerificationCodeCreatedConsumer : IConsumer<VerificationCodeCreatedEvent>
 {
     private readonly IWhatsappSender _whatsappSender;
 
@@ -14,9 +14,13 @@ public class VerificationCodeCreatedConsumer: IConsumer<VerificationCodeCreatedE
         _whatsappSender = whatsappSender;
     }
 
+
     public async Task Consume(ConsumeContext<VerificationCodeCreatedEvent> context)
     {
-        var message = MsgTemplate.Auth.VerificationCodeCreated(context.Message.Code);
-        var messageId = await _whatsappSender.Send(context.Message.Phone, message);
+
+            var message = MsgTemplate.Auth.VerificationCodeCreated(context.Message.Code);
+            var messageId = await _whatsappSender.Send(context.Message.Phone, message);
     }
+
+    
 }

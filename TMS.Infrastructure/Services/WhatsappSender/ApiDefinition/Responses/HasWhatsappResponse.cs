@@ -1,3 +1,3 @@
 ﻿namespace TMS.Infrastructure.Services.WhatsappSender.ApiDefinition.Responses;
 
-public record HasWhatsappResponse(string status);
+public record HasWhatsappResponse(string Status);

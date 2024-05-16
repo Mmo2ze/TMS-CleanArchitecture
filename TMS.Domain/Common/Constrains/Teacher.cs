@@ -4,6 +4,6 @@ public static partial class Constrains
 {
     public class Teacher
     {
-        public const int Name = 26;
+        public static Length Name => new(4, 26);
     }
 }

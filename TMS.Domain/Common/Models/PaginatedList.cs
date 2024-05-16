@@ -11,8 +11,8 @@ namespace TMS.Domain.Common.Models
         public PaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
         {
             PageNumber = pageNumber;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             TotalCount = count;
+            TotalPages = TotalCount > 0 ? (int)Math.Ceiling(count / (double)pageSize) : 0;
             Items = items;
         }
 
@@ -31,7 +31,7 @@ namespace TMS.Domain.Common.Models
 
         public int GetPageSize()
         {
-            return HasNextPage?Items.Count:(TotalCount/TotalPages)+1;
+            return TotalCount > 0 ? HasNextPage ? Items.Count : (TotalCount / TotalPages) + 1 : 0;
         }
     }
 }

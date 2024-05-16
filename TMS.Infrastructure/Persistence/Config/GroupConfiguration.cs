@@ -25,8 +25,11 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
         builder.HasMany(t => t.Sessions)
             .WithOne()
             .HasForeignKey(a => a.GroupId);
-        builder.HasMany(c => c.Students)
-            .WithMany(s => s.Classes);
+
+        builder.HasMany(g => g.Students)
+            .WithOne()
+            .HasForeignKey(a => a.GroupId)
+            .OnDelete(DeleteBehavior.NoAction);
         
         builder.HasIndex(c => new {c.TeacherId,c.Name,c.Grade} ).IsUnique();
     }

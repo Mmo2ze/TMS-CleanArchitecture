@@ -4,12 +4,12 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Common.Repositories;
 
-public interface IGroupRepository
+public interface IGroupRepository:IRepository<Group,GroupId>
 {
-    IQueryable<Group> GetGroups(int page, int pageSize, TeacherId teacherId);
-    IQueryable<Group> GetGroups(TeacherId teacherId);
+    IQueryable<Group> GetGroups(int page, int pageSize);
+    IQueryable<Group> GetGroups();
     Task<Group?> GetGroup(GroupId groupId);
-    Task<bool> AnyAsync(GroupId groupId, TeacherId teacherId, CancellationToken cancellationToken);
+    Task<bool> AnyAsync(GroupId groupId, CancellationToken cancellationToken);
 
     Task<bool> AnyAsync(Expression<Func<Group, bool>> predicate,
         CancellationToken cancellationToken = default);

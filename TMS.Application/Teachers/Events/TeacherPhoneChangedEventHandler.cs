@@ -18,7 +18,7 @@ public class TeacherPhoneChangedEventHandler : INotificationHandler<TeacherPhone
     public Task Handle(TeacherPhoneChangedDoaminEvent notification, CancellationToken cancellationToken)
     {
         _publishEndpoint.Publish(
-            new TeacherPhoneChangedEvent(notification.phone,notification.TeacherId), cancellationToken);  
+            new TeacherPhoneChangedEvent(notification.Phone,notification.TeacherId), cancellationToken);  
         return Task.CompletedTask;
     }
 }

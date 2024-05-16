@@ -28,9 +28,9 @@ namespace TMS.Infrastructure.Auth;
                         break;
                 }
                 var partAsBytes = Convert.FromBase64String(partToConvert);
-                var partAsUTF8String = Encoding.UTF8.GetString(partAsBytes, 0, partAsBytes.Length);
+                var partAsUtf8String = Encoding.UTF8.GetString(partAsBytes, 0, partAsBytes.Length);
 
-                var jwt = JObject.Parse(partAsUTF8String);
+                var jwt = JObject.Parse(partAsUtf8String);
                 Data =
                     jwt["data"]?.ToObject<Dictionary<string, object>>()
                     ?? new Dictionary<string, object>();

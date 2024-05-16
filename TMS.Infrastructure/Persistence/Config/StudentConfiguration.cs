@@ -28,8 +28,7 @@ public class StudentConfiguration: IEntityTypeConfiguration<Student>
 			.WithOne()
 			.HasForeignKey(p => p.StudentId)
 			.OnDelete(DeleteBehavior.NoAction); 
-		builder.HasMany(s=> s.Teachers)
-			.WithMany(t => t.Students);
+
 
 		builder.OwnsMany(s => s.Attendances, ab =>
 		{
@@ -48,10 +47,17 @@ public class StudentConfiguration: IEntityTypeConfiguration<Student>
 				.WithOne()
 				.HasForeignKey(rt => rt.StudentId);
 		});
+
+
+		builder.HasMany(s => s.Accounts)
+			.WithOne(a => a.Student)
+			.HasForeignKey(a => a.StudentId)
+			.OnDelete(DeleteBehavior.NoAction);
 		
 		// Configure indexes
 		builder.HasIndex(s => s.Phone).IsUnique();
 		builder.HasIndex(s => s.Email).IsUnique();
+		
 		
 		
 
