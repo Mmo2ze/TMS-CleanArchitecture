@@ -43,7 +43,7 @@ public class Group : Aggregate<GroupId>
         }
 
         Name = name ?? Name;
-        Grade = grade ?? Grade;
+        Grade = grade ?? Grade; 
     }
 
     private bool PriceChanged(double? basePrice)
@@ -54,5 +54,10 @@ public class Group : Aggregate<GroupId>
     public void AddStudent(Account account)
     {
         _students.Add(account);
+    }
+    
+    public void AddSession(Session session)
+    {
+        _sessions.Add(session);
     }
 }

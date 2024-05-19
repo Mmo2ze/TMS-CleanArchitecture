@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Common.Variables;
 using TMS.Application.Students.Commands.Create;
+using TMS.Application.Students.Queries.GetStudents;
 using TMS.Contracts.Student.Create;
+using TMS.Contracts.Student.Get;
 
 namespace TMS.Api.Controllers;
 
@@ -30,4 +32,14 @@ public class StudentController : ApiController
             Problem
         );
     }
+    
+    [HttpGet] 
+    public IActionResult Get([FromQuery]GetStudentsRequest request)
+    {
+        var query = _mapper.Map<GetStudentsQuery>(request);
+        var result = _mediator.Send(query).Result;
+        var response = _mapper.Map<GetStudentResponse>(result);
+        return Ok(result.Value);
+    }
+
 }

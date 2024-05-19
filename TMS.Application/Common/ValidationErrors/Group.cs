@@ -14,4 +14,9 @@ public static partial class ValidationErrors
         public static readonly ValidationError NotFound = new("Student.NotFound", "Student not found");
 
     }
+
+    public static class Session
+    {
+        public static readonly ValidationError SessionIsConflict = new("Session.SessionIsConflict", "this session is conflict with another session");
+    }
 }

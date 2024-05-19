@@ -8,9 +8,9 @@ using TMS.Domain.Students;
 
 namespace TMS.Infrastructure.Persistence.Repositories;
 
-public abstract class Repository<TEntity,TId> : IRepository<TEntity, TId> where TEntity : Aggregate<TId>
-where TId : class
-    
+public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : Aggregate<TId>
+    where TId : class
+
 {
     protected readonly MainContext DbContext;
 
@@ -19,31 +19,31 @@ where TId : class
         DbContext = dbContext;
     }
 
-    public Task<TEntity?> GetByIdAsync(TId id)
+    public Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
-        return DbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
+        return DbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken: cancellationToken);
     }
 
     public void Add(TEntity entity)
     {
         DbContext.Add(entity);
     }
-    
-    public void Update (TEntity entity)
+
+    public void Update(TEntity entity)
     {
         DbContext.Update(entity);
     }
-    
+
     public void Remove(TEntity entity)
     {
         DbContext.Remove(entity);
     }
-    
+
     public async Task<List<TEntity>> GetAllAsync()
     {
         return await DbContext.Set<TEntity>().ToListAsync();
     }
-    
+
     public IQueryable<TEntity> GetQueryable()
     {
         return DbContext.Set<TEntity>();
@@ -59,7 +59,8 @@ where TId : class
         return DbContext.Set<TEntity>().FirstAsync(predicate, cancellationToken);
     }
 
-    public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
     {
         return DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellationToken);
     }

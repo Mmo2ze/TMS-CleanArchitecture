@@ -92,6 +92,8 @@ public static class DependencyInjection
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
+        services.AddScoped<ISessionRepository, SessionRepository>();
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

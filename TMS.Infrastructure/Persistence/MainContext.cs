@@ -7,6 +7,7 @@ using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
 using TMS.Domain.RefreshTokens;
+using TMS.Domain.Sessions;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 using TMS.Infrastructure.Persistence.Interceptors;
@@ -55,6 +56,5 @@ public class MainContext :DbContext
     public DbSet<Parent> Parents { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Group> Groups { get; set; }
-
-
+    public DbSet<Session> Sessions { get; set; }
 }

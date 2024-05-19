@@ -4,7 +4,7 @@ namespace TMS.Domain.Common.Repositories;
 
 public interface IRepository<TEntity, TId> where TEntity : Aggregate<TId> where TId : class
 {
-    Task<TEntity?> GetByIdAsync(TId id);
+    Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
     void Add(TEntity entity);
     void Update (TEntity entity);
     void Remove(TEntity entity);
