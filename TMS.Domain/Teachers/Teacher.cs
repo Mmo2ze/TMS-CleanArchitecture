@@ -80,6 +80,7 @@ public class Teacher : Aggregate<TeacherId>
 
     private bool PhoneChanged(string? requestPhone)
     {
+        //if Phone change we set the new one
         return requestPhone is not null && requestPhone != Phone;
     }
 
