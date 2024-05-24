@@ -35,6 +35,7 @@ public class Teacher : Aggregate<TeacherId>
 
     public void AddAssistant(Assistant assistant)
     {
+        //adding assistant
         _assistants.Add(assistant);
     }
 
