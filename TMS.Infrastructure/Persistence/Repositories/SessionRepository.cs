@@ -23,15 +23,17 @@ public class SessionRepository : Repository<Session, SessionId>, ISessionReposit
         return IsValidSessionAsync(session.Day, session.StartTime, session.EndTime, cancellationToken);
     }
 
-    public Task<bool> IsValidSessionAsync(DayOfWeek day, TimeOnly startTime, TimeOnly endTime,
+    public async Task<bool> IsValidSessionAsync(DayOfWeek day, TimeOnly startTime, TimeOnly endTime,
         CancellationToken cancellationToken)
     {
-        return DbContext.Sessions.AnyAsync(s => s.TeacherId == _teacherId &&
-                                                s.Day == day
-                                                && (
-                                                    (startTime >= s.StartTime && startTime < s.EndTime)
-                                                    || (endTime > s.StartTime && endTime <= s.EndTime)
-                                                )
+        return !await DbContext.Sessions.AnyAsync(s =>
+                s.TeacherId == _teacherId &&
+                s.Day == day
+                && (
+                    (startTime >= s.StartTime && startTime < s.EndTime)
+                    || (endTime > s.StartTime && endTime <= s.EndTime)
+                )
+                || (startTime < s.StartTime && endTime > s.EndTime)
             , cancellationToken);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Common.Variables;
 using TMS.Application.Groups.Commands.Create;
+using TMS.Application.Groups.Commands.Delete;
 using TMS.Application.Groups.Commands.Update;
 using TMS.Application.Groups.Queries.GetGroups;
 using TMS.Contracts.Group.Create;
@@ -59,6 +60,17 @@ public class GroupController : ApiController
         var response = _mapper.Map<UpdateGroupResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
+            Problem
+        );
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] string id)
+    {
+        var command = new DeleteGroupCommand(GroupId.Create(id));
+        var result = await _mediator.Send(command);
+        return result.Match(
+            _ => Ok("Group deleted successfully"),
             Problem
         );
     }

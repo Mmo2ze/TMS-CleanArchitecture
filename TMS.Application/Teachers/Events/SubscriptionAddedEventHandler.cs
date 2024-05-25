@@ -1,6 +1,7 @@
 using MassTransit;
 using MediatR;
 using TMS.Domain.Teachers;
+using TMS.Domain.Teachers.Events;
 using TMS.MessagingContracts.Teacher;
 
 namespace TMS.Application.Teachers.Events;

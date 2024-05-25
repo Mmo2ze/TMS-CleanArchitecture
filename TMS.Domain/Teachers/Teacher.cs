@@ -8,7 +8,7 @@ namespace TMS.Domain.Teachers;
 public class Teacher : Aggregate<TeacherId>
 {
     private readonly List<Assistant> _assistants = [];
-    private readonly List<Account> _students = [];
+    private readonly List<Account.Account> _students = [];
     private readonly List<Group> _groups = [];
     public string Name { get; private set; }
     public string? Email { get; private set; }
@@ -20,7 +20,7 @@ public class Teacher : Aggregate<TeacherId>
     public DateOnly EndOfSubscription { get; private set; }
     public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
-    public IReadOnlyList<Account> Students => _students.AsReadOnly();
+    public IReadOnlyList<Account.Account> Students => _students.AsReadOnly();
 
 
     public void AddSubscription(int days)

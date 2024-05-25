@@ -66,11 +66,7 @@ public class ClaimGenerator : IClaimGenerator
         
         var assistantId = AssistantId.Create(userId);
 
-        var assistant = await _context.Assistants
-            .Include(assistant => assistant.TeacherId)
-            .FirstOrDefaultAsync(a => a.Id == assistantId)
-            .Select(a => new { a.Phone, a.TeacherId });
-
+        var assistant =  _context.Assistants.FirstOrDefault(a => a.Id == assistantId);
         if (assistant is null)
         {
             return Errors.Auth.InvalidCredentials;

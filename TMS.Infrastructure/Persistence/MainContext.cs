@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TMS.Domain.Account;
 using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
@@ -57,4 +58,5 @@ public class MainContext :DbContext
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<Session> Sessions { get; set; }
+    public DbSet<Account> Accounts { get; set; }
 }

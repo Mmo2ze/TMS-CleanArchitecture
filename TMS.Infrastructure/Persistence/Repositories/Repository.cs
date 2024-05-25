@@ -65,6 +65,11 @@ public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where
         return DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellationToken);
     }
 
+    public Task<TEntity?> GetAsync(TId id, CancellationToken cancellationToken = default)
+    {
+        return DbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+    }
+
     public bool Any(Expression<Func<TEntity, bool>> predicate)
     {
         return DbContext.Set<TEntity>().Any(predicate);

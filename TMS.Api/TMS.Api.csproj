@@ -6,9 +6,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
       <UserSecretsId>ec375151-d13e-4d9c-8ede-e989aeba0ec2</UserSecretsId>
+      <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="DateOnlyTimeOnly.AspNet" Version="2.1.1" />
         <PackageReference Include="ErrorOr" Version="2.0.1" />
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
@@ -32,7 +34,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\" />
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

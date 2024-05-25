@@ -18,7 +18,7 @@ public class CreateSessionValidator : AbstractValidator<CreateSessionCommand>
         _sessionRepository = sessionRepository;
 
         RuleFor(x => x.GroupId).NotEmpty().WithMessage("GroupId is required.");
-        RuleFor(x => x.Day).NotEmpty().WithMessage("Day is required.");
+        RuleFor(x => x.Day).IsInEnum().WithMessage("invalid Day.");
         RuleFor(x => x.StartTime).NotEmpty().WithMessage("StartTime is required.");
         RuleFor(x => x.EndTime).NotEmpty().WithMessage("EndTime is required.");
         RuleFor(x => x.EndTime).GreaterThan(x => x.StartTime).WithMessage("EndTime must be greater than StartTime.");

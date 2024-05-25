@@ -93,6 +93,8 @@ public static class DependencyInjection
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<ISessionRepository, SessionRepository>();
+        services.AddScoped<IAccountRepository,AccountRepository>();
+
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

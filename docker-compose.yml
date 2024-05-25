@@ -1,4 +1,5 @@
-﻿services:
+﻿
+services:
   tms.api:
     image: tms.api
     build:
@@ -13,7 +14,7 @@
     restart : always
     ports:
       - "6379:6379"
-      
+  
   tms.db:
     image: postgres:latest
     restart: always
@@ -26,9 +27,9 @@
       - ./postgres/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-      
-      
-      
+  
+  
+  
   tms.mq:
     restart: always
     image: rabbitmq:3-management
@@ -40,5 +41,5 @@
       - "5672:5672"
       - "15672:15672"
     environment:
-        RABBITMQ_DEFAULT_USER: "guest"
-        RABBITMQ_DEFAULT_PASS: "guest"
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"

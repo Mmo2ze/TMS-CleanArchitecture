@@ -27,4 +27,5 @@ public record ValueObjectId<T>(string Value)
     {
         return value.StartsWith(GetPrefixedId());
     }
+    public bool HasValue => !string.IsNullOrWhiteSpace(Value);
 }

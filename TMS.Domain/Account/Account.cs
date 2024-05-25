@@ -1,8 +1,9 @@
-using TMS.Domain.Common.Constrains;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Groups;
+using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
-namespace TMS.Domain.Students;
+namespace TMS.Domain.Account;
 
 public class Account : Aggregate<AccountId>
 {
@@ -32,17 +33,25 @@ public class Account : Aggregate<AccountId>
     }
 
 
-    public void Update(double basePrice)
+    public void Update(double basePrice, double groupPrice, GroupId? groupId, StudentId? studentId)
     {
-        BasePrice = basePrice;
+        if (Math.Abs(BasePrice - basePrice) >= .5)
+        {
+            SetCustomPrice(basePrice, groupPrice);
+        }
+
+        GroupId = groupId ?? GroupId;
+        StudentId = studentId ?? StudentId;
     }
 
 
-    public void SetCustomPrice(double price)
+    public void SetCustomPrice(double price, double groupPrice)
     {
         BasePrice = price;
-        HasCustomPrice = true;
+        if (Math.Abs(BasePrice - groupPrice) >= .5)
+            HasCustomPrice = true;
     }
+
 
     public void ResetCustomPrice(double basePrice)
     {

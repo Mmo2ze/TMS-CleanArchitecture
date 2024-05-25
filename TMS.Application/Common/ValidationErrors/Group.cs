@@ -13,10 +13,16 @@ public static partial class ValidationErrors
     {
         public static readonly ValidationError NotFound = new("Student.NotFound", "Student not found");
 
+        public static readonly ValidationError AlreadyInGroup = new("Student.AlreadyInGroup", "Student already in group");
     }
 
     public static class Session
     {
         public static readonly ValidationError SessionIsConflict = new("Session.SessionIsConflict", "this session is conflict with another session");
+    }
+
+    public static class Account
+    {
+        public static readonly ValidationError NotFound = new("Account.NotFound", "Account not found");
     }
 }

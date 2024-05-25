@@ -11,12 +11,9 @@ public interface IGroupRepository:IRepository<Group,GroupId>
     Task<Group?> GetGroup(GroupId groupId);
     Task<bool> AnyAsync(GroupId groupId, CancellationToken cancellationToken);
 
-    Task<bool> AnyAsync(Expression<Func<Group, bool>> predicate,
-        CancellationToken cancellationToken = default);
 
-    Task<Group> FirstAsync(Expression<Func<Group, bool>> predicate, CancellationToken cancellationToken = default);
+
     Task<Group?> ByIdAsync(GroupId groupId, CancellationToken cancellationToken = default);
 
-    Task<Group?> FirstOrDefaultAsync(Expression<Func<Group, bool>> predicate,
-        CancellationToken cancellationToken = default);
+
 }

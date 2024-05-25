@@ -11,7 +11,7 @@ public class Student : User<StudentId>
     private readonly List<Teacher> _teachers = [];
     private readonly List<Attendance> _attendances = [];
     private readonly List<Payment> _payments = [];
-    private readonly List<Account> _accounts = [];
+    private readonly List<Account.Account> _accounts = [];
 
 
     public override string? Phone { get; protected set; }
@@ -21,7 +21,7 @@ public class Student : User<StudentId>
     public IEnumerable<Teacher> Teachers => _teachers;
     public IEnumerable<Payment> Payments => _payments;
     public IEnumerable<Attendance> Attendances => _attendances.AsReadOnly();
-    public IEnumerable<Account> Accounts => _accounts.AsReadOnly();
+    public IEnumerable<Account.Account> Accounts => _accounts.AsReadOnly();
 
     private Student(StudentId id, string name, Gender gender, string? email = null, string? phone = null) : base(id)
     {

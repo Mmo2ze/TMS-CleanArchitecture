@@ -1,4 +1,4 @@
-namespace TMS.Domain.Teachers;
+namespace TMS.Domain.Teachers.Events;
 
 public record SubscriptionAddedDomainEvent(
     Guid Id,

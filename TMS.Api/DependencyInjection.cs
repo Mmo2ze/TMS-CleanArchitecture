@@ -15,6 +15,7 @@ public static class DependencyInjection
 		services.AddControllers()
 			.AddJsonOptions(options => //Enable enum string converter
 				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+			
 			);
 		services.AddSwagger();
 		services.AddHttpContextAccessor();

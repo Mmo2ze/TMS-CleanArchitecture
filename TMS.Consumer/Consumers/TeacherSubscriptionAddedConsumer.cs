@@ -4,6 +4,7 @@ using TMS.Application.Common.Services;
 using TMS.Consumer.MessageTemplates;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Teachers;
+using TMS.Domain.Teachers.Events;
 using TMS.MessagingContracts.Teacher;
 
 namespace TMS.Consumer.Consumers;
