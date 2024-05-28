@@ -1,9 +1,11 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Accounts.Commands.Create;
+using TMS.Application.Accounts.Commands.Delete;
 using TMS.Application.Accounts.Commands.Update;
 using TMS.Application.Accounts.Queries.Get;
 using TMS.Contracts.Account.Create;
+using TMS.Contracts.Account.Delete;
 using TMS.Contracts.Account.DTOs;
 using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
@@ -26,18 +28,31 @@ public class AccountMapping : IRegister
 
 
         config.NewConfig<GetAccountsRequest, GetAccountsQuery>()
-            .Map(dest => dest.GroupId, src => GroupId.Create(src.GroupId));
+            .Map(dest => dest.GroupId,
+                src => !string.IsNullOrWhiteSpace(src.GroupId) ? GroupId.Create(src.GroupId) : null);
 
         config.NewConfig<UpdateAccountRequest, UpdateAccountCommand>()
-            .Map(dest => dest.Id, src => AccountId.Create(src.Id))
-            .Map(dest => dest.GroupId, src => GroupId.Create(src.GroupId))
-            .Map(dest => dest.StudentId, src => StudentId.Create(src.StudentId));
+            .Map(dest => dest.GroupId,
+                src => !string.IsNullOrWhiteSpace(src.GroupId) ? GroupId.Create(src.GroupId) : null)
+            .Map(dest => dest.StudentId,
+                src => !string.IsNullOrWhiteSpace(src.StudentId) ? StudentId.Create(src.StudentId) : null);
 
+        config.NewConfig<UpdateAccountPartialRequest, UpdateAccountPartialCommand>()
+            .Map(dest => dest.GroupId,
+                src => !string.IsNullOrWhiteSpace(src.GroupId) ? GroupId.Create(src.GroupId) : null)
+            .Map(dest => dest.StudentId,
+                src => !string.IsNullOrWhiteSpace(src.StudentId) ? StudentId.Create(src.StudentId) : null);
+        
+        
         config.NewConfig<AccountSummary, AccountSummaryDto>()
             .Map(dest => dest.AccountId, src => src.AccountId.Value)
             .Map(dest => dest.StudentId, src => src.StudentId.Value)
             .Map(dest => dest.GroupId, src => src.GroupId.Value);
 
+        
+        config.NewConfig<DeleteAccountRequest,DeleteAccountCommand>()
+            .Map(dest => dest.Id, src => AccountId.Create(src.Id));
+        
 
         config.NewConfig<PaginatedList<AccountSummary>, PaginatedList<AccountSummaryDto>>()
             .ConstructUsing((source,
@@ -46,5 +61,8 @@ public class AccountMapping : IRegister
                 source.TotalCount,
                 source.PageNumber,
                 source.GetPageSize()));
+        
+        
+        
     }
 }

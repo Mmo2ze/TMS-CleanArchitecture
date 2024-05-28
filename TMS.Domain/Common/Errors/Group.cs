@@ -10,4 +10,13 @@ public static partial class Errors
         public static Error GroupNameAlreadyExists => Error.Conflict("Group.NameAlreadyExists", "Group name already exists");
         
     }
+
+    public static class Account
+    {
+        public static Error NotFound => Error.NotFound("Account.NotFound", "Account not found");
+        public static Error AccountNameAlreadyExists => Error.Conflict("Account.NameAlreadyExists", "Account name already exists");
+        
+    }
+
+
 }

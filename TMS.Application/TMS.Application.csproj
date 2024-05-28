@@ -12,7 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Accounts\Events\" />
       <Folder Include="Assistants\Queries\" />
       <Folder Include="Common\Interfaces\" />
     </ItemGroup>

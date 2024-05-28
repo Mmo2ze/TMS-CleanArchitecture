@@ -15,7 +15,7 @@ public record AccountSummary(
     Gender Gender)
 {
     public static AccountSummary From(Account account) =>
-        new AccountSummary(
+        new(
             account.Id,
             account.StudentId,
             account.GroupId,

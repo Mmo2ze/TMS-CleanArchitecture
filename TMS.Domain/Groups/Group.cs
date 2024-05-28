@@ -54,10 +54,25 @@ public class Group : Aggregate<GroupId>
     public void AddStudent(Account.Account account)
     {
         _students.Add(account);
+        StudentsCount++;
     }
     
     public void AddSession(Session session)
     {
         _sessions.Add(session);
+        SessionsCount++;
+    }
+    
+    public void RemoveStudent(Account.Account account)
+    {
+        _students.Remove(account);
+        StudentsCount--;
+        RaiseDomainEvent(new AccountRemovedFromGroupDomainEvent(Guid.NewGuid(), account.Id));
+    }
+    
+    public void RemoveSession(Session session)
+    {
+        _sessions.Remove(session);
+        SessionsCount--;
     }
 }

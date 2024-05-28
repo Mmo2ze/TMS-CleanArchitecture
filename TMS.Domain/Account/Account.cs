@@ -21,7 +21,7 @@ public class Account : Aggregate<AccountId>
 
     public TeacherId TeacherId { get; private set; }
 
-    public GroupId GroupId { get; private set; }
+    public GroupId? GroupId { get; private set; }
 
     public double BasePrice { get; private set; }
 
@@ -33,23 +33,21 @@ public class Account : Aggregate<AccountId>
     }
 
 
-    public void Update(double basePrice, double groupPrice, GroupId? groupId, StudentId? studentId)
+    public void Update(double? basePrice, double groupPrice, GroupId? groupId, StudentId? studentId)
     {
-        if (Math.Abs(BasePrice - basePrice) >= .5)
+        if (basePrice.HasValue && Math.Abs(BasePrice - basePrice.Value) >= .5)
         {
-            SetCustomPrice(basePrice, groupPrice);
+            BasePrice = basePrice.Value;
+        }
+
+        if (groupId != GroupId && groupId != null)
+        {
+            RaiseDomainEvent(new AccountMovedToGroupDomainEvent(new Guid(), this,GroupId,groupId));
         }
 
         GroupId = groupId ?? GroupId;
         StudentId = studentId ?? StudentId;
-    }
-
-
-    public void SetCustomPrice(double price, double groupPrice)
-    {
-        BasePrice = price;
-        if (Math.Abs(BasePrice - groupPrice) >= .5)
-            HasCustomPrice = true;
+        HasCustomPrice = Math.Abs(BasePrice - groupPrice) >= .5;
     }
 
 

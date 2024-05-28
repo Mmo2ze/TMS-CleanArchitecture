@@ -19,7 +19,7 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, Paginat
         _accountRepository = accountRepository;
     }
 
-    public Task<PaginatedList<AccountSummary>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<AccountSummary>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
     {
         var accounts = _accountRepository.GetQueryable()
             .Include(a => a.Student)
@@ -27,7 +27,8 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, Paginat
                         (string.IsNullOrEmpty(request.Search) ||
                          EF.Functions.Like(a.Student.Name, $"%{request.Search}%") ||
                          EF.Functions.Like(a.Student.Phone, $"%{request.Search}%")) &&
-                        (request.GroupId != null || a.GroupId == request.GroupId))
+                        (request.GroupId == null || a.GroupId == request.GroupId))
+            .OrderBy(x => x.BasePrice)
             .Select(account => new AccountSummary(
                 account.Id,
                 account.StudentId,
@@ -38,7 +39,7 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, Paginat
                 account.Student.Gender
             ));
 
-        var result = PaginatedList<AccountSummary>.CreateAsync(accounts, request.PageNumber, request.PageSize);
+        var result = await PaginatedList<AccountSummary>.CreateAsync(accounts, request.PageNumber, request.PageSize);
         return result;
     }
 }

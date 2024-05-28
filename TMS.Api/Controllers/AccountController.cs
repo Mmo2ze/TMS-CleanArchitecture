@@ -1,14 +1,18 @@
+using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Accounts.Commands.Create;
+using TMS.Application.Accounts.Commands.Delete;
 using TMS.Application.Accounts.Commands.Update;
 using TMS.Application.Accounts.Queries.Get;
 using TMS.Contracts.Account.Create;
 using TMS.Contracts.Account.DTOs;
 using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
+using TMS.Domain.Account;
 using TMS.Domain.Common.Models;
+using TMS.Domain.Groups;
 
 namespace TMS.Api.Controllers;
 
@@ -42,18 +46,44 @@ public class AccountController : ApiController
         var response = _mapper.Map<PaginatedList<AccountSummaryDto>>(result);
         return Ok(response);
     }
-    
-    [HttpPut()]
-    public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountRequest request)
+
+    [HttpPut("/{id}")]
+    public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountRequest request, string id)
     {
         var command = _mapper.Map<UpdateAccountCommand>(request);
+        command = command with { Id = AccountId.Create(id) };
+
         var result = await _mediator.Send(command);
-        var response =  _mapper.Map<AccountSummaryDto>(result);
+
+        var response = _mapper.Map<AccountSummaryDto>(result.Value);
+
         return result.Match(
             _ => Ok(response),
             Problem
         );
     }
-    
-    
+
+    [HttpPatch("/{id}")]
+    public async Task<IActionResult> UpdateAccountPartial([FromQuery] UpdateAccountPartialRequest request, string id)
+    {
+        var command = _mapper.Map<UpdateAccountPartialCommand>(request);
+        command = command with { Id = AccountId.Create(id) };
+
+        var result = await _mediator.Send(command);
+
+        var response = _mapper.Map<AccountSummaryDto>(result.Value);
+
+        return result.Match(
+            _ => Ok(response),
+            Problem
+        );
+    }
+
+    [HttpDelete("/{id}")]
+    public async Task<IActionResult> DeleteAccount(string id,[FromQuery] string groupId)
+    {
+        var command = new DeleteAccountCommand(AccountId.Create(id),GroupId.Create(groupId));
+        var result = await _mediator.Send(command);
+        return result is null ? NoContent() : Problem([result.Value]);
+    }
 }

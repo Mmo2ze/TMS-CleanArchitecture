@@ -42,7 +42,7 @@ public class GroupController : ApiController
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetGroupsRequest request)
     {
-        var command = _mapper.Map<GetGroupsCommand>(request);
+        var command = _mapper.Map<GetGroupsQuery>(request);
         var result = await _mediator.Send(command);
         var response = _mapper.Map<PaginatedList<GetGroupResponse>>(result.Value);
         return result.Match(

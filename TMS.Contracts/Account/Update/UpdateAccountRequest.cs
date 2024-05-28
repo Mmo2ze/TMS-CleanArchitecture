@@ -1,3 +1,3 @@
 namespace TMS.Contracts.Account.Update;
 
-public record UpdateAccountRequest(string Id, string StudentId, string GroupId, double BasePrice);
+public record UpdateAccountRequest( string StudentId, string GroupId, double BasePrice);
