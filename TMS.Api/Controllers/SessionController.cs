@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Common.Variables;
 using TMS.Application.Sessions;
+using TMS.Application.Sessions.Queries.Get;
 using TMS.Contracts.Session.Create;
+using TMS.Contracts.Session.Get;
+using TMS.Domain.Common.Models;
 
 namespace TMS.Api.Controllers;
 
@@ -26,9 +29,20 @@ public class SessionController : ApiController
     {
         var command = _mapper.Map<CreateSessionCommand>(request);
         var result = _mediator.Send(command).Result;
+        var response = _mapper.Map<SessionResponseSummary>(result.Value);
         return result.Match(
-            _ => Ok(result.Value),
+            _ => Ok(response),
             Problem
         );
+    }
+    
+    
+    [HttpGet]
+    public async Task<IActionResult> Get([FromQuery] GetSessionsRequest request)
+    {
+        var query = _mapper.Map<GetSessionsQuery>(request);
+        var result = await _mediator.Send(query);
+        var response = _mapper.Map<PaginatedList<SessionResponseSummary>>(result);
+        return Ok(response);
     }
 }

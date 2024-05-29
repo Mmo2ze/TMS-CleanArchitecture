@@ -4,11 +4,13 @@ using TMS.Application.Accounts.Commands.Create;
 using TMS.Application.Accounts.Commands.Delete;
 using TMS.Application.Accounts.Commands.Update;
 using TMS.Application.Accounts.Queries.Get;
+using TMS.Application.Sessions.Queries.Get;
 using TMS.Contracts.Account.Create;
 using TMS.Contracts.Account.Delete;
 using TMS.Contracts.Account.DTOs;
 using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
+using TMS.Contracts.Session.Get;
 using TMS.Contracts.Teacher.Common;
 using TMS.Contracts.Teacher.Create;
 using TMS.Domain.Account;
@@ -53,7 +55,7 @@ public class AccountMapping : IRegister
         config.NewConfig<DeleteAccountRequest,DeleteAccountCommand>()
             .Map(dest => dest.Id, src => AccountId.Create(src.Id));
         
-
+        
         config.NewConfig<PaginatedList<AccountSummary>, PaginatedList<AccountSummaryDto>>()
             .ConstructUsing((source,
                 context) => new PaginatedList<AccountSummaryDto>(

@@ -27,7 +27,7 @@ public class AccountController : ApiController
         _mediator = mediator;
     }
 
-    [HttpPost()]
+    [HttpPost]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequest request)
     {
         var command = _mapper.Map<CreateAccountCommand>(request);
@@ -38,7 +38,7 @@ public class AccountController : ApiController
         );
     }
 
-    [HttpGet()]
+    [HttpGet]
     public async Task<IActionResult> GetAccounts([FromQuery] GetAccountsRequest request)
     {
         var query = _mapper.Map<GetAccountsQuery>(request);
@@ -47,7 +47,7 @@ public class AccountController : ApiController
         return Ok(response);
     }
 
-    [HttpPut("/{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountRequest request, string id)
     {
         var command = _mapper.Map<UpdateAccountCommand>(request);
@@ -63,7 +63,7 @@ public class AccountController : ApiController
         );
     }
 
-    [HttpPatch("/{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateAccountPartial([FromQuery] UpdateAccountPartialRequest request, string id)
     {
         var command = _mapper.Map<UpdateAccountPartialCommand>(request);
@@ -79,11 +79,13 @@ public class AccountController : ApiController
         );
     }
 
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAccount(string id,[FromQuery] string groupId)
     {
         var command = new DeleteAccountCommand(AccountId.Create(id),GroupId.Create(groupId));
         var result = await _mediator.Send(command);
         return result is null ? NoContent() : Problem([result.Value]);
     }
+    
+    
 }

@@ -20,7 +20,6 @@ public class SessionsConfigurations: IEntityTypeConfiguration<Session>
         builder.Property(s => s.StartTime).IsRequired();
         builder.Property(s => s.EndTime).IsRequired();
         
-        builder.HasIndex(a=> new {a.Day,a.TeacherId, ClassId = a.GroupId}).IsUnique();
         
     }
 }

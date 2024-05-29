@@ -18,7 +18,7 @@ builder.Services.AddMassTransit(busConfigurator =>
     {
 	    o.UsePostgres();
         // enable the bus outbox
-        o.QueryDelay = TimeSpan.FromMilliseconds(2000);
+        o.QueryDelay = TimeSpan.FromSeconds(5);
         o.UseBusOutbox();
     });
 	busConfigurator.SetKebabCaseEndpointNameFormatter();

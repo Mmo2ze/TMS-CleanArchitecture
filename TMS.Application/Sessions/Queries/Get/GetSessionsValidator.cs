@@ -1,25 +1,24 @@
 using FluentValidation;
+using TMS.Application.Accounts.Queries.Get;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
 
-namespace TMS.Application.Accounts.Queries.Get;
+namespace TMS.Application.Sessions.Queries.Get;
 
-public class GetAccountsValidator : AbstractValidator<GetAccountsQuery>
+public class GetSessionsValidator : AbstractValidator<GetSessionsQuery>
 {
     private readonly ITeacherHelper _teacherHelper;
     private readonly IGroupRepository _groupRepository;
 
-    public GetAccountsValidator(IGroupRepository groupRepository, ITeacherHelper teacherHelper)
+    public GetSessionsValidator(IGroupRepository groupRepository, ITeacherHelper teacherHelper)
     {
         _groupRepository = groupRepository;
         _teacherHelper = teacherHelper;
 
-        RuleFor(x => x.Search)
-            .MaximumLength(50)
-            .MinimumLength(2);
+       
 
         RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).When(x => x.GroupId != null)
             .WithValidationError(ValidationErrors.Group.NotFound);
