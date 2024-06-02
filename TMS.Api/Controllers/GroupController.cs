@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Accounts.Commands.Delete;
 using TMS.Application.Common.Variables;
 using TMS.Application.Groups.Commands.Create;
 using TMS.Application.Groups.Commands.Delete;
@@ -10,6 +11,7 @@ using TMS.Application.Groups.Queries.GetGroups;
 using TMS.Contracts.Group.Create;
 using TMS.Contracts.Group.GetGroups;
 using TMS.Contracts.Group.Update;
+using TMS.Domain.Account;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 
@@ -73,5 +75,12 @@ public class GroupController : ApiController
             _ => Ok("Group deleted successfully"),
             Problem
         );
+    }
+    [HttpDelete("{groupId}/accounts/{accountId}")]
+    public async Task<IActionResult> DeleteAccount(string groupId, string accountId)
+    {
+        var command = new DeleteAccountCommand(AccountId.Create(accountId),GroupId.Create(groupId));
+        var result = await _mediator.Send(command);
+        return result is null ? NoContent() : Problem([result.Value]);
     }
 }

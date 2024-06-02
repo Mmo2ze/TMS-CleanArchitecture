@@ -79,13 +79,7 @@ public class AccountController : ApiController
         );
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAccount(string id,[FromQuery] string groupId)
-    {
-        var command = new DeleteAccountCommand(AccountId.Create(id),GroupId.Create(groupId));
-        var result = await _mediator.Send(command);
-        return result is null ? NoContent() : Problem([result.Value]);
-    }
+
     
     
 }
