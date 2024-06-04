@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
+using ErrorOr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TMS.Application.Common.Mapping;
 using TMS.Application.Common.Services;
 using TMS.Domain.Account;
 using TMS.Domain.Common.Models;
@@ -8,7 +10,7 @@ using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Accounts.Queries.Get;
 
-public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, PaginatedList<AccountSummary>>
+public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery,ErrorOr< PaginatedList<AccountSummary>>>
 {
     private readonly ITeacherHelper _teacherHelper;
     private readonly IAccountRepository _accountRepository;
@@ -19,7 +21,7 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, Paginat
         _accountRepository = accountRepository;
     }
 
-    public async Task<PaginatedList<AccountSummary>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PaginatedList<AccountSummary>>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
     {
         var accounts = _accountRepository.GetQueryable()
             .Include(a => a.Student)
@@ -27,19 +29,18 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, Paginat
                         (string.IsNullOrEmpty(request.Search) ||
                          EF.Functions.Like(a.Student.Name, $"%{request.Search}%") ||
                          EF.Functions.Like(a.Student.Phone, $"%{request.Search}%")) &&
-                        (request.GroupId == null || a.GroupId == request.GroupId))
+                        (request.GroupId == null || a.GroupId == request.GroupId) )
             .OrderBy(x => x.BasePrice)
             .Select(account => new AccountSummary(
                 account.Id,
                 account.StudentId,
-                account.GroupId,
+                account.GroupId!,
                 account.BasePrice,
                 account.HasCustomPrice,
                 account.Student.Name,
                 account.Student.Gender
             ));
-
-        var result = await PaginatedList<AccountSummary>.CreateAsync(accounts, request.PageNumber, request.PageSize);
+        var result = await accounts.PaginatedListAsync(request.PageNumber, request.PageSize);
         return result;
     }
 }

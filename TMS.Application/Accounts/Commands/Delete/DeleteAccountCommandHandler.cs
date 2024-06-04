@@ -7,7 +7,7 @@ using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Accounts.Commands.Delete;
 
-public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommand, Error?>
+public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommand, ErrorOr<string>>
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IGroupRepository _groupRepository;
@@ -21,7 +21,7 @@ public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommand,
         _groupRepository = groupRepository;
     }
 
-    public async Task<Error?> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<string>> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
     {
         
         
@@ -33,6 +33,6 @@ public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommand,
         group!.RemoveStudent(group.Students[0]);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return null;
+        return "deleted Successfully";
     }
 }

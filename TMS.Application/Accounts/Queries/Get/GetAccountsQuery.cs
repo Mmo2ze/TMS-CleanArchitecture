@@ -1,3 +1,4 @@
+using ErrorOr;
 using MediatR;
 using TMS.Application.Common;
 using TMS.Domain.Account;
@@ -12,4 +13,4 @@ public record GetAccountsQuery(
     int PageNumber = 1,
     int PageSize = 10
 ) : GetPaginatedList(PageNumber, PageSize),
-    IRequest<PaginatedList<AccountSummary>>;
+    IRequest<ErrorOr<PaginatedList<AccountSummary>>>;

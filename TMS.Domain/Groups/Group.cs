@@ -43,7 +43,7 @@ public class Group : Aggregate<GroupId>
         }
 
         Name = name ?? Name;
-        Grade = grade ?? Grade; 
+        Grade = grade ?? Grade;
     }
 
     private bool PriceChanged(double? basePrice)
@@ -56,23 +56,24 @@ public class Group : Aggregate<GroupId>
         _students.Add(account);
         StudentsCount++;
     }
-    
+
     public void AddSession(Session session)
     {
         _sessions.Add(session);
         SessionsCount++;
     }
-    
+
     public void RemoveStudent(Account.Account account)
     {
         _students.Remove(account);
         StudentsCount--;
         RaiseDomainEvent(new AccountRemovedFromGroupDomainEvent(Guid.NewGuid(), account.Id));
     }
-    
+
     public void RemoveSession(Session session)
     {
         _sessions.Remove(session);
         SessionsCount--;
+        RaiseDomainEvent(new SessionRemovedFromGroupDomainEvent(Guid.NewGuid(), session.Id));
     }
 }

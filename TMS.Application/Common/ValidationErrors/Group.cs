@@ -19,6 +19,7 @@ public static partial class ValidationErrors
     public static class Session
     {
         public static readonly ValidationError SessionIsConflict = new("Session.SessionIsConflict", "this session is conflict with another session");
+        public static readonly ValidationError NotFound = new("Session.NotFound", "Session not found");
     }
 
     public static class Account

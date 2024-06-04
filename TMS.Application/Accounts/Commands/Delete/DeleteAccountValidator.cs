@@ -1,5 +1,8 @@
 using FluentValidation;
+using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
+using TMS.Application.Common.ValidationErrors;
+using TMS.Domain.Account;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
 using TMS.Domain.Students;
@@ -21,27 +24,23 @@ public class CreatAccountValidator : AbstractValidator<DeleteAccountCommand>
         _teacherHelper = teacherHelper;
         _accountRepository = accountRepository;
 
-        Console.Error.WriteLine("DeleteAccountCommandValidator");
-        RuleFor(x => x.GroupId).NotEmpty();
-       
+        RuleFor(x => x.GroupId).NotEmpty().NotNull();
+        RuleFor(x => x.Id).NotEmpty()
+            .MustAsync(BeFoundAccount)
+            .WithValidationError(ValidationErrors.Account.NotFound);
     }
 
-    private async Task<bool> BeNotInGroup(StudentId studentId, CancellationToken cancellationToken)
+    private Task<bool> BeFoundAccount(DeleteAccountCommand command, AccountId arg1, CancellationToken arg2)
     {
-        return !await _accountRepository.AnyAsync(
-            a => a.StudentId == studentId && a.TeacherId == _teacherHelper.GetTeacherId(), cancellationToken);
+        return _accountRepository.AnyAsync(
+            x => x.Id == arg1 &&
+                 x.TeacherId == _teacherHelper.GetTeacherId() &&
+                 x.GroupId == command.GroupId
+            , arg2);
     }
 
-    private async Task<bool> BeFoundGroup(GroupId id, CancellationToken token)
-    {
-        var teacherId = _teacherHelper.GetTeacherId();
-        var x = await _groupRepository.AnyAsync(
-            group => group.Id == id && group.TeacherId == teacherId, token);
-        return x;
-    }
 
-    private async Task<bool> BeFoundStudent(StudentId id, CancellationToken token)
-    {
-        return await _studentRepository.AnyAsync(student => student.Id == id, token);
-    }
+
+
+
 }

@@ -43,8 +43,10 @@ public class AccountController : ApiController
     {
         var query = _mapper.Map<GetAccountsQuery>(request);
         var result = await _mediator.Send(query);
-        var response = _mapper.Map<PaginatedList<AccountSummaryDto>>(result);
-        return Ok(response);
+        var response = _mapper.Map<PaginatedList<AccountSummaryDto>>(result.Value);
+        return result.Match(
+            _ => Ok(response)
+            , Problem);
     }
 
     [HttpPut("{id}")]
@@ -78,8 +80,4 @@ public class AccountController : ApiController
             Problem
         );
     }
-
-
-    
-    
 }

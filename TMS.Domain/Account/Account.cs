@@ -1,3 +1,4 @@
+using TMS.Domain.Account.Events;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Groups;
 using TMS.Domain.Students;

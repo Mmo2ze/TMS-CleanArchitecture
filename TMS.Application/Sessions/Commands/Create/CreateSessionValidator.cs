@@ -3,9 +3,8 @@ using TMS.Application.Common.Extensions;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
-using TMS.Domain.Sessions;
 
-namespace TMS.Application.Sessions;
+namespace TMS.Application.Sessions.Commands.Create;
 
 public class CreateSessionValidator : AbstractValidator<CreateSessionCommand>
 {

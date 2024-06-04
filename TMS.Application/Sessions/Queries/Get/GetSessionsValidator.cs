@@ -26,7 +26,7 @@ public class GetSessionsValidator : AbstractValidator<GetSessionsQuery>
 
     private async Task<bool> BeFoundGroup(GroupId? groupId, CancellationToken token)
     {
-        return !await _groupRepository.AnyAsync(g => g.Id == groupId && g.TeacherId == _teacherHelper.GetTeacherId(),
+        return await _groupRepository.AnyAsync(g => g.Id == groupId && g.TeacherId == _teacherHelper.GetTeacherId(),
             token);
     }
 }
