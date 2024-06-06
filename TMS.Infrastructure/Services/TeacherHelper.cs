@@ -28,17 +28,22 @@ public class TeacherHelper : ITeacherHelper
         return roles.Contains(Roles.Teacher.Assistant);
     }
 
-    public TeacherId? GetTeacherId()
+    public TeacherId GetTeacherId()
     {
         var teacherId = _claimsReader.GetByClaimType(CustomClaimTypes.TeacherId);
-        return teacherId == null || !TeacherId.IsValidId(teacherId) ? null 
-            : new TeacherId(teacherId);
+        if (teacherId == null || !TeacherId.IsValidId(teacherId))
+        {
+            throw new Exception("TeacherId is not valid, please login again.");
+        }
+
+        return new TeacherId(teacherId);
     }
 
     public AssistantId? GetAssistantId()
     {
         var assistantId = _claimsReader.GetByClaimType(CustomClaimTypes.Id);
-        return assistantId == null || !AssistantId.IsValidId(assistantId) ? null 
+        return assistantId == null || !AssistantId.IsValidId(assistantId)
+            ? null
             : new AssistantId(assistantId);
     }
 }
