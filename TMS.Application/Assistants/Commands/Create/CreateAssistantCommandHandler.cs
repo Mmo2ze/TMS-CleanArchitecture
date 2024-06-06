@@ -7,7 +7,7 @@ using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Assistants.Commands.Create;
 
-public class CreateAssistantCommandHandler : IRequestHandler<CreateAssistantCommand, ErrorOr<CreateAssistantResult>>
+public class CreateAssistantCommandHandler : IRequestHandler<CreateAssistantCommand, ErrorOr<AssistantDto>>
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly ITeacherHelper _teacherHelper;
@@ -19,8 +19,8 @@ public class CreateAssistantCommandHandler : IRequestHandler<CreateAssistantComm
         _teacherHelper = teacherHelper;
         _unitOfWork = unitOfWork;
     }
-
-    public async Task<ErrorOr<CreateAssistantResult>> Handle(CreateAssistantCommand request,
+ 
+    public async Task<ErrorOr<AssistantDto>> Handle(CreateAssistantCommand request,
         CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
@@ -35,11 +35,17 @@ public class CreateAssistantCommandHandler : IRequestHandler<CreateAssistantComm
             return Errors.Teacher.TeacherNotFound;
         }
 
-        var assistant = Assistant.Create(request.Name, request.Phone, teacherId, request.Email);
+        var assistant = Assistant.Create(request.Name, request.Phone,teacherId, request.Email);
+        assistant.UpdateRoles(request.Roles);
         teacher.AddAssistant(assistant);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return CreateAssistantResult.From(assistant);
+        return AssistantDto.From(assistant);
     }
 }
+
+
+
+
+

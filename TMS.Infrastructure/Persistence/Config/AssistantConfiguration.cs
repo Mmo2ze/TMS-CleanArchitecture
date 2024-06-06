@@ -31,7 +31,11 @@ public class AssistantConfiguration: IEntityTypeConfiguration<Assistant>
 			.HasForeignKey(p => p.AssistantId);
 		builder.HasMany<RefreshToken>()
 			.WithOne()
-			.HasForeignKey(rt => rt.AssistantId);
+			.HasForeignKey(rt => rt.AssistantId).OnDelete(DeleteBehavior.Cascade);
+		builder.Property(x => x.RolesString).HasMaxLength(560);
+		builder.Ignore(x => x.Roles);
+
+		
 		// Configure index
 		builder.HasIndex(s => s.Phone).IsUnique();
 		builder.HasIndex(s => s.Email).IsUnique();
