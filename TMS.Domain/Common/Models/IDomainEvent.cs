@@ -10,4 +10,4 @@ namespace TMS.Domain.Common.Models;
  * If DomainEvent Failed to be processed, the Aggregate should be rolled back
  * DomainEvent should be processed in the same transaction as the Aggregate
  **/
-public  record DomainEvent(Guid Id):INotification;
+public  record DomainEvent(Guid Id = new() ):INotification;
