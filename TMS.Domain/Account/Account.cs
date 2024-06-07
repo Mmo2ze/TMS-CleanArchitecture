@@ -1,6 +1,8 @@
 using TMS.Domain.Account.Events;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Groups;
+using TMS.Domain.Quizzes;
+using TMS.Domain.Quizzes.Events;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
@@ -8,6 +10,7 @@ namespace TMS.Domain.Account;
 
 public class Account : Aggregate<AccountId>
 {
+    private readonly List<Quiz> _quizzes = [];
     private Account(AccountId id, StudentId studentId, double basePrice, GroupId groupId, TeacherId teacherId) :
         base(id)
     {
@@ -16,6 +19,7 @@ public class Account : Aggregate<AccountId>
         GroupId = groupId;
         TeacherId = teacherId;
     }
+    public IReadOnlyList<Quiz> Quizzes => _quizzes.AsReadOnly();
 
     public StudentId StudentId { get; private set; }
     public Student Student { get; private set; }
@@ -56,5 +60,16 @@ public class Account : Aggregate<AccountId>
     {
         BasePrice = basePrice;
         HasCustomPrice = false;
+    }
+
+    public void AddQuiz(Quiz quiz)
+    {
+        _quizzes.Add(quiz);
+        RaiseDomainEvent(new QuizCreatedDomainEvent(quiz.Id,  quiz.Degree, quiz.MaxDegree, Id, quiz.AddedById));
+    }
+    public void RemoveQuiz(Quiz quiz)
+    {
+        _quizzes.Remove(quiz);
+        RaiseDomainEvent(new QuizRemovedDomainEvent(quiz.Id, Id));
     }
 }

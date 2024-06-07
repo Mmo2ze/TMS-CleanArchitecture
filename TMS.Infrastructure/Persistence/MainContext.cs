@@ -7,6 +7,7 @@ using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
+using TMS.Domain.Quizzes;
 using TMS.Domain.RefreshTokens;
 using TMS.Domain.Sessions;
 using TMS.Domain.Students;
@@ -59,4 +60,5 @@ public class MainContext :DbContext
     public DbSet<Group> Groups { get; set; }
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Quiz> Quizzes { get; set; }
 }

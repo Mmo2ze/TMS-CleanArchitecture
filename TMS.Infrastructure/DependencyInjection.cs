@@ -94,6 +94,7 @@ public static class DependencyInjection
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<ISessionRepository, SessionRepository>();
         services.AddScoped<IAccountRepository,AccountRepository>();
+        services.AddScoped<IQuizRepository,QuizRepository>();
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
