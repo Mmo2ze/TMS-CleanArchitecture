@@ -5,7 +5,7 @@ using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Account;
 using TMS.Domain.Common.Repositories;
 
-namespace TMS.Application.Quizzes.Create;
+namespace TMS.Application.Quizzes.Commands.Create;
 
 public class CreateQuizValidator : AbstractValidator<CreateQuizCommand>
 {

@@ -26,7 +26,8 @@ public class ParentConfiguration: IEntityTypeConfiguration<Parent>
 		
 		// Configure relationships
 		builder.HasMany(p => p.Children)
-			.WithOne(s => s.Parent);
+			.WithOne(s => s.Parent)
+			.HasForeignKey(x => x.ParentId);
 		builder.HasMany<RefreshToken>()
 			.WithOne()
 			.HasForeignKey(rt => rt.ParentId);

@@ -1,7 +1,6 @@
 ﻿using TMS.Domain.Assistants;
 using TMS.Domain.Common.Enums;
 using TMS.Domain.Groups;
-using TMS.Domain.Parents;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Students;
@@ -16,7 +15,6 @@ public class Student : User<StudentId>
 
     public override string? Phone { get; protected set; }
     public Gender Gender { get; private set; }
-    public Parent? Parent { get; private set; }
 
     public IEnumerable<Teacher> Teachers => _teachers;
     public IEnumerable<Payment> Payments => _payments;
@@ -31,7 +29,7 @@ public class Student : User<StudentId>
         Phone = phone;
     }
     
-    public static Student Create(string name, Gender gender, Parent? parent = null, string? email = null,
+    public static Student Create(string name, Gender gender, string? email = null,
         string? phone = null)
     {
         return new Student(StudentId.CreateUnique(), name, gender, email, phone);

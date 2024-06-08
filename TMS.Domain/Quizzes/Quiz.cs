@@ -38,13 +38,13 @@ public class Quiz : Aggregate<QuizId>
         return new Quiz(QuizId.CreateUnique(), degree, maxDegree, accountId, addedBy,teacherId,createdAt);
     }
 
-    public void Update(double degree, double maxDegree, AssistantId updatedBy)
+    public void Update(double degree, double maxDegree, AssistantId? updatedBy)
     {
         Degree = degree;
         MaxDegree = maxDegree;
         UpdatedById = updatedBy;
         UpdatedAt = DateTime.UtcNow;
 
-        RaiseDomainEvent(new QuizUpdatedDomainEvent(Id, degree, maxDegree, updatedBy));
+        RaiseDomainEvent(new QuizUpdatedDomainEvent(Id, degree, maxDegree,AccountId, updatedBy));
     }
 }

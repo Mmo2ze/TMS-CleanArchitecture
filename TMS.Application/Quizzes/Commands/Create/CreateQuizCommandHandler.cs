@@ -4,7 +4,7 @@ using TMS.Application.Common.Services;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Quizzes;
 
-namespace TMS.Application.Quizzes.Create;
+namespace TMS.Application.Quizzes.Commands.Create;
 
 public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, ErrorOr<QuizId>>
 {

@@ -3,7 +3,7 @@ using MediatR;
 using TMS.Domain.Account;
 using TMS.Domain.Quizzes;
 
-namespace TMS.Application.Quizzes.Create;
+namespace TMS.Application.Quizzes.Commands.Create;
 
 public record CreateQuizCommand(
     AccountId AccountId,
