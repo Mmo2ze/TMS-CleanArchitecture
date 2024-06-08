@@ -12,7 +12,7 @@ public static class RuleBuilderExtensions
         this IRuleBuilderOptions<T, TProperty> ruleBuilder, ValidationError error)
     {
         ruleBuilder.WithMessage(error.Description);
-        ruleBuilder.WithName(error.Code);
+        ruleBuilder.OverridePropertyName(error.Code);
         ruleBuilder.WithErrorCode(ErrorType.Validation.ToString());
 
         ruleBuilder.WithSeverity(Severity.Info);
@@ -23,7 +23,7 @@ public static class RuleBuilderExtensions
         this IRuleBuilderOptions<T, TProperty> ruleBuilder, Error error)
     {
         ruleBuilder.WithMessage(error.Description);
-        ruleBuilder.WithName(error.Code);
+        ruleBuilder.OverridePropertyName(error.Code);
         ruleBuilder.WithErrorCode(error.Type.ToString());
         return ruleBuilder;
     }
