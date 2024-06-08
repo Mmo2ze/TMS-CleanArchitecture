@@ -21,6 +21,7 @@ public class Teacher : Aggregate<TeacherId>
     public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
     public IReadOnlyList<Account.Account> Students => _students.AsReadOnly();
+    public string WhatsappLink => $"https://wa.me/{Phone}";
 
 
     public void AddSubscription(int days)

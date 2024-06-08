@@ -7,6 +7,6 @@ public interface ITeacherHelper
 {
     bool IsTeacher();
     bool IsAssistant();
-    TeacherId? GetTeacherId();
+    TeacherId GetTeacherId();
     AssistantId? GetAssistantId();
 }

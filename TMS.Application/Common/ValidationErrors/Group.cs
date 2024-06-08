@@ -25,5 +25,6 @@ public static partial class ValidationErrors
     public static class Account
     {
         public static readonly ValidationError NotFound = new("Account.NotFound", "Account not found");
+        public static readonly ValidationError HasQuizToday = new("Account.HasQuizToday", "Account has quiz today");
     }
 }

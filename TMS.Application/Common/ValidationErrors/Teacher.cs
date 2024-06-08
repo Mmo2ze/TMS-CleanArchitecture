@@ -22,4 +22,9 @@ public static partial class ValidationErrors
         public static readonly ValidationError PhoneAlreadyExists = new("Assistant.PhoneAlreadyExists", "Phone number already exists");
         public static readonly ValidationError EmailAlreadyExists = new("Assistant.EmailAlreadyExists", "Email already exists");
     }
+
+    public static class Quiz
+    {
+        public static readonly ValidationError NotFound = new("Quiz.NotFound", "Quiz not found");
+    }
 }

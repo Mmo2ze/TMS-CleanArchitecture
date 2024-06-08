@@ -30,7 +30,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         if (teacherId is null)
             return Errors.Auth.InvalidCredentials;
         var parent = request.ParentId is null? null : await _parentRepository.FirstAsync(parent => parent.Id == request.ParentId, cancellationToken);
-        var student = Student.Create(request.Name,request.Gender,parent,request.Email,request.Phone);
+        var student = Student.Create(request.Name,request.Gender,request.Email,request.Phone);
         _studentRepository.Add(student);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return student.Id;

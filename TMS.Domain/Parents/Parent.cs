@@ -6,11 +6,11 @@ namespace TMS.Domain.Parents;
 public class Parent:User<ParentId>
 {
 	
-	private readonly List<Student> _children = [];
+	private readonly List<Account.Account> _children = [];
 	public ParentId Id { get; private set; }
 	public override string? Phone { get; protected set; }
 	public Gender Gender { get;private set; }
-	public IReadOnlyList<Student> Children => _children.AsReadOnly();
+	public IReadOnlyList<Account.Account> Children => _children.AsReadOnly();
 
 	private Parent(ParentId id, string name, Gender gender, string? email = null, string? phone = null):base(id)
 	{
