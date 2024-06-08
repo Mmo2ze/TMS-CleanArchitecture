@@ -10,17 +10,19 @@ namespace TMS.Consumer.Consumers.Quizzes;
 public class QuizCreatedConsumer : IConsumer<QuizCreatedEvent>
 {
     private readonly IWhatsappSender _whatsappSender;
-    private readonly MainContext _dbContext;
+    private readonly IAccountRepository _accountRepository;
+    private readonly IQuizRepository _quizRepository;
 
-    public QuizCreatedConsumer(IWhatsappSender whatsappSender, MainContext dbContext)
+    public QuizCreatedConsumer(IWhatsappSender whatsappSender, IAccountRepository accountRepository, IQuizRepository quizRepository)
     {
         _whatsappSender = whatsappSender;
-        _dbContext = dbContext;
+        _accountRepository = accountRepository;
+        _quizRepository = quizRepository;
     }
 
     public async Task Consume(ConsumeContext<QuizCreatedEvent> context)
     {
-        var account = _dbContext.Accounts
+        var account = _accountRepository.GetQueryable()
             .Where(x => x.Id == context.Message.AccountId)
             .Include(x => x.Parent)
             .Include(x => x.Student)
@@ -35,7 +37,7 @@ public class QuizCreatedConsumer : IConsumer<QuizCreatedEvent>
         }
 
         var AddedBy =
-            _dbContext.Quizzes
+            _quizRepository.GetQueryable()
                 .Where(x => x.Id == context.Message.QuizId)
                 .Include(x => x.AddedBy)
                 .Include(x => x.Teacher)

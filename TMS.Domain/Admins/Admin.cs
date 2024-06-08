@@ -1,8 +1,14 @@
-﻿namespace TMS.Domain.Admins;
+﻿using TMS.Domain.Common.Constrains;
+
+namespace TMS.Domain.Admins;
 
 public class Admin:User<AdminId>
 {
 
+	private Admin():base(AdminId.CreateUnique())
+	{
+		
+	}
 	private Admin(AdminId id, string name, string email, string phone):base(id)
 	{
 		Name = name;

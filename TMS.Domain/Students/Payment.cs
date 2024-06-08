@@ -5,6 +5,10 @@ namespace TMS.Domain.Students;
 
 public class Payment
 {
+	private Payment()
+	{
+		
+	}
 	private Payment(PaymentId id,
 		StudentId studentId,
 		decimal amount,

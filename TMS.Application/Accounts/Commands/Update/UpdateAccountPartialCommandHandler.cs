@@ -29,9 +29,9 @@ public class UpdateAccountPartialCommandHandler : IRequestHandler<UpdateAccountP
         var groupPrice = _groupRepository.GetQueryable().FirstOrDefault(g => g.Id == groupId)?.BasePrice;
         if (groupPrice == null)
             return Errors.Group.NotFound;
-        
-        var accountPrice  = request.BasePrice ?? groupPrice.Value;
-        account!.Update(accountPrice, groupPrice.Value, request.GroupId, request.StudentId);
+
+        var accountPrice = request.BasePrice ?? groupPrice.Value;
+        account!.Update(accountPrice, groupPrice.Value, request.GroupId, request.StudentId, request.ParentId);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return AccountSummary.From(account);

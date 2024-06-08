@@ -16,6 +16,7 @@ using TMS.Contracts.Teacher.Create;
 using TMS.Domain.Account;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
+using TMS.Domain.Parents;
 using TMS.Domain.Students;
 
 namespace TMS.Api.Common.Mapping;
@@ -26,6 +27,8 @@ public class AccountMapping : IRegister
     {
         config.NewConfig<CreateAccountRequest, CreateAccountCommand>()
             .Map(dest => dest.GroupId, src => GroupId.Create(src.GroupId))
+            .Map(dest => dest.ParentId,
+                src => string.IsNullOrWhiteSpace(src.ParentId) ? null : ParentId.Create(src.ParentId))
             .Map(dest => dest.StudentId, src => StudentId.Create(src.StudentId));
 
 
@@ -36,26 +39,30 @@ public class AccountMapping : IRegister
         config.NewConfig<UpdateAccountRequest, UpdateAccountCommand>()
             .Map(dest => dest.GroupId,
                 src => !string.IsNullOrWhiteSpace(src.GroupId) ? GroupId.Create(src.GroupId) : null)
+            .Map(dest => dest.ParentId,
+                src => !string.IsNullOrWhiteSpace(src.ParentId) ? ParentId.Create(src.ParentId) : null)
             .Map(dest => dest.StudentId,
                 src => !string.IsNullOrWhiteSpace(src.StudentId) ? StudentId.Create(src.StudentId) : null);
 
         config.NewConfig<UpdateAccountPartialRequest, UpdateAccountPartialCommand>()
             .Map(dest => dest.GroupId,
                 src => !string.IsNullOrWhiteSpace(src.GroupId) ? GroupId.Create(src.GroupId) : null)
+            .Map(dest => dest.ParentId,
+                src => !string.IsNullOrWhiteSpace(src.ParentId) ? ParentId.Create(src.ParentId) : null)
             .Map(dest => dest.StudentId,
                 src => !string.IsNullOrWhiteSpace(src.StudentId) ? StudentId.Create(src.StudentId) : null);
-        
-        
+
+
         config.NewConfig<AccountSummary, AccountSummaryDto>()
             .Map(dest => dest.AccountId, src => src.AccountId.Value)
             .Map(dest => dest.StudentId, src => src.StudentId.Value)
             .Map(dest => dest.GroupId, src => src.GroupId.Value);
 
-        
-        config.NewConfig<DeleteAccountRequest,DeleteAccountCommand>()
+
+        config.NewConfig<DeleteAccountRequest, DeleteAccountCommand>()
             .Map(dest => dest.Id, src => AccountId.Create(src.Id));
-        
-        
+
+
         config.NewConfig<PaginatedList<AccountSummary>, PaginatedList<AccountSummaryDto>>()
             .ConstructUsing((source,
                 context) => new PaginatedList<AccountSummaryDto>(
@@ -63,8 +70,5 @@ public class AccountMapping : IRegister
                 source.TotalCount,
                 source.PageNumber,
                 source.GetPageSize()));
-        
-        
-        
     }
 }

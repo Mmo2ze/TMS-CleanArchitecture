@@ -8,7 +8,6 @@ public class StudentMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<CreateStudentRequest, CreateStudentCommand>()
-            .Map(dest => dest.ParentId, src => src.ParentId);
+        config.ForType<CreateStudentRequest, CreateStudentCommand>();
     }
 }

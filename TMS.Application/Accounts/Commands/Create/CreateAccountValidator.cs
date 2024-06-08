@@ -1,9 +1,12 @@
+using System.Globalization;
 using FluentValidation;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
+using TMS.Domain.Parents;
 using TMS.Domain.Students;
 
 namespace TMS.Application.Accounts.Commands.Create;
@@ -14,14 +17,16 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountCommand>
     private readonly IStudentRepository _studentRepository;
     private readonly ITeacherHelper _teacherHelper;
     private readonly IAccountRepository _accountRepository;
+    private readonly IParentRepository _parentRepository;
 
     public CreateAccountValidator(IGroupRepository groupRepository, IStudentRepository studentRepository,
-        ITeacherHelper teacherHelper, IAccountRepository accountRepository)
+        ITeacherHelper teacherHelper, IAccountRepository accountRepository, IParentRepository parentRepository)
     {
         _groupRepository = groupRepository;
         _studentRepository = studentRepository;
         _teacherHelper = teacherHelper;
         _accountRepository = accountRepository;
+        _parentRepository = parentRepository;
 
 
         RuleFor(x => x.GroupId).NotEmpty();
@@ -30,12 +35,21 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountCommand>
         RuleFor(x => x.StudentId).MustAsync(BeFoundStudent).WithValidationError(ValidationErrors.Student.NotFound);
         RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).WithValidationError(ValidationErrors.Group.NotFound);
         RuleFor(x => x.StudentId).MustAsync(BeNotInGroup).WithValidationError(ValidationErrors.Student.AlreadyInGroup);
+        RuleFor(x => x.ParentId)
+            .MustAsync(BeFoundParent)
+            .WithValidationError(Errors.Parnet.NotFound)
+            .When(x => x.ParentId != null);
+    }
+
+    private Task<bool> BeFoundParent(ParentId arg1, CancellationToken arg2)
+    {
+        return _parentRepository.AnyAsync(x => x.Id == arg1, arg2);
     }
 
     private async Task<bool> BeNotInGroup(StudentId studentId, CancellationToken cancellationToken)
     {
         return !await _accountRepository.AnyAsync(
-            a => a.StudentId == studentId && a.TeacherId == _teacherHelper.GetTeacherId(), cancellationToken);
+            a => a.StudentId == studentId && a.TeacherId == _teacherHelper.GetTeacherId() &&a.GroupId!=null, cancellationToken);
     }
 
     private async Task<bool> BeFoundGroup(GroupId id, CancellationToken token)

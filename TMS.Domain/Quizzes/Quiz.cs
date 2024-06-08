@@ -8,6 +8,11 @@ namespace TMS.Domain.Quizzes;
 
 public class Quiz : Aggregate<QuizId>
 {
+
+    private Quiz():base(QuizId.CreateUnique())
+    {
+        
+    }
     public double Degree { get; private set; }
     public double MaxDegree { get; private set; }
     public AccountId AccountId { get; private set; }

@@ -7,6 +7,10 @@ namespace TMS.Domain.Groups;
 
 public class Group : Aggregate<GroupId>
 {
+    private Group():base(GroupId.CreateUnique())
+    {
+        
+    }
     private readonly List<Account.Account> _students = [];
     private readonly List<Session> _sessions = [];
     public string Name { get; private set; }

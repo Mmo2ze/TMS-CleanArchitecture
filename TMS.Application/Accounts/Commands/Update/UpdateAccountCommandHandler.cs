@@ -28,7 +28,7 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand,
         if (groupPrice == null)
             return Errors.Group.NotFound;
 
-        account!.Update(request.BasePrice, groupPrice.Value, request.GroupId, request.StudentId);
+        account!.Update(request.BasePrice, groupPrice.Value, request.GroupId, request.StudentId,request.ParentId);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return AccountSummary.From(account);

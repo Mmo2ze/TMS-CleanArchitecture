@@ -5,9 +5,9 @@ namespace TMS.Domain.Parents;
 
 public class Parent:User<ParentId>
 {
-	
+
+
 	private readonly List<Account.Account> _children = [];
-	public ParentId Id { get; private set; }
 	public override string? Phone { get; protected set; }
 	public Gender Gender { get;private set; }
 	public IReadOnlyList<Account.Account> Children => _children.AsReadOnly();

@@ -1,3 +1,3 @@
 namespace TMS.Contracts.Account.Update;
 
-public record UpdateAccountPartialRequest(string? StudentId, string? GroupId, double? BasePrice);
+public record UpdateAccountPartialRequest(string? StudentId, string? GroupId, double? BasePrice, string? ParentId);

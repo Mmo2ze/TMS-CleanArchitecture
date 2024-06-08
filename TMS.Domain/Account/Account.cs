@@ -1,5 +1,4 @@
 using TMS.Domain.Account.Events;
-using TMS.Domain.Common.Errors;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
 using TMS.Domain.Quizzes;
@@ -12,6 +11,7 @@ namespace TMS.Domain.Account;
 public class Account : Aggregate<AccountId>
 {
     private readonly List<Quiz> _quizzes = [];
+
 
     private Account(AccountId id, StudentId studentId, double basePrice, GroupId groupId, TeacherId teacherId,
         ParentId? parentId) :
@@ -42,11 +42,11 @@ public class Account : Aggregate<AccountId>
     public static Account Create(StudentId studentId, double basePrice, GroupId groupId, TeacherId teacherId,
         ParentId? parentId = null)
     {
-        return new Account(AccountId.CreateUnique(), studentId, basePrice, groupId, teacherId,parentId);
+        return new Account(AccountId.CreateUnique(), studentId, basePrice, groupId, teacherId, parentId);
     }
 
 
-    public void Update(double? basePrice, double groupPrice, GroupId? groupId, StudentId? studentId)
+    public void Update(double? basePrice, double groupPrice, GroupId? groupId, StudentId? studentId, ParentId? parentId)
     {
         if (basePrice.HasValue && Math.Abs(BasePrice - basePrice.Value) >= .5)
         {
@@ -60,6 +60,7 @@ public class Account : Aggregate<AccountId>
 
         GroupId = groupId ?? GroupId;
         StudentId = studentId ?? StudentId;
+        ParentId = parentId ?? ParentId;
         HasCustomPrice = Math.Abs(BasePrice - groupPrice) >= .5;
     }
 
