@@ -9,5 +9,4 @@ namespace TMS.Application.Sessions.Queries.Get;
 
 public record GetSessionsQuery(
     GroupId? GroupId,int PageNumber = 1, int PageSize = 10) : 
-    GetPaginatedList(PageNumber, PageSize),
     IRequest<ErrorOr<PaginatedList<Session>>>;
