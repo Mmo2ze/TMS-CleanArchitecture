@@ -5,6 +5,10 @@ namespace TMS.Domain.Assistants;
 public class Assistant:User<AssistantId>
 {
 
+	private Assistant():base(AssistantId.CreateUnique())
+	{
+		
+	}
 	public string RolesString { get; private set; } 
 	public List<AssistantRole> Roles =>   string.IsNullOrWhiteSpace(RolesString)? []: RolesString.Split(',').Select(Enum.Parse<AssistantRole>).ToList(); 
 	public TeacherId TeacherId { get; private set; }

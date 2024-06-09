@@ -7,6 +7,10 @@ namespace TMS.Domain.Students;
 
 public class Student : User<StudentId>
 {
+    private Student():base(StudentId.CreateUnique())
+    {
+        
+    }
     private readonly List<Teacher> _teachers = [];
     private readonly List<Attendance> _attendances = [];
     private readonly List<Payment> _payments = [];

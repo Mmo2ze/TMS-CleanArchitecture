@@ -4,6 +4,10 @@ namespace TMS.Domain.Students;
 
 public class Attendance
 {
+	private Attendance()
+	{
+		
+	}
 	private Attendance(StudentId studentId, DateOnly date, TeacherId teacherId)
 	{
 		StudentId = studentId;

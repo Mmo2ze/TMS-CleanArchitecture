@@ -13,9 +13,9 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Consumer;
 
-public class MainContext : DbContext
+public class ConsumerContext : DbContext
 {
-    public MainContext(DbContextOptions<MainContext> options) : base(options)
+    public ConsumerContext(DbContextOptions<ConsumerContext> options) : base(options)
     {
         
     }

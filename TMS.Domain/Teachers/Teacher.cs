@@ -7,6 +7,10 @@ namespace TMS.Domain.Teachers;
 
 public class Teacher : Aggregate<TeacherId>
 {
+    private Teacher():base(TeacherId.CreateUnique())
+    {
+        
+    }
     private readonly List<Assistant> _assistants = [];
     private readonly List<Account.Account> _students = [];
     private readonly List<Group> _groups = [];

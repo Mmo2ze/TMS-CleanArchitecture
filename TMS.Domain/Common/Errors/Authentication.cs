@@ -29,4 +29,9 @@ public static partial class Errors
     {
         public static Error NotFound => Error.NotFound("Quiz.NotFound", "Quiz not found");
     }
+
+    public static class Parnet
+    {
+        public static Error NotFound => Error.NotFound("Parent.NotFound", "Parent not found");
+    }
 }

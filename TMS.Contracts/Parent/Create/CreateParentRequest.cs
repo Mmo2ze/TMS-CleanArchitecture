@@ -1,8 +1,8 @@
 using TMS.Domain.Common.Enums;
 
-namespace TMS.Contracts.Student.Create;
+namespace TMS.Contracts.Parent.Create;
 
-public record CreateStudentRequest(
+public record CreateParentRequest(
     string Name,
     Gender Gender,
     string? Email = null,

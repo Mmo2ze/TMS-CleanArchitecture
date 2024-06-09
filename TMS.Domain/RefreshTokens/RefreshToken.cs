@@ -8,6 +8,7 @@ namespace TMS.Domain.RefreshTokens;
 
 public class RefreshToken
 {
+
     public string Token { get; set; } = string.Empty;
     public Guid TokenId { get; set; } 
     public DateTime Expires { get; set; }

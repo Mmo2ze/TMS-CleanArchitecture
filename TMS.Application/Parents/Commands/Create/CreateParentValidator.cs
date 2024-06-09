@@ -1,19 +1,15 @@
 using FluentValidation;
 using TMS.Application.Common.Extensions;
-using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Common.Constrains;
-using TMS.Domain.Common.Repositories;
-using TMS.Domain.Parents;
 
-namespace TMS.Application.Students.Commands.Create;
+namespace TMS.Application.Parents.Commands.Create;
 
-public class CreateStudentValidator : AbstractValidator<CreateStudentCommand>
+public class CreateParentValidator: AbstractValidator<CreateParentComamnd>
 {
-    public CreateStudentValidator()
+    public CreateParentValidator()
     {
         RuleFor(x => x.Name).NotEmpty().Length(Constrains.Student.Name);
 
-       
 
         RuleFor(x => x.Phone)!.Length(Constrains.Phone).Matches("^[0-9]*$")
             .When(x => !string.IsNullOrEmpty(x.Phone));
@@ -22,6 +18,4 @@ public class CreateStudentValidator : AbstractValidator<CreateStudentCommand>
             .When(x => !string.IsNullOrEmpty(x.Email))
             .Length(Constrains.Email);
     }
-
-    
 }

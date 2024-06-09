@@ -3,8 +3,10 @@ using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Account;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
+using TMS.Domain.Parents;
 using TMS.Domain.Students;
 
 namespace TMS.Application.Accounts.Commands.Update;
@@ -16,16 +18,18 @@ public class UpdateAccountPartialValidator: AbstractValidator<UpdateAccountParti
     private readonly IStudentRepository _studentRepository;
     private readonly ITeacherHelper _teacherHelper;
     private readonly IAccountRepository _accountRepository;
+    private readonly IParentRepository _parentRepository;
 
     public UpdateAccountPartialValidator(IGroupRepository groupRepository, IStudentRepository studentRepository,
-        ITeacherHelper teacherHelper, IAccountRepository accountRepository)
+        ITeacherHelper teacherHelper, IAccountRepository accountRepository, IParentRepository parentRepository)
     {
         _groupRepository = groupRepository;
         _studentRepository = studentRepository;
         _teacherHelper = teacherHelper;
         _accountRepository = accountRepository;
-        
-        
+        _parentRepository = parentRepository;
+
+
         RuleFor(x => x.Id).MustAsync(BeFoundAccount)
             .WithValidationError(ValidationErrors.Account.NotFound);
         
@@ -45,7 +49,15 @@ public class UpdateAccountPartialValidator: AbstractValidator<UpdateAccountParti
             .WithValidationError(ValidationErrors.Group.NotFound);
         
 
+        RuleFor(x => x.ParentId)
+            .MustAsync(BeFoundParent)
+            .WithValidationError(Errors.Parnet.NotFound)
+            .When(x => x.ParentId != null);
+    }
 
+    private Task<bool> BeFoundParent(ParentId arg1, CancellationToken arg2)
+    {
+        return _parentRepository.AnyAsync(x => x.Id == arg1, arg2);
     }
     
     private Task<bool> BeFoundAccount(AccountId arg1, CancellationToken arg2)

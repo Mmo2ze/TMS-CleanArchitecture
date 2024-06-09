@@ -5,6 +5,10 @@ namespace TMS.Domain.Sessions;
 
 public class Session : Aggregate<SessionId>
 {
+    private Session()
+    {
+        
+    }
     public GroupId GroupId { get; private set; }
     public TeacherId TeacherId { get; private set; }
     public DayOfWeek Day { get; private set; }
