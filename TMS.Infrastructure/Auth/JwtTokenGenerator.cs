@@ -113,7 +113,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             _dbContext.RefreshTokens.Add(baseRefreshToken);
             _dbContext.SaveChanges();
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return Error.Unexpected("unexpected error occurred while saving refresh token");
         }
