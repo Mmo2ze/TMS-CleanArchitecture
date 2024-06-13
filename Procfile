@@ -1,1 +1,1 @@
-web:  cd $HOME/heroku_output && ./TMS.Api
+web: dotnet TMS.Api.dll
