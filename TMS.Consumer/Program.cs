@@ -50,10 +50,10 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) =>
     {
         //cfg.PrefetchCount = 1;
-        cfg.Host("localhost", "/", h =>
+        cfg.Host(new Uri("rabbitmq://crow.rmq.cloudamqp.com/fpccinpw"), h =>
         {
-            h.Username("guest");
-            h.Password("guest");
+            h.Username("fpccinpw");
+            h.Password("rl26jiMiiLoIpgMtif8XStEthJWlWLpb");
         });
         cfg.UseMessageRetry(r => r.Intervals(5000, 5200, 5500, 5800, 10000));
 
