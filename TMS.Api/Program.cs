@@ -45,6 +45,9 @@ builder.Services.AddMassTransit(busConfigurator =>
     });
 });
 var app = builder.Build();
+var myConfigVar = Environment.GetEnvironmentVariable("test");
+Console.WriteLine("fuck",myConfigVar);
+
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.

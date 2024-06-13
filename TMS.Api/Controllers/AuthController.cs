@@ -69,6 +69,8 @@ public class AuthController : ApiController
     [HttpPost("refresh-token")]
     public IActionResult RefreshToken()
     {
+        var myConfigVar = Environment.GetEnvironmentVariable("test");
+        Console.WriteLine("fuck",myConfigVar);
         var command = new RefreshTokenCommand();
         var result = _mediator.Send(command).Result;
         return result.Match(
