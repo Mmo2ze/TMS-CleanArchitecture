@@ -1,1 +1,1 @@
-cd $HOME/heroku_output && ./TMS.Api
+web: cd $HOME/heroku_output && ./TMS.Api
