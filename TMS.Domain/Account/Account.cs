@@ -36,7 +36,7 @@ public class Account : Aggregate<AccountId>
 
     public double BasePrice { get; private set; }
 
-    public bool HasCustomPrice { get; private set; }
+    public bool HasCustomPrice { get; private set; } = true;
     public Parent? Parent { get; set; }
 
     public static Account Create(StudentId studentId, double basePrice, GroupId groupId, TeacherId teacherId,
