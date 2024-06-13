@@ -1,1 +1,1 @@
-web: ./heroku-build && cd heroku_output && dotnet TMS.Api.dll
+web: cd $HOME/heroku_output && ./TMS.Api
