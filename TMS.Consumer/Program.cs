@@ -4,18 +4,11 @@ using System.Reflection;
 using Mapster;
 using MapsterMapper;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Refit;
-using TMS.Application.Common.Services;
-using TMS.Consumer;
 using TMS.Domain.Common.Repositories;
 using TMS.Infrastructure;
 using TMS.Infrastructure.Persistence;
 using TMS.Infrastructure.Persistence.Repositories;
-using TMS.Infrastructure.Services.WhatsappSender;
 using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
-using TMS.MessagingContracts.Teacher;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
