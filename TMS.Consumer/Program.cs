@@ -10,7 +10,7 @@ using TMS.Infrastructure.Persistence;
 using TMS.Infrastructure.Persistence.Repositories;
 using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
 
-var builder = Host.CreateApplicationBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddMediatR(options => { options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly); });
 builder.Services.AddOptions<WhatsappSenderSettings>()
