@@ -59,6 +59,8 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<A
                 if (userId is null)
                     return Errors.Auth.NotTeacherOrAssistant;
                 break;
+            default:
+                throw new ArgumentException("Encountered unexpected node, i.e. `request.UserAgent`");
         }
 
         var verificationCode = _codeManger.GenerateCode(request.Phone, request.UserAgent);

@@ -45,6 +45,8 @@ public class ClaimGenerator : IClaimGenerator
                 case UserAgent.Parent:
                     claims.Add(new Claim(ClaimTypes.Role, Roles.Parent.Role));
                     break;
+                default:
+                    throw new ArgumentException("Encountered unexpected node, i.e. `agent`");
             }
         }
         else
