@@ -81,9 +81,7 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<A
             new(ClaimTypes.Role, Roles.CodeSent),
             new(CustomClaimTypes.Agent, request.UserAgent.ToString())
         };
-        var refreshToken = _tokenGenerator.RefreshToken(claims, expireDate - DateTime.UtcNow, agent, userId);
-        if (refreshToken.IsError)
-            return refreshToken.FirstError;
-        return refreshToken.Value;
+        var token = _tokenGenerator.GenerateJwtToken(claims, expireDate - DateTime.UtcNow, agent, userId);
+        return new AuthenticationResult(token, expireDate, [Role.CodeSent]);
     }
 }
