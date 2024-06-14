@@ -68,6 +68,9 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
             case UserAgent.Teacher:
                 await GetTeacherClaims(userId, claims);
                 break;
+            default:
+                throw new ArgumentException("Encountered unexpected node, i.e. `agent`");
+            
         }
 
         return claims;
