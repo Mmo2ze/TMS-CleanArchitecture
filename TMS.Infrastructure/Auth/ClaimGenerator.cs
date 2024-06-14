@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using ErrorOr;
-using MassTransit.Initializers;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
@@ -16,39 +15,50 @@ namespace TMS.Infrastructure.Auth;
 public class ClaimGenerator : IClaimGenerator
 {
     private readonly MainContext _context;
+    private readonly ICookieManger _cookieManger;
 
-    public ClaimGenerator(MainContext context)
+    public ClaimGenerator(MainContext context, ICookieManger cookieManger)
     {
         _context = context;
+        _cookieManger = cookieManger;
     }
 
     public async Task<ErrorOr<List<Claim>>> GenerateClaims(string userId, UserAgent agent)
     {
+        bool isAuthorized = bool.Parse(_cookieManger.GetProperty(CookieVariables.Autorized));
         var claims = new List<Claim>
         {
             new(CustomClaimTypes.Id, userId),
             new(CustomClaimTypes.Agent, agent.ToString())
         };
-        switch (agent)
+        if (isAuthorized)
         {
-            case UserAgent.Admin:
-                return await GenerateAdminClaims(userId, claims);
-            case UserAgent.Teacher:
-                return await GenerateTeacherClaims(userId, claims);
-            case UserAgent.Student:
-                break;
-            case UserAgent.Parent:
-                break;
+            switch (agent)
+            {
+                case UserAgent.Admin:
+                    return await GenerateAdminClaims(userId, claims);
+                case UserAgent.Teacher:
+                    return await GenerateTeacherClaims(userId, claims);
+                case UserAgent.Student:
+                    claims.Add(new Claim(ClaimTypes.Role, Roles.Student.Role));
+                    break;
+                case UserAgent.Parent:
+                    claims.Add(new Claim(ClaimTypes.Role, Roles.Parent.Role));
+                    break;
+            }
+        }
+        else
+        {
+            claims.Add(new Claim(ClaimTypes.Role, Roles.CodeSent));
         }
 
-        throw new ArgumentOutOfRangeException(nameof(agent), agent, null);
+        return claims;
     }
-    
 
     private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, List<Claim> claims)
     {
         if (TeacherId.IsValidId(userId))
-        { 
+        {
             var teacherId = TeacherId.Create(userId);
             var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.Id == teacherId);
             if (teacher is null)
@@ -63,10 +73,10 @@ public class ClaimGenerator : IClaimGenerator
         }
 
         if (!AssistantId.IsValidId(userId)) return Errors.Auth.InvalidCredentials;
-        
+
         var assistantId = AssistantId.Create(userId);
 
-        var assistant =  _context.Assistants.FirstOrDefault(a => a.Id == assistantId);
+        var assistant = _context.Assistants.FirstOrDefault(a => a.Id == assistantId);
         if (assistant is null)
         {
             return Errors.Auth.InvalidCredentials;
@@ -76,7 +86,6 @@ public class ClaimGenerator : IClaimGenerator
         claims.Add(new Claim(ClaimTypes.MobilePhone, assistant.Phone));
         claims.Add(new Claim(CustomClaimTypes.TeacherId, assistant.TeacherId.Value));
         return claims;
-
     }
 
     private async Task<ErrorOr<List<Claim>>> GenerateAdminClaims(string userId, List<Claim> claims)
