@@ -43,15 +43,7 @@ public class AuthController : ApiController
         );
     }
 
-    [AllowAnonymous]
-    [HttpGet("myRoles")]
-    public IActionResult MyRoles()
-    {
-        var token = _cookieManger.GetProperty("Token");
-        if (string.IsNullOrEmpty(token))
-            return BadRequest("Token not found");
-        return Ok(new MyRolesRecord(token));
-    }
+
 
     [HttpPost("verify-code")]
     public IActionResult VerifyCode([FromBody] VerifyCodeRequest request)
