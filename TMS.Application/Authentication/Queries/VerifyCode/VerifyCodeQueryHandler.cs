@@ -55,6 +55,8 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<A
             return refreshToken.FirstError;
 
         return new AuthenticationResult(refreshToken.Value.Token,  refreshToken.Value.ExpireDate,
-            refreshToken.Value.Roles);
-    }
+            refreshToken.Value.Roles);    }
+
+
+   
 }
