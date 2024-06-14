@@ -9,7 +9,6 @@ using TMS.Application.Common.Interfaces.Auth;
 using TMS.Contracts.Authentication.SendCode;
 using TMS.Contracts.Authentication.VerifyCode;
 using TMS.Domain.Common.Repositories;
-using TMS.Infrastructure.Auth;
 
 namespace TMS.Api.Controllers;
 
@@ -36,29 +35,21 @@ public class AuthController : ApiController
     {
         var command = _mapper.Map<SendCodeCommand>(request);
         var result = _mediator.Send(command).Result;
-        var response = _mapper.Map<SendCodeResponse>(result.Value);
+        var response = _mapper.Map<AuthenticationResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem
         );
     }
 
-    [AllowAnonymous]
-    [HttpGet("myRoles")]
-    public IActionResult MyRoles()
-    {
-        var token = _cookieManger.GetProperty("Token");
-        if (string.IsNullOrEmpty(token))
-            return BadRequest("Token not found");
-        return Ok(new MyRolesRecord(token));
-    }
+
 
     [HttpPost("verify-code")]
     public IActionResult VerifyCode([FromBody] VerifyCodeRequest request)
     {
         var command = _mapper.Map<VerifyCodeQuery>(request);
         var result = _mediator.Send(command).Result;
-        var response = _mapper.Map<VerifyCodeResponse>(result.Value);
+        var response = _mapper.Map<AuthenticationResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem
