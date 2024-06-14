@@ -70,6 +70,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
                 break;
             default:
                 throw new ArgumentException("Encountered unexpected node, i.e. `agent`");
+            
         }
 
         return claims;
