@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Linq;
 using ErrorOr;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
 using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
+using TMS.Domain.Common.Enums;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Parents;
@@ -66,46 +68,60 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     {
         var token = GenerateJwtToken(claims, TimeSpan.FromMinutes(_jwtSettings.ExpireMinutes), agent, userId);
         var baseRefreshToken = GenerateRefreshToken(expireTime);
-        switch (agent)
+        List<Role> roles = [];
+        if (claims.Any(x => x.Value == Role.CodeSent.ToString()))
+            roles.Add(Role.CodeSent);
+        else
         {
-            case UserAgent.Admin:
-                var adminId = new AdminId(userId);
-                var admin = _dbContext.Admins.FirstOrDefault(a => a.Id == adminId);
-                if (admin is null)
-                    return Errors.Auth.InvalidCredentials;
-                baseRefreshToken.AdminId = admin.Id;
-                break;
-            case UserAgent.Teacher:
-                if (TeacherId.IsValidId(userId))
-                {
-                    var teacher = _dbContext.Teachers.Find(new TeacherId(userId));
-                    if (teacher is null)
+            switch (agent)
+            {
+                case UserAgent.Admin:
+                    var adminId = new AdminId(userId);
+                    var admin = _dbContext.Admins.FirstOrDefault(a => a.Id == adminId);
+                    if (admin is null)
                         return Errors.Auth.InvalidCredentials;
-                    baseRefreshToken.TeacherId = teacher.Id;
-                }
-                else
-                {
-                    var assistant = _dbContext.Assistants.Find(new AssistantId(userId));
-                    if (assistant is null)
-                        return Errors.Auth.InvalidCredentials;
-                    baseRefreshToken.AssistantId = assistant.Id;
-                }
+                    baseRefreshToken.AdminId = admin.Id;
+                    roles.Add(Role.Admin);
+                    break;
+                case UserAgent.Teacher:
+                    if (TeacherId.IsValidId(userId))
+                    {
+                        var teacher = _dbContext.Teachers.Find(new TeacherId(userId));
+                        if (teacher is null)
+                            return Errors.Auth.InvalidCredentials;
+                        baseRefreshToken.TeacherId = teacher.Id;
+                        roles.Add(Role.Teacher);
+                    }
+                    else
+                    {
+                        var assistant = _dbContext.Assistants.Find(new AssistantId(userId));
+                        if (assistant is null)
+                            return Errors.Auth.InvalidCredentials;
+                        baseRefreshToken.AssistantId = assistant.Id;
+                        roles.Add(Role.Assistant);
+                        roles.AddRange(assistant.Roles.ToBasicRoleList());
+                    }
 
-                break;
-            case UserAgent.Student:
-                var student = _dbContext.Students.Find(new StudentId(userId));
-                if (student is null)
-                    return Errors.Auth.InvalidCredentials;
-                baseRefreshToken.StudentId = student.Id;
-                break;
-            case UserAgent.Parent:
-                var parent = _dbContext.Parents.Find(new ParentId(userId));
-                if (parent is null)
-                    return Errors.Auth.InvalidCredentials;
-                baseRefreshToken.ParentId = parent.Id;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(agent), agent, null);
+                    break;
+                case UserAgent.Student:
+                    var student = _dbContext.Students.Find(new StudentId(userId));
+                    if (student is null)
+                        return Errors.Auth.InvalidCredentials;
+                    baseRefreshToken.StudentId = student.Id;
+                    roles.Add(Role.Student);
+
+                    break;
+                case UserAgent.Parent:
+                    var parent = _dbContext.Parents.Find(new ParentId(userId));
+                    if (parent is null)
+                        return Errors.Auth.InvalidCredentials;
+                    baseRefreshToken.ParentId = parent.Id;
+                    roles.Add(Role.Parent);
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(agent), agent, null);
+            }
         }
 
         try
@@ -121,8 +137,10 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _cookieManger.SetProperty(CookieVariables.RefreshToken, baseRefreshToken.Token, expireTime);
         _cookieManger.SetProperty(CookieVariables.Agent, agent.ToString(), expireTime);
         _cookieManger.SetProperty(CookieVariables.Id, userId, expireTime);
+        _cookieManger.SetProperty(CookieVariables.Autorized,
+            roles.Any(x => x.ToString() == Role.CodeSent.ToString()) ? "false" : "true", expireTime);
 
-        return new AuthenticationResult(token, baseRefreshToken.Expires);
+        return new AuthenticationResult(token, baseRefreshToken.Expires, roles);
     }
 
     private RefreshToken GenerateRefreshToken(TimeSpan expireTime)

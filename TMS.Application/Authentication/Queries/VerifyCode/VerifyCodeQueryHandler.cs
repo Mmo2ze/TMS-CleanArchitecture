@@ -2,6 +2,7 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Services;
@@ -10,7 +11,7 @@ using TMS.Domain.Common.Errors;
 
 namespace TMS.Application.Authentication.Queries.VerifyCode;
 
-public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<VerifyCodeResult>>
+public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly ICodeManger _codeManger;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
@@ -28,7 +29,7 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
     }
 
     [Authorize]
-    public async Task<ErrorOr<VerifyCodeResult>> Handle(VerifyCodeQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(VerifyCodeQuery request, CancellationToken cancellationToken)
     {
         var agentString = _claimsReader.GetByClaimType(CustomClaimTypes.Agent);
         var phone = _claimsReader.GetByClaimType(ClaimTypes.MobilePhone);
@@ -53,8 +54,8 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<V
         if (refreshToken.IsError)
             return refreshToken.FirstError;
 
-        return new VerifyCodeResult(refreshToken.Value.Token, isRegistered);
-    }
+        return new AuthenticationResult(refreshToken.Value.Token,  refreshToken.Value.ExpireDate,
+            refreshToken.Value.Roles);    }
 
 
    

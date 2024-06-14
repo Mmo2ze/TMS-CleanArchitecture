@@ -31,7 +31,15 @@ public static class Roles
         public  const string ParentCodeSent = "ParentCodeSent";
         public const string Role = "Parent";
     }
-		
-		
+    public static class Assistant
+    {
+        public const string AddStudent = "AddStudent";
+        public const string RemoveStudent = "RemoveStudent";
+        public const string AddSession = "AddSession";
+        public const string RemoveSession = "RemoveSession";
+        public const string RegisterPayment = "RegisterPayment";
+        public const string ViewPayments = "ViewPayments";
+        public const string RecordAttendance = "RecordAttendance";
+    }
 		
 }

@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using ErrorOr;
-using MassTransit.Initializers;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Enums;
 using TMS.Application.Common.Interfaces.Auth;
@@ -29,6 +28,7 @@ public class ClaimGenerator : IClaimGenerator
             new(CustomClaimTypes.Id, userId),
             new(CustomClaimTypes.Agent, agent.ToString())
         };
+
         switch (agent)
         {
             case UserAgent.Admin:
@@ -36,60 +36,65 @@ public class ClaimGenerator : IClaimGenerator
             case UserAgent.Teacher:
                 return await GenerateTeacherClaims(userId, claims);
             case UserAgent.Student:
+                claims.Add(new Claim(ClaimTypes.Role, Roles.Student.Role));
                 break;
             case UserAgent.Parent:
+                claims.Add(new Claim(ClaimTypes.Role, Roles.Parent.Role));
                 break;
+            default:
+                throw new ArgumentException("Encountered unexpected node, i.e. `agent`");
         }
 
-        throw new ArgumentOutOfRangeException(nameof(agent), agent, null);
+        return claims;
     }
-    
 
-    private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, List<Claim> claims)
+
+
+
+private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, List<Claim> claims)
+{
+    if (TeacherId.IsValidId(userId))
     {
-        if (TeacherId.IsValidId(userId))
-        { 
-            var teacherId = TeacherId.Create(userId);
-            var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.Id == teacherId);
-            if (teacher is null)
-            {
-                return Errors.Auth.InvalidCredentials;
-            }
-
-            claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
-            claims.Add(new Claim(ClaimTypes.MobilePhone, teacher.Phone));
-            claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
-            return claims;
-        }
-
-        if (!AssistantId.IsValidId(userId)) return Errors.Auth.InvalidCredentials;
-        
-        var assistantId = AssistantId.Create(userId);
-
-        var assistant =  _context.Assistants.FirstOrDefault(a => a.Id == assistantId);
-        if (assistant is null)
+        var teacherId = TeacherId.Create(userId);
+        var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.Id == teacherId);
+        if (teacher is null)
         {
             return Errors.Auth.InvalidCredentials;
         }
 
-        claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
-        claims.Add(new Claim(ClaimTypes.MobilePhone, assistant.Phone));
-        claims.Add(new Claim(CustomClaimTypes.TeacherId, assistant.TeacherId.Value));
+        claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
+        claims.Add(new Claim(ClaimTypes.MobilePhone, teacher.Phone));
+        claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
         return claims;
-
     }
 
-    private async Task<ErrorOr<List<Claim>>> GenerateAdminClaims(string userId, List<Claim> claims)
+    if (!AssistantId.IsValidId(userId)) return Errors.Auth.InvalidCredentials;
+
+    var assistantId = AssistantId.Create(userId);
+
+    var assistant = _context.Assistants.FirstOrDefault(a => a.Id == assistantId);
+    if (assistant is null)
     {
-        var adminId = AdminId.Create(userId);
-        var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Id == adminId);
-        if (admin is null)
-        {
-            return Errors.Auth.InvalidCredentials;
-        }
-
-        claims.Add(new Claim(ClaimTypes.Role, Roles.Admin.Role));
-        claims.Add(new Claim(ClaimTypes.MobilePhone, admin.Phone));
-        return claims;
+        return Errors.Auth.InvalidCredentials;
     }
+
+    claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
+    claims.Add(new Claim(ClaimTypes.MobilePhone, assistant.Phone));
+    claims.Add(new Claim(CustomClaimTypes.TeacherId, assistant.TeacherId.Value));
+    return claims;
+}
+
+private async Task<ErrorOr<List<Claim>>> GenerateAdminClaims(string userId, List<Claim> claims)
+{
+    var adminId = AdminId.Create(userId);
+    var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Id == adminId);
+    if (admin is null)
+    {
+        return Errors.Auth.InvalidCredentials;
+    }
+
+    claims.Add(new Claim(ClaimTypes.Role, Roles.Admin.Role));
+    claims.Add(new Claim(ClaimTypes.MobilePhone, admin.Phone));
+    return claims;
+}
 }

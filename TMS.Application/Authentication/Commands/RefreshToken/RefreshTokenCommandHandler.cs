@@ -18,6 +18,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IClaimGenerator _claimGenerator;
 
+
     public RefreshTokenCommandHandler(IRefreshTokenRepository refreshTokenRepository, ICookieManger cookieManger,
         IJwtTokenGenerator jwtTokenGenerator, IClaimGenerator claimGenerator)
     {
@@ -44,12 +45,12 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
             return Errors.Auth.InvalidCredentials;
 
 
-
         var claims = await _claimGenerator.GenerateClaims(userId, agent);
-        
-        return 
-            claims.IsError ? claims.FirstError :
-            _jwtTokenGenerator.RefreshToken(claims.Value, TimeSpan.FromDays(120), agent, userId);
+
+        return
+            claims.IsError
+                ? claims.FirstError
+                : _jwtTokenGenerator.RefreshToken(claims.Value, TimeSpan.FromDays(120), agent, userId);
     }
 
     private async Task<List<Claim>> GetClaims(string userId, UserAgent agent)
@@ -67,6 +68,9 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
             case UserAgent.Teacher:
                 await GetTeacherClaims(userId, claims);
                 break;
+            default:
+                throw new ArgumentException("Encountered unexpected node, i.e. `agent`");
+            
         }
 
         return claims;
@@ -76,18 +80,15 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
     {
         if (TeacherId.IsValidId(userId))
         {
-                claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
-                claims.Add(new Claim(CustomClaimTypes.Id, userId));
-                claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
-
+            claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
+            claims.Add(new Claim(CustomClaimTypes.Id, userId));
+            claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
         }
         else
         {
-
-                claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
-                claims.Add(new Claim(CustomClaimTypes.Id,userId));
-                claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
-            
+            claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
+            claims.Add(new Claim(CustomClaimTypes.Id, userId));
+            claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
         }
     }
 
