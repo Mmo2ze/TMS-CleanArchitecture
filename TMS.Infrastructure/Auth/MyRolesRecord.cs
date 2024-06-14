@@ -26,6 +26,8 @@ namespace TMS.Infrastructure.Auth;
                     case 3:
                         partToConvert += "=";
                         break;
+                    default:
+                        throw new ArgumentException("Encountered unexpected node, i.e. `partToConvert.Length % 4`");
                 }
                 var partAsBytes = Convert.FromBase64String(partToConvert);
                 var partAsUtf8String = Encoding.UTF8.GetString(partAsBytes, 0, partAsBytes.Length);
