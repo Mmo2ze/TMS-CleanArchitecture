@@ -40,7 +40,7 @@ builder.Services.AddMassTransit(x =>
     });
     builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
-    /*x.UsingRabbitMq((context, cfg) =>
+    x.UsingRabbitMq((context, cfg) =>
     {
         //cfg.PrefetchCount = 1;
         cfg.Host(new Uri("rabbitmq://crow.rmq.cloudamqp.com/fpccinpw"), h =>
@@ -51,17 +51,9 @@ builder.Services.AddMassTransit(x =>
         cfg.UseMessageRetry(r => r.Intervals(5000, 5200, 5500, 5800, 10000));
 
         cfg.ConfigureEndpoints(context);
-    });*/
-x.UsingAmazonSqs((context, cfg) =>
-{
-    cfg.Host("eu-west-3", h =>
-    {
-        h.AccessKey("AKIA4IE4QFYDYIFRPWUP");
-        h.SecretKey("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");
     });
-    cfg.ConfigureEndpoints(context);
 });
-});
+
 var app = builder.Build();
 
 app.Run();
