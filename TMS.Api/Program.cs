@@ -31,7 +31,16 @@ builder.Services.AddMassTransit(busConfigurator =>
     });
     busConfigurator.SetKebabCaseEndpointNameFormatter();
     busConfigurator.AddConsumers(typeof(Program).Assembly);
-    busConfigurator.UsingRabbitMq((context, configurator) =>
+    busConfigurator.UsingAmazonSqs((context, cfg) =>
+    {
+        cfg.Host("eu-west-3", h =>
+        {
+            h.AccessKey("AKIA4IE4QFYDYIFRPWUP");
+            h.SecretKey("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");
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+    /*busConfigurator.UsingRabbitMq((context, configurator) =>
     {
         // Use the CloudAMQP hostname and credentials with virtual host
         configurator.Host(new Uri("rabbitmq://crow.rmq.cloudamqp.com/fpccinpw"), h =>
@@ -42,7 +51,7 @@ builder.Services.AddMassTransit(busConfigurator =>
 
         // Additional configuration if needed, e.g., retry policy, etc.
         // configurator.UseRetry(retryConfig => retryConfig.Interval(3, TimeSpan.FromSeconds(5)));
-    });
+    });*/
 });
 var app = builder.Build();
 var myConfigVar = Environment.GetEnvironmentVariable("test");
