@@ -23,8 +23,6 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-      <PackageReference Include="Quartz" Version="3.8.1" />
-      <PackageReference Include="Quartz.Extensions.Hosting" Version="3.8.1" />
       <PackageReference Include="Refit" Version="7.0.0" />
       <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
