@@ -15,6 +15,7 @@
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
         <PackageReference Include="MassTransit" Version="8.2.1" />
+        <PackageReference Include="MassTransit.AmazonSQS" Version="8.2.1" />
         <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.2.1" />
         <PackageReference Include="MediatR" Version="12.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
@@ -29,6 +30,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TMS.Contracts\TMS.Contracts.csproj" />
+      <ProjectReference Include="..\TMS.Conusmer\TMS.Conusmer.csproj" />
       <ProjectReference Include="..\TMS.Infrastructure\TMS.Infrastructure.csproj" />
         <ProjectReference Include="..\TMS.Application\TMS.Application.csproj" />
     </ItemGroup>

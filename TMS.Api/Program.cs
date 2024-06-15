@@ -1,9 +1,11 @@
 using MassTransit;
+
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using TMS.Api;
 using TMS.Application;
+using TMS.Conusmer;
 using TMS.Infrastructure;
 using TMS.Infrastructure.Persistence;
 
@@ -15,35 +17,14 @@ builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@
         EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
         ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
     });
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApi(builder.Configuration);
-builder.Services.AddMassTransit(busConfigurator =>
-{
-    busConfigurator.AddEntityFrameworkOutbox<MainContext>(o =>
-    {
-        o.UsePostgres();
-        // enable the bus outbox
-        o.QueryDelay = TimeSpan.FromSeconds(5);
-        o.UseBusOutbox();
-    });
-    busConfigurator.SetKebabCaseEndpointNameFormatter();
-    busConfigurator.AddConsumers(typeof(Program).Assembly);
-    busConfigurator.UsingRabbitMq((context, configurator) =>
-    {
-        // Use the CloudAMQP hostname and credentials with virtual host
-        configurator.Host(new Uri("rabbitmq://crow.rmq.cloudamqp.com/fpccinpw"), h =>
-        {
-            h.Username("fpccinpw");
-            h.Password("rl26jiMiiLoIpgMtif8XStEthJWlWLpb");
-        });
+builder.Services.AddConsumer(builder.Configuration);
 
-        // Additional configuration if needed, e.g., retry policy, etc.
-        // configurator.UseRetry(retryConfig => retryConfig.Interval(3, TimeSpan.FromSeconds(5)));
-    });
-});
 var app = builder.Build();
 var myConfigVar = Environment.GetEnvironmentVariable("test");
 Console.WriteLine("fuck",myConfigVar);

@@ -1,0 +1,420 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Conusmer\\TMS.Conusmer.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Application\\TMS.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Application\\TMS.Application.csproj",
+        "projectName": "TMS.Application",
+        "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Application\\TMS.Application.csproj",
+        "packagesPath": "C:\\Users\\AHMED\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\AHMED\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj": {
+                "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj"
+              },
+              "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\TMS.MessagingContracts.csproj": {
+                "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\TMS.MessagingContracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.9.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "MassTransit": {
+              "target": "Package",
+              "version": "[8.2.1, )"
+            },
+            "MassTransit.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.2.1, )"
+            },
+            "MassTransit.RabbitMQ": {
+              "target": "Package",
+              "version": "[8.2.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Conusmer\\TMS.Conusmer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Conusmer\\TMS.Conusmer.csproj",
+        "projectName": "TMS.Conusmer",
+        "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Conusmer\\TMS.Conusmer.csproj",
+        "packagesPath": "C:\\Users\\AHMED\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Conusmer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\AHMED\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj": {
+                "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj"
+              },
+              "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Infrastructure\\TMS.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Infrastructure\\TMS.Infrastructure.csproj"
+              },
+              "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\TMS.MessagingContracts.csproj": {
+                "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\TMS.MessagingContracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MassTransit.AmazonSQS": {
+              "target": "Package",
+              "version": "[8.2.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj",
+        "projectName": "TMS.Domain",
+        "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj",
+        "packagesPath": "C:\\Users\\AHMED\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\AHMED\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ErrorOr": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
+            "MediatR.Contracts": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Infrastructure\\TMS.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Infrastructure\\TMS.Infrastructure.csproj",
+        "projectName": "TMS.Infrastructure",
+        "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Infrastructure\\TMS.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\AHMED\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\AHMED\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Application\\TMS.Application.csproj": {
+                "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Application\\TMS.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ErrorOr": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
+            "MassTransit.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.2.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Options.ConfigurationExtensions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Refit": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Refit.HttpClientFactory": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.5.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\TMS.MessagingContracts.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\TMS.MessagingContracts.csproj",
+        "projectName": "TMS.MessagingContracts",
+        "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\TMS.MessagingContracts.csproj",
+        "packagesPath": "C:\\Users\\AHMED\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.MessagingContracts\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\AHMED\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj": {
+                "projectPath": "C:\\Users\\AHMED\\RiderProjects\\TMS-Clean\\TMS.Domain\\TMS.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
