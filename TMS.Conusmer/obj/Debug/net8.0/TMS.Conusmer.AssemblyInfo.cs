@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TMS.Conusmer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d20af9009bc670650b90d05877417403f5695e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b4efa30771787049d0133c92e772fa634c6073ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("TMS.Conusmer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TMS.Conusmer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

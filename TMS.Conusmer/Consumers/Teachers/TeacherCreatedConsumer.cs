@@ -1,9 +1,9 @@
 using MassTransit;
 using TMS.Application.Common.Services;
-using TMS.Consumer.MessageTemplates;
+using TMS.Conusmer.MessageTemplates;
 using TMS.MessagingContracts.Teacher;
 
-namespace TMS.Consumer.Consumers;
+namespace TMS.Conusmer.Consumers.Teachers;
 
 public class TeacherCreatedConsumer : IConsumer<TeacherCreatedEvent>
 {

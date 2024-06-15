@@ -1,9 +1,9 @@
 using MassTransit;
 using TMS.Application.Common.Services;
-using TMS.Consumer.MessageTemplates;
+using TMS.Conusmer.MessageTemplates;
 using TMS.MessagingContracts.Authentication;
 
-namespace TMS.Consumer.Consumers;
+namespace TMS.Conusmer.Consumers.Authentcation;
 
 public class VerificationCodeCreatedConsumer : IConsumer<VerificationCodeCreatedEvent>
 {

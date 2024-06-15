@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace TMS.Consumer.MessageTemplates;
+namespace TMS.Conusmer.MessageTemplates;
 
 public static partial class MsgTemplate
 {

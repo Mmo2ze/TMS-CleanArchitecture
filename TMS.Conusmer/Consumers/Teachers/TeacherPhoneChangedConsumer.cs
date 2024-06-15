@@ -1,7 +1,7 @@
 using MassTransit;
 using TMS.MessagingContracts.Teacher;
 
-namespace TMS.Consumer.Consumers;
+namespace TMS.Conusmer.Consumers.Teachers;
 
 public class TeacherPhoneChangedConsumer: IConsumer<TeacherPhoneChangedEvent>
 {

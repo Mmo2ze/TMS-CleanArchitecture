@@ -1,4 +1,4 @@
-﻿namespace TMS.Consumer.MessageTemplates;
+﻿namespace TMS.Conusmer.MessageTemplates;
 
 public static  partial class MsgTemplate
 {

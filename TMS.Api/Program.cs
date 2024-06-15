@@ -23,7 +23,7 @@ builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApi(builder.Configuration);
-
+builder.Services.AddConsumer(builder.Configuration);
 var app = builder.Build();
 var myConfigVar = Environment.GetEnvironmentVariable("test");
 Console.WriteLine("fuck",myConfigVar);

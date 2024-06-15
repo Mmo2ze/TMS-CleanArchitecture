@@ -1,11 +1,11 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Services;
-using TMS.Consumer.MessageTemplates;
+using TMS.Conusmer.MessageTemplates;
 using TMS.Infrastructure.Persistence;
 using TMS.MessagingContracts.Quiz;
 
-namespace TMS.Consumer.Consumers.Quizzes;
+namespace TMS.Conusmer.Consumers.Quizzes;
 
 public class QuizRemovedConsumer : IConsumer<QuizRemovedEvent>
 {
