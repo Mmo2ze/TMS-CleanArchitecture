@@ -110,10 +110,13 @@ public class GroupController : ApiController
 
 
     [HttpGet("{id}/sessions")]
-    public async Task<IActionResult> GetSessions([FromRoute] string id)
+    public async Task<IActionResult> GetSessions([FromRoute] string id,[FromQuery] GetSessionsRequest request)
     {
-        var command = new GetSessionsQuery(GroupId.Create(id));
-        var result = await _mediator.Send(command);
+        if(id != request.GroupId)
+            return BadRequest("Group id in the route and query string do not match");
+
+        var query = _mapper.Map<GetSessionsQuery>(request);     
+        var result = await _mediator.Send(query);
         var response = _mapper.Map<PaginatedList<SessionResponseSummary>>(result.Value);
         return result.Match(
             _ => Ok(response),

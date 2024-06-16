@@ -43,7 +43,7 @@ public class SessionController : ApiController
     {
         var query = _mapper.Map<GetSessionsQuery>(request);
         var result = await _mediator.Send(query);
-        var response = _mapper.Map<PaginatedList<SessionResponseSummary>>(result);
+        var response = _mapper.Map<PaginatedList<SessionResponseSummary>>(result.Value);
         return Ok(response);
     }
 }
