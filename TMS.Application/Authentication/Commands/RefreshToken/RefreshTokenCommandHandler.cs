@@ -35,8 +35,8 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
         if (string.IsNullOrEmpty(token))
             return Errors.Auth.InvalidCredentials;
 
-        var isFound = await _refreshTokenRepository.DeleteRefreshTokenAsync(token);
-        if (!isFound)
+        var refreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(token, cancellationToken);
+        if (refreshToken is null)
             return Errors.Auth.InvalidCredentials;
 
         var userId = _cookieManger.GetProperty(CookieVariables.Id);
@@ -46,11 +46,14 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
 
 
         var claims = await _claimGenerator.GenerateClaims(userId, agent);
-
+        if (cancellationToken.IsCancellationRequested)
+        {
+            Console.WriteLine("canceld request2");
+        }
         return
             claims.IsError
                 ? claims.FirstError
-                : _jwtTokenGenerator.RefreshToken(claims.Value, TimeSpan.FromDays(120), agent, userId);
+                : await _jwtTokenGenerator.RefreshToken(claims.Value, TimeSpan.FromDays(120), agent, userId,refreshToken, cancellationToken);
     }
 
     private async Task<List<Claim>> GetClaims(string userId, UserAgent agent)

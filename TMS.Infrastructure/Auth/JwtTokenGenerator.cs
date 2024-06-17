@@ -63,8 +63,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return GenerateJwtToken(claims, _dateTimeProvider.Now.Add(period), agent, userId);
     }
 
-    public ErrorOr<AuthenticationResult> RefreshToken(List<Claim> claims, TimeSpan expireTime, UserAgent agent,
-        string userId)
+    public async Task<ErrorOr<AuthenticationResult>> RefreshToken(List<Claim> claims, TimeSpan expireTime,
+        UserAgent agent,
+        string userId, RefreshToken? oldToken, CancellationToken cancellationToken = default)
     {
         var token = GenerateJwtToken(claims, TimeSpan.FromMinutes(_jwtSettings.ExpireMinutes), agent, userId);
         var baseRefreshToken = GenerateRefreshToken(expireTime);
@@ -124,15 +125,26 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             }
         }
 
-        try
+        await using (var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken))
         {
-            _dbContext.RefreshTokens.Add(baseRefreshToken);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.RefreshTokens.Add(baseRefreshToken);
+                if (oldToken is not null)
+                    _dbContext.Remove(oldToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+                if(cancellationToken.IsCancellationRequested)
+                    return Error.Unexpected("Request was canceled.");
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                return Error.Unexpected("Error while saving refresh token.");
+            }
         }
-        catch (Exception)
-        {
-            return Error.Unexpected("unexpected error occurred while saving refresh token");
-        }
+
 
         _cookieManger.SetProperty(CookieVariables.RefreshToken, baseRefreshToken.Token, expireTime);
         _cookieManger.SetProperty(CookieVariables.Agent, agent.ToString(), expireTime);

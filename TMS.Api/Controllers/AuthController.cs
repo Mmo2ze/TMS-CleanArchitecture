@@ -58,15 +58,35 @@ public class AuthController : ApiController
 
     [AllowAnonymous]
     [HttpPost("refresh-token")]
-    public IActionResult RefreshToken()
+    public async Task<IActionResult> RefreshToken(CancellationToken cancellationToken)
     {
-        var myConfigVar = Environment.GetEnvironmentVariable("test");
-        Console.WriteLine("fuck",myConfigVar);
-        var command = new RefreshTokenCommand();
-        var result = _mediator.Send(command).Result;
-        return result.Match(
-            _ => Ok(result.Value),
-            Problem
-        );
+        try
+        {
+
+        
+            var command = new RefreshTokenCommand();
+        
+            var result = await _mediator.Send(command, cancellationToken);
+        
+
+        
+            return result.Match(
+                value => Ok(value),
+                error => Problem(error.ToString())
+            );
+        }
+        catch (OperationCanceledException)
+        {
+            // Handle the cancellation exception
+            Console.WriteLine("Request was cancelled");
+            return StatusCode(499);
+        }
+        catch (Exception ex)
+        {
+            // Handle any other exceptions
+            Console.WriteLine("An error occurred: " + ex.Message);
+            return StatusCode(500, "Internal server error");
+        }
     }
+
 }

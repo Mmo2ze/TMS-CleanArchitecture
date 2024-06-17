@@ -50,7 +50,8 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<A
         if (claims.IsError)
             return claims.FirstError;
 
-        var refreshToken = _jwtTokenGenerator.RefreshToken(claims.Value, period, agent, userId);
+        var refreshToken =
+            await _jwtTokenGenerator.RefreshToken(claims.Value, period, agent, userId, null, cancellationToken);
         if (refreshToken.IsError)
             return refreshToken.FirstError;
 
