@@ -63,7 +63,7 @@ public class AuthController : ApiController
         try
         {
 
-        
+            
             var command = new RefreshTokenCommand();
         
             var result = await _mediator.Send(command, cancellationToken);
@@ -71,8 +71,8 @@ public class AuthController : ApiController
 
         
             return result.Match(
-                value => Ok(value),
-                error => Problem(error.ToString())
+                Ok,
+                Problem
             );
         }
         catch (OperationCanceledException)
