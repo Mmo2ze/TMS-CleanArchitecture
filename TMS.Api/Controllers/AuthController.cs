@@ -60,8 +60,7 @@ public class AuthController : ApiController
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken(CancellationToken cancellationToken)
     {
-        try
-        {
+
 
             
             var command = new RefreshTokenCommand();
@@ -74,19 +73,8 @@ public class AuthController : ApiController
                 Ok,
                 Problem
             );
-        }
-        catch (OperationCanceledException)
-        {
-            // Handle the cancellation exception
-            Console.WriteLine("Request was cancelled");
-            return StatusCode(499);
-        }
-        catch (Exception ex)
-        {
-            // Handle any other exceptions
-            Console.WriteLine("An error occurred: " + ex.Message);
-            return StatusCode(500, "Internal server error");
-        }
+        
+
     }
 
 }
