@@ -135,8 +135,18 @@ public class JwtTokenGenerator : IJwtTokenGenerator
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
-                if (cancellationToken.IsCancellationRequested)
-                    return Error.Unexpected("Request was canceled.");
+            }
+            catch (OperationCanceledException ex)
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                if (oldToken is not null)
+                    _cookieManger.SetProperty(CookieVariables.RefreshToken, oldToken.Token, expireTime);
+                _cookieManger.SetProperty(CookieVariables.Agent, agent.ToString(), expireTime);
+                _cookieManger.SetProperty(CookieVariables.Id, userId, expireTime);
+                _cookieManger.SetProperty(CookieVariables.Autorized,
+                    roles.Any(x => x.ToString() == Role.CodeSent.ToString()) ? "false" : "true", expireTime);
+                Console.WriteLine("request was canceled" + ex.Message);
+                return Error.Unexpected("Error while saving refresh token.");
             }
             catch (Exception ex)
             {
