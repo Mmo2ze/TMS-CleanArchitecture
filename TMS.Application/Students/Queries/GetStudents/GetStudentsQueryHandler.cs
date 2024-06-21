@@ -25,7 +25,7 @@ public class GetStudentsQueryHandler : IRequestHandler<GetStudentsQuery, ErrorOr
         var students = _studentRepository.GetQueryable();
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
-            students = students.Where(s => s.Name.Contains(request.Search));
+            students = students.Where(s => s.Name.Contains(request.Search)||s.Phone.Contains(request.Search));
         }
 
         students = request.Sort switch
