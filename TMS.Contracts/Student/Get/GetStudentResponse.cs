@@ -3,4 +3,4 @@ using TMS.Domain.Common.Models;
 
 namespace TMS.Contracts.Student.Get;
 
-public record GetStudentResponse(PaginatedList<Domain.Students.Student> Students);
+public record GetStudentResponse(PaginatedList<StudentDto> Students);

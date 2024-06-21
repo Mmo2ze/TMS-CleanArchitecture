@@ -1,10 +1,10 @@
 using TMS.Domain.Common.Enums;
 
-namespace TMS.Contracts.Parent.Get;
+namespace TMS.Contracts.Student.Get;
 
-public record ParentDto(
+public record StudentDto(
     string Id,
     string Name,
-    string? Email,
     string? Phone,
+    string? Email,
     Gender Gender);

@@ -5,4 +5,5 @@ namespace TMS.Contracts.Parent.Get;
 public record GetParentsRequest(
     int PageNumber,
     int PageSize,
-    string? Search) ;
+    string? Search,
+    bool PhoneRequired = true) ;

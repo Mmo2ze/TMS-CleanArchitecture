@@ -19,16 +19,26 @@ public class GetParentsQueryHandler : IRequestHandler<GetParentsQuery, ErrorOr<P
     public async Task<ErrorOr<PaginatedList<ParentResult>>> Handle(GetParentsQuery request,
         CancellationToken cancellationToken)
     {
-        var parents = _parentRepository.GetQueryable()
-            .Where(x =>
-                string.IsNullOrWhiteSpace(request.Search) ||
+        var parents = _parentRepository.GetQueryable();
+
+        if (request.PhoneRequired)
+            parents = parents.Where(x => !string.IsNullOrWhiteSpace(x.Phone));
+        if (!string.IsNullOrWhiteSpace(request.Search))
+        {
+            // filter by phone if required
+
+            // search by name, email, phone or id
+            parents = parents.Where(x =>
                 x.Name.Contains(request.Search) ||
                 x.Email.Contains(request.Search) ||
                 x.Phone.Contains(request.Search) ||
-                x.Id == new ParentId(request.Search)).Select(
-                x => new ParentResult(x.Id, x.Name, x.Email, x.Phone)
-            );
-        var result = await parents.PaginatedListAsync(request.PageNumber, request.PageSize);
+                x.Id == new ParentId(request.Search));
+        }
+
+        var result = await parents
+            .OrderBy(x => x.Name)
+            .Select(x => new ParentResult(x.Id, x.Name, x.Email, x.Phone, x.Gender))
+            .PaginatedListAsync(request.PageNumber, request.PageSize);
         return result;
     }
 }

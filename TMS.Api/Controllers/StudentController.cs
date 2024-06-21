@@ -7,6 +7,7 @@ using TMS.Application.Students.Commands.Create;
 using TMS.Application.Students.Queries.GetStudents;
 using TMS.Contracts.Student.Create;
 using TMS.Contracts.Student.Get;
+using TMS.Domain.Common.Models;
 
 namespace TMS.Api.Controllers;
 
@@ -38,8 +39,8 @@ public class StudentController : ApiController
     {
         var query = _mapper.Map<GetStudentsQuery>(request);
         var result = _mediator.Send(query).Result;
-        var response = _mapper.Map<GetStudentResponse>(result);
-        return Ok(result.Value);
+        var response = _mapper.Map<PaginatedList<StudentDto>>(result.Value);
+        return Ok(response);
     }
 
 }
