@@ -28,8 +28,9 @@ public class StudentController : ApiController
     {
         var command = _mapper.Map<CreateStudentCommand>(request);
         var result = _mediator.Send(command).Result;
+        var response = _mapper.Map<StudentDto>(result.Value);
         return result.Match(
-            _ => Ok(result.Value.Value),
+            _ => Ok(response),
             Problem
         );
     }

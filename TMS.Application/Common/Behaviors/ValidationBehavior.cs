@@ -71,7 +71,7 @@ public class ValidationBehavior<TRequest, TResponse>
                 return Error.Forbidden(error.PropertyName, error.ErrorMessage);
 
             default:
-                return Error.Failure(error.PropertyName, error.ErrorMessage);
+                return Error.Validation(error.PropertyName, error.ErrorMessage);
         }
     }
 }

@@ -16,10 +16,10 @@ public class CreateStudentValidator : AbstractValidator<CreateStudentCommand>
        
 
         RuleFor(x => x.Phone)!.Length(Constrains.Phone).Matches("^[0-9]*$")
-            .When(x => !string.IsNullOrEmpty(x.Phone));
+            .When(x => x.Phone != null);
 
         RuleFor(x => x.Email).EmailAddress()
-            .When(x => !string.IsNullOrEmpty(x.Email))
+            .When(x => x.Email != null)
             .Length(Constrains.Email);
     }
 
