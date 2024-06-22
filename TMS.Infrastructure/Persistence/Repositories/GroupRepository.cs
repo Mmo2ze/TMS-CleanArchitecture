@@ -49,10 +49,7 @@ public class GroupRepository : Repository<Group,GroupId>,IGroupRepository
         return DbContext.Groups.AnyAsync(predicate , cancellationToken);
     }
 
-    public Task<Group> FirstAsync(Expression<Func<Group, bool>> predicate, CancellationToken cancellationToken)
-    {
-        return DbContext.Groups.FirstAsync(predicate, cancellationToken);
-    }
+
 
     public Task<Group?> FirstOrDefaultAsync(Expression<Func<Group, bool>> predicate,
         CancellationToken cancellationToken = default)
