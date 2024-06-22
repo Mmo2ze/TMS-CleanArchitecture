@@ -38,8 +38,9 @@ public class AccountController : ApiController
     {
         var command = _mapper.Map<CreateAccountCommand>(request);
         var result = await _mediator.Send(command);
+        var response = _mapper.Map<AccountSummaryDto>(result.Value);
         return result.Match(
-            _ => Ok(result.Value),
+            _ => Ok(response),
             Problem
         );
     }

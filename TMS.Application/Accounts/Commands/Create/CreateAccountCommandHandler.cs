@@ -8,7 +8,7 @@ using TMS.Domain.Teachers;
 
 namespace TMS.Application.Accounts.Commands.Create;
 
-public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, ErrorOr<AccountId>>
+public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, ErrorOr<AccountSummary>>
 {
     private readonly IGroupRepository _groupRepository;
     private readonly ITeacherHelper _teacherHelper;
@@ -24,7 +24,7 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand,
         _accountRepository = accountRepository;
     }
 
-    public async Task<ErrorOr<AccountId>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AccountSummary>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
         var account = await _accountRepository.FirstOrDefaultAsync(x => x.StudentId == request.StudentId &&
                                                                         x.TeacherId == _teacherHelper.GetTeacherId(),
@@ -33,6 +33,6 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand,
         account ??= Account.Create(request.StudentId, group.BasePrice, group.Id, group.TeacherId, request.ParentId);
         group.AddStudent(account);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return account.Id;
+        return AccountSummary.From(account);
     }
 }

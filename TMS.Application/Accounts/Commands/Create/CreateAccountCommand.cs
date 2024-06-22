@@ -7,4 +7,4 @@ using TMS.Domain.Students;
 
 namespace TMS.Application.Accounts.Commands.Create;
 
-public record CreateAccountCommand(GroupId GroupId, StudentId StudentId,ParentId? ParentId) : IRequest<ErrorOr<AccountId>>;
+public record CreateAccountCommand(GroupId GroupId, StudentId StudentId,ParentId? ParentId) : IRequest<ErrorOr<AccountSummary>>;
