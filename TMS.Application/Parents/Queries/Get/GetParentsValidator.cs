@@ -6,7 +6,7 @@ public class GetParentsValidator: AbstractValidator<GetParentsQuery>
 {
     public GetParentsValidator()
     {
-        RuleFor(x => x.PageNumber)
+        RuleFor(x => x.Page)
             .GreaterThanOrEqualTo(1);
         RuleFor(x => x.PageSize)
             .GreaterThanOrEqualTo(1);
