@@ -33,5 +33,6 @@ public static partial class Errors
     public static class Parnet
     {
         public static Error NotFound => Error.NotFound("Parent.NotFound", "Parent not found");
+        public static Error  PhoneAlreadyExists => Error.Conflict("Parent.PhoneAlreadyExists", "Phone already exists by other parent");
     }
 }
