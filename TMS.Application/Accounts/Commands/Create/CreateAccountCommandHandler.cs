@@ -1,5 +1,6 @@
 using ErrorOr;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Services;
 using TMS.Domain.Account;
 using TMS.Domain.Common.Repositories;
@@ -26,9 +27,11 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand,
 
     public async Task<ErrorOr<AccountSummary>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
-        var account = await _accountRepository.FirstOrDefaultAsync(x => x.StudentId == request.StudentId &&
-                                                                        x.TeacherId == _teacherHelper.GetTeacherId(),
-            cancellationToken);
+        var account = await _accountRepository.GetQueryable()
+            .Include(x => x.Student)
+            .FirstOrDefaultAsync(x => x.StudentId == request.StudentId &&
+                                      x.TeacherId == _teacherHelper.GetTeacherId(),
+                cancellationToken);
         var group = await _groupRepository.FirstAsync(g => g.Id == request.GroupId, cancellationToken);
         account ??= Account.Create(request.StudentId, group.BasePrice, group.Id, group.TeacherId, request.ParentId);
         group.AddStudent(account);
