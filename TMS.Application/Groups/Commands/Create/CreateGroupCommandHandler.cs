@@ -1,13 +1,14 @@
 using ErrorOr;
 using MediatR;
 using TMS.Application.Common.Services;
+using TMS.Application.Groups.Queries.GetGroups;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using Group = TMS.Domain.Groups.Group;
 
 namespace TMS.Application.Groups.Commands.Create;
 
-public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, ErrorOr<CreateGroupResult>>
+public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, ErrorOr<GetGroupResult>>
 {
     private readonly ITeacherHelper _teacherHelper;
     private readonly ITeacherRepository _teacherRepository;
@@ -20,13 +21,10 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Err
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ErrorOr<CreateGroupResult>> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<GetGroupResult>> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
-        if (teacherId == null)
-        {
-            return Errors.Auth.InvalidCredentials;
-        }
+ 
         
         var teacher = await _teacherRepository.GetTeacher(t => t.Id == teacherId, cancellationToken);
         if (teacher == null)
@@ -39,6 +37,6 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Err
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         
-        return new CreateGroupResult(group.Id, group.Name, group.Grade, group.BasePrice);
+        return new GetGroupResult(group.Id, group.Name, group.Grade, group.BasePrice, group.StudentsCount, group.SessionsCount);
     }
 }

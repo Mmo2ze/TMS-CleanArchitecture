@@ -41,7 +41,7 @@ public class GroupController : ApiController
     {
         var command = _mapper.Map<CreateGroupCommand>(request);
         var result = await _mediator.Send(command);
-        var response = _mapper.Map<CreateGroupRequest>(request);
+        var response = _mapper.Map<GetGroupResult>(request);
         return result.Match(
             _ => Ok(response),
             Problem
