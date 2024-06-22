@@ -6,7 +6,7 @@ using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Parents.Commands.Create;
 
-public class CreateParentValidator : AbstractValidator<CreateParentComamnd>
+public class CreateParentValidator : AbstractValidator<CreateParentCommand>
 {
     private readonly IParentRepository _parentRepository;
     public CreateParentValidator(IParentRepository parentRepository)

@@ -24,10 +24,11 @@ public class ParentController : ApiController
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateParentRequest request)
     {
-        var command = _mapper.Map<CreateParentComamnd>(request);
+        var command = _mapper.Map<CreateParentCommand>(request);
         var result = await _mediator.Send(command);
+        var response = _mapper.Map<ParentDto>(result.Value);
         return result.Match(
-            _ => Ok(result.Value.Value),
+            _ => Ok(response),
             Problem
         );
     }
