@@ -121,8 +121,8 @@ public class AccountController : ApiController
         var result = await _mediator.Send(query);
         var response = _mapper.Map<PaginatedList<QuizDto>>(result.Value);
         return result.Match(
-            _ => Ok(response)
-            , Problem);
+            _ => NoContent(),
+            Problem);
     }
     
     [HttpDelete("{id}/quiz/{quizId}")]

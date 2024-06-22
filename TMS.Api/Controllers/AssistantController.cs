@@ -65,7 +65,7 @@ public class AssistantController : ApiController
         var command = _mapper.Map<DeleteAssistantCommand>(request);
         var result = await _mediator.Send(command);
         return result.Match(
-            _ => Ok(result.Value),
+            _ => NoContent(),
             Problem
         );
     }

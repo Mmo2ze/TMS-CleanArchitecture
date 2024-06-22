@@ -79,7 +79,7 @@ public class GroupController : ApiController
         var command = new DeleteGroupCommand(GroupId.Create(id));
         var result = await _mediator.Send(command);
         return result.Match(
-            _ => Ok("Group deleted successfully"),
+            _ => NoContent(),
             Problem
         );
     }
@@ -104,7 +104,7 @@ public class GroupController : ApiController
         var command = new DeleteAccountCommand(AccountId.Create(accountId), GroupId.Create(groupId));
         var result = await _mediator.Send(command);
         return result.Match(
-            _ => Ok("Account removed successfully"),
+            _ => NoContent(),
             Problem);
     }
 
@@ -129,7 +129,7 @@ public class GroupController : ApiController
         var command = new DeleteSessionCommand(GroupId.Create(groupId), SessionId.Create(sessionId));
         var result = await _mediator.Send(command);
         return result.Match(
-            _ => Ok("session deleted successfully")
+            _ => NoContent()
             , Problem);
     }
 }
