@@ -24,9 +24,9 @@ public class CreateSessionValidator : AbstractValidator<CreateSessionCommand>
         RuleFor(x => x.EndTime).GreaterThan(x => x.StartTime).WithMessage("EndTime must be greater than StartTime.");
 
         RuleFor(x => x.GroupId).MustAsync(BeFoundGroup)
-            .WithValidationError(Errors.Group.NotFound);
+            .WithError(Errors.Group.NotFound);
         RuleFor(x => x.Day).MustAsync(BeValidSession)
-            .WithValidationError(Errors.Session.SessionIsConflict);
+            .WithError(Errors.Session.SessionIsConflict);
     }
 
     private Task<bool> BeValidSession(CreateSessionCommand command, DayOfWeek day, CancellationToken token)

@@ -20,7 +20,7 @@ public class DeleteAssistantValidator : AbstractValidator<DeleteAssistantCommand
 
         RuleFor(x => x.Id)
             .MustAsync(BeFoundAssistant)
-            .WithValidationError(Errors.Assistant.NotFound);
+            .WithError(Errors.Assistant.NotFound);
     }
 
     private Task<bool> BeFoundAssistant(AssistantId arg1, CancellationToken arg2)

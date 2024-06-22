@@ -22,10 +22,10 @@ public class CreateTeacherValidator : AbstractValidator<CreateTeacherCommand>
             .Length(Constrains.Email);
         RuleFor(x => x.SubscriptionPeriodInDays).InclusiveBetween(1, 365);
         RuleFor(x => x.Phone).MustAsync(BeUniquePhone)
-            .WithValidationError(Errors.Teacher.PhoneAlreadyExists);
+            .WithError(Errors.Teacher.PhoneAlreadyExists);
         RuleFor(x => x.Email).MustAsync(BeUniqueEmail)
             .When(x => !string.IsNullOrEmpty(x.Email))
-            .WithValidationError(Errors.Teacher.EmailAlreadyExists);
+            .WithError(Errors.Teacher.EmailAlreadyExists);
     }
 
     private async Task<bool> BeUniquePhone(string phone, CancellationToken token)

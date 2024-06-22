@@ -8,7 +8,7 @@ namespace TMS.Application.Common.Extensions;
 
 public static class RuleBuilderExtensions
 {
-    public static IRuleBuilderOptions<T, TProperty> WithValidationError<T, TProperty>(
+    public static IRuleBuilderOptions<T, TProperty> WithError<T, TProperty>(
         this IRuleBuilderOptions<T, TProperty> ruleBuilder, ValidationError error)
     {
         ruleBuilder.WithMessage(error.Description);
@@ -19,7 +19,7 @@ public static class RuleBuilderExtensions
         return ruleBuilder;
     }
 
-    public static IRuleBuilderOptions<T, TProperty> WithValidationError<T, TProperty>(
+    public static IRuleBuilderOptions<T, TProperty> WithError<T, TProperty>(
         this IRuleBuilderOptions<T, TProperty> ruleBuilder, Error error)
     {
         ruleBuilder.WithMessage(error.Description);

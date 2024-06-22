@@ -25,11 +25,11 @@ public class UpdateGroupValidator : AbstractValidator<UpdateGroupCommand>
             .IsInEnum().WithMessage("Grade is invalid");
 
         RuleFor(x => x.BasePrice)
-            .GreaterThanOrEqualTo(0).WithMessage("Base price must be greater than or equal to 0");
+            .GreaterThanOrEqualTo(1);
         RuleFor(x => x.Id)
-            .MustAsync(BeFound).WithValidationError(Errors.Group.NotFound);
+            .MustAsync(BeFound).WithError(Errors.Group.NotFound);
         RuleFor(x => x.Name).MustAsync(BeUnique)
-            .WithValidationError(Errors.Group.NameAlreadyExists);
+            .WithError(Errors.Group.NameAlreadyExists);
     }
 
     private async Task<bool> BeUnique(UpdateGroupCommand command, string name, CancellationToken token)
@@ -37,7 +37,7 @@ public class UpdateGroupValidator : AbstractValidator<UpdateGroupCommand>
         var teacherId = _teacherHelper.GetTeacherId();
         return !await _groupRepository.AnyAsync(
             group => group.Name == name &&
-                     group.TeacherId == teacherId! &&
+                     group.TeacherId == teacherId &&
                      group.Id != command.Id
             , token);
     }
@@ -45,7 +45,7 @@ public class UpdateGroupValidator : AbstractValidator<UpdateGroupCommand>
     private Task<bool> BeFound(GroupId id, CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
-        return _groupRepository.AnyAsync(group => group.Id == id && group.TeacherId == teacherId!, cancellationToken);
+        return _groupRepository.AnyAsync(group => group.Id == id && group.TeacherId == teacherId, cancellationToken);
     }
 
 

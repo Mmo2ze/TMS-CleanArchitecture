@@ -18,7 +18,7 @@ public class CreateParentValidator : AbstractValidator<CreateParentCommand>
         RuleFor(x => x.Phone)!.Length(Constrains.Phone).Matches("^[0-9]*$")
             .When(x => x.Phone != null);
         RuleFor(x => x.Phone).MustAsync(PhoneNotUsed!)
-            .WithValidationError(Errors.Parnet.PhoneAlreadyExists);
+            .WithError(Errors.Parnet.PhoneAlreadyExists);
         RuleFor(x => x.Email).EmailAddress()
             .When(x => x.Email != null)
             .Length(Constrains.Email);

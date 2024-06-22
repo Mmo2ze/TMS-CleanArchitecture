@@ -23,7 +23,7 @@ public class UpdateQuizValidator : AbstractValidator<UpdateQuizCommand>
             .WithMessage("Degree must be less than or equal to MaxDegree");
         RuleFor(x => x.Id)
             .MustAsync(BeFoundQuiz)
-            .WithValidationError(Errors.Quiz.NotFound);
+            .WithError(Errors.Quiz.NotFound);
     }
 
     private Task<bool> BeFoundQuiz(QuizId arg1, CancellationToken arg2)

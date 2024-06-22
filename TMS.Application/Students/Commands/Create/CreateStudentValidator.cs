@@ -20,7 +20,7 @@ public class CreateStudentValidator : AbstractValidator<CreateStudentCommand>
         RuleFor(x => x.Phone)!.Length(Constrains.Phone).Matches("^[0-9]*$")
             .When(x => x.Phone != null);
         RuleFor(x => x.Phone).MustAsync(PhoneNotUsed!)
-            .WithValidationError(Errors.Student.PhoneAlreadyExists)
+            .WithError(Errors.Student.PhoneAlreadyExists)
             .When(x => x.Phone != null);
         RuleFor(x => x.Email).EmailAddress()
             .When(x => x.Email != null)

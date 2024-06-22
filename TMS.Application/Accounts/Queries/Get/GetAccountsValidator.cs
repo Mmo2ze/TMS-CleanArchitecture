@@ -26,7 +26,7 @@ public class GetAccountsValidator: AbstractValidator<GetAccountsQuery>
             .WithMessage("Page size must be greater than or equal to 1");
         
         RuleFor(x => x.GroupId).MustAsync(BeFound)
-            .WithValidationError(Errors.Group.NotFound).When(x => x.GroupId is not null);
+            .WithError(Errors.Group.NotFound).When(x => x.GroupId is not null);
     }
 
     private async Task<bool> BeFound(GroupId arg1, CancellationToken arg2)

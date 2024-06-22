@@ -33,13 +33,13 @@ public class UpdateAccountValidator : AbstractValidator<UpdateAccountCommand>
         RuleFor(x => x.GroupId).NotEmpty();
 
 
-        RuleFor(x => x.Id).MustAsync(BeFoundAccount).WithValidationError(Errors.Account.NotFound);
-        RuleFor(x => x.StudentId).MustAsync(BeFoundStudent).WithValidationError(Errors.Student.NotFound);
-        RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).WithValidationError(Errors.Group.NotFound);
-        RuleFor(x => x.StudentId).MustAsync(BeNotInGroup).WithValidationError(Errors.Student.AlreadyInGroup);
+        RuleFor(x => x.Id).MustAsync(BeFoundAccount).WithError(Errors.Account.NotFound);
+        RuleFor(x => x.StudentId).MustAsync(BeFoundStudent).WithError(Errors.Student.NotFound);
+        RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).WithError(Errors.Group.NotFound);
+        RuleFor(x => x.StudentId).MustAsync(BeNotInGroup).WithError(Errors.Student.AlreadyInGroup);
         RuleFor(x => x.ParentId)
             .MustAsync(BeFoundParent)
-            .WithValidationError(Errors.Parnet.NotFound)
+            .WithError(Errors.Parnet.NotFound)
             .When(x => x.ParentId != null);
     }
 

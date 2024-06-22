@@ -18,7 +18,7 @@ public class DeleteGroupValidator:AbstractValidator<DeleteGroupCommand>
         _teacherHelper = teacherHelper;
         
         
-        RuleFor(g => g.Id).MustAsync(BeFoundGroup).WithValidationError(Errors.Group.NotFound);
+        RuleFor(g => g.Id).MustAsync(BeFoundGroup).WithError(Errors.Group.NotFound);
     }
 
     private Task<bool> BeFoundGroup(GroupId arg1, CancellationToken arg2)

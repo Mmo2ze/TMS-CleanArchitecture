@@ -20,7 +20,7 @@ public class GetQuizzesValidator : AbstractValidator<GetQuizzesQuery>
         _teacherHelper = teacherHelper;
         RuleFor(x => x.AccountId)
             .MustAsync(BeFoundAccount)
-            .WithValidationError(Errors.Account.NotFound);
+            .WithError(Errors.Account.NotFound);
     }
 
     private Task<bool> BeFoundAccount(AccountId arg1, CancellationToken arg2)

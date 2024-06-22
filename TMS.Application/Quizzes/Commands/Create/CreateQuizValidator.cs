@@ -28,11 +28,11 @@ public class CreateQuizValidator : AbstractValidator<CreateQuizCommand>
             .WithMessage("Degree must be less than or equal to MaxDegree");
         RuleFor(x => x.AccountId)
             .MustAsync(AccountExists)
-            .WithValidationError(Errors.Account.NotFound);
+            .WithError(Errors.Account.NotFound);
 
         RuleFor(x => x.AccountId)
             .MustAsync(AccountDoseNotHaveQuizToday)
-            .WithValidationError(Errors.Account.HasQuizToday);
+            .WithError(Errors.Account.HasQuizToday);
     }
 
     private async Task<bool> AccountDoseNotHaveQuizToday(AccountId arg1, CancellationToken arg2)

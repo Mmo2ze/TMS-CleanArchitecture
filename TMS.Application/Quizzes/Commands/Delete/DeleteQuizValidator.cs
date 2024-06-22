@@ -21,7 +21,7 @@ public class DeleteQuizValidator: AbstractValidator<DeleteQuizCommand>
         
         RuleFor(x => x.Id)
             .MustAsync(BeFoundQuiz)
-            .WithValidationError(Errors.Quiz.NotFound);
+            .WithError(Errors.Quiz.NotFound);
     }
 
     private Task<bool> BeFoundQuiz(DeleteQuizCommand command,QuizId arg1, CancellationToken arg2)

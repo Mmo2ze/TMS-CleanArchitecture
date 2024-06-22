@@ -22,7 +22,7 @@ public class DeleteSessionValidator : AbstractValidator<DeleteSessionCommand>
 
         RuleFor(x => x.Id)
             .MustAsync(BeFound)
-            .WithValidationError(Errors.Session.NotFound);
+            .WithError(Errors.Session.NotFound);
     }
 
 

@@ -26,16 +26,16 @@ public class UpdateAssistantValidator : AbstractValidator<UpdateAssistantCommand
         
         RuleFor(x => x.Id)
             .MustAsync(BeFoundAssistant)
-            .WithValidationError(Errors.Assistant.NotFound);
+            .WithError(Errors.Assistant.NotFound);
         RuleFor(x => x.Phone)
             .MustAsync(NotBeUsedPhone)
-            .WithValidationError(Errors.Assistant.PhoneAlreadyExists);
+            .WithError(Errors.Assistant.PhoneAlreadyExists);
         
         
         RuleFor(x => x.Email)
             .MustAsync(NotBeUsedEmail!)
             .When(x => x.Email != null)
-            .WithValidationError(Errors.Assistant.EmailAlreadyExists);
+            .WithError(Errors.Assistant.EmailAlreadyExists);
     }
 
     private async Task<bool> NotBeUsedEmail(UpdateAssistantCommand command,string arg1, CancellationToken arg2)

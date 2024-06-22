@@ -22,7 +22,7 @@ public class GetSessionsValidator : AbstractValidator<GetSessionsQuery>
        
 
         RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).When(x => x.GroupId != null)
-            .WithValidationError(Errors.Group.NotFound);
+            .WithError(Errors.Group.NotFound);
     }
 
     private async Task<bool> BeFoundGroup(GroupId? groupId, CancellationToken token)

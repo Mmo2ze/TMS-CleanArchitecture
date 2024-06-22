@@ -19,10 +19,10 @@ public class UpdateTeacherCommandValidator : AbstractValidator<UpdateTeacherComm
             .When(x => !string.IsNullOrEmpty(x.Email))
             .MaximumLength(128);
         RuleFor(x => x.Phone).MustAsync(BeUniquePhone)
-            .WithValidationError(Errors.Teacher.PhoneAlreadyExists);
+            .WithError(Errors.Teacher.PhoneAlreadyExists);
         RuleFor(x => x.Email).MustAsync(BeUniqueEmail)
             .When(x => !string.IsNullOrEmpty(x.Email))
-            .WithValidationError(Errors.Teacher.EmailAlreadyExists);
+            .WithError(Errors.Teacher.EmailAlreadyExists);
     }
 
     private async Task<bool> BeUniquePhone(UpdateTeacherCommand command, string phone,

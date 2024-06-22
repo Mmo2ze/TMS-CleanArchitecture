@@ -28,7 +28,7 @@ public class CreatAccountValidator : AbstractValidator<DeleteAccountCommand>
         RuleFor(x => x.GroupId).NotEmpty().NotNull();
         RuleFor(x => x.Id).NotEmpty()
             .MustAsync(BeFoundAccount)
-            .WithValidationError(Errors.Account.NotFound);
+            .WithError(Errors.Account.NotFound);
     }
 
     private Task<bool> BeFoundAccount(DeleteAccountCommand command, AccountId arg1, CancellationToken arg2)
