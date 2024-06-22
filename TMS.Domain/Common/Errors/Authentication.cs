@@ -35,4 +35,11 @@ public static partial class Errors
         public static Error NotFound => Error.NotFound("Parent.NotFound", "Parent not found");
         public static Error  PhoneAlreadyExists => Error.Conflict("Parent.PhoneAlreadyExists", "Phone already exists by other parent");
     }
+
+    public static class Assistant
+    {
+        public static Error NotFound => Error.NotFound("Assistant.NotFound", "Assistant not found");
+        public static Error PhoneAlreadyExists => Error.Conflict("Assistant.PhoneAlreadyExists", "Phone already exists by other assistant");
+        public static Error EmailAlreadyExists => Error.Conflict("Assistant.EmailAlreadyExists", "Email already exists by other assistant");
+    }
 }

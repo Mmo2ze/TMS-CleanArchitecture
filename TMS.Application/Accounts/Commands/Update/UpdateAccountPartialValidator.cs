@@ -31,22 +31,22 @@ public class UpdateAccountPartialValidator: AbstractValidator<UpdateAccountParti
 
 
         RuleFor(x => x.Id).MustAsync(BeFoundAccount)
-            .WithValidationError(ValidationErrors.Account.NotFound);
+            .WithValidationError(Errors.Account.NotFound);
         
         RuleFor(x => x.StudentId)
             .MustAsync(BeFoundStudent)
             .When(x=>x.StudentId is not null)
-            .WithValidationError(ValidationErrors.Student.NotFound);
+            .WithValidationError(Errors.Student.NotFound);
         
         RuleFor(x => x.StudentId)
             .MustAsync(BeNotInGroup)
             .When(x => x.StudentId is not null)
-            .WithValidationError(ValidationErrors.Student.AlreadyInGroup);
+            .WithValidationError(Errors.Student.AlreadyInGroup);
         
         RuleFor(x => x.GroupId)
             .MustAsync(BeFoundGroup)
             .When(x => x.GroupId is not null)
-            .WithValidationError(ValidationErrors.Group.NotFound);
+            .WithValidationError(Errors.Group.NotFound);
         
 
         RuleFor(x => x.ParentId)

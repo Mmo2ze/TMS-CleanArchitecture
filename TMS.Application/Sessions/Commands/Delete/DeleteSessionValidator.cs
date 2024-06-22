@@ -2,6 +2,7 @@ using FluentValidation;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Sessions;
 
@@ -21,7 +22,7 @@ public class DeleteSessionValidator : AbstractValidator<DeleteSessionCommand>
 
         RuleFor(x => x.Id)
             .MustAsync(BeFound)
-            .WithValidationError(ValidationErrors.Session.NotFound);
+            .WithValidationError(Errors.Session.NotFound);
     }
 
 

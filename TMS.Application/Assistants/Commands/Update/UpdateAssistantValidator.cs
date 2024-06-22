@@ -4,6 +4,7 @@ using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Constrains;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Assistants.Commands.Update;
@@ -25,16 +26,16 @@ public class UpdateAssistantValidator : AbstractValidator<UpdateAssistantCommand
         
         RuleFor(x => x.Id)
             .MustAsync(BeFoundAssistant)
-            .WithValidationError(ValidationErrors.Assistant.NotFound);
+            .WithValidationError(Errors.Assistant.NotFound);
         RuleFor(x => x.Phone)
             .MustAsync(NotBeUsedPhone)
-            .WithValidationError(ValidationErrors.Assistant.PhoneAlreadyExists);
+            .WithValidationError(Errors.Assistant.PhoneAlreadyExists);
         
         
         RuleFor(x => x.Email)
             .MustAsync(NotBeUsedEmail!)
             .When(x => x.Email != null)
-            .WithValidationError(ValidationErrors.Assistant.EmailAlreadyExists);
+            .WithValidationError(Errors.Assistant.EmailAlreadyExists);
     }
 
     private async Task<bool> NotBeUsedEmail(UpdateAssistantCommand command,string arg1, CancellationToken arg2)

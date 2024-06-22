@@ -27,9 +27,9 @@ public class UpdateGroupValidator : AbstractValidator<UpdateGroupCommand>
         RuleFor(x => x.BasePrice)
             .GreaterThanOrEqualTo(0).WithMessage("Base price must be greater than or equal to 0");
         RuleFor(x => x.Id)
-            .MustAsync(BeFound).WithValidationError(ValidationErrors.Group.NotFound);
+            .MustAsync(BeFound).WithValidationError(Errors.Group.NotFound);
         RuleFor(x => x.Name).MustAsync(BeUnique)
-            .WithValidationError(ValidationErrors.Group.NameAlreadyExists);
+            .WithValidationError(Errors.Group.NameAlreadyExists);
     }
 
     private async Task<bool> BeUnique(UpdateGroupCommand command, string name, CancellationToken token)

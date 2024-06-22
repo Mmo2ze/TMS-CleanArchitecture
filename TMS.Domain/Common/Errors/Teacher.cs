@@ -13,7 +13,8 @@ public static partial class Errors
 
     public static class Student
     {
-        public static Error StudentNotFound => Error.NotFound("Student.StudentNotFound", "Student not found");
+        public static Error NotFound => Error.NotFound("Student.NotFound", "Student not found");
         public static Error PhoneAlreadyExists => Error.Conflict("Student.PhoneAlreadyExists", "Phone already exists by other student");
+        public static Error AlreadyInGroup => Error.Conflict("Student.AlreadyInGroup", "Student already in group");
     }
 }

@@ -3,6 +3,7 @@ using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Assistants;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Assistants.Commands.Delete;
@@ -19,7 +20,7 @@ public class DeleteAssistantValidator : AbstractValidator<DeleteAssistantCommand
 
         RuleFor(x => x.Id)
             .MustAsync(BeFoundAssistant)
-            .WithValidationError(ValidationErrors.Assistant.NotFound);
+            .WithValidationError(Errors.Assistant.NotFound);
     }
 
     private Task<bool> BeFoundAssistant(AssistantId arg1, CancellationToken arg2)

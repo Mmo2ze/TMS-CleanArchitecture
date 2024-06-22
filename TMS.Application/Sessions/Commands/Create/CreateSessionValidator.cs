@@ -1,6 +1,7 @@
 using FluentValidation;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.ValidationErrors;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
 
@@ -23,9 +24,9 @@ public class CreateSessionValidator : AbstractValidator<CreateSessionCommand>
         RuleFor(x => x.EndTime).GreaterThan(x => x.StartTime).WithMessage("EndTime must be greater than StartTime.");
 
         RuleFor(x => x.GroupId).MustAsync(BeFoundGroup)
-            .WithValidationError(ValidationErrors.Group.NotFound);
+            .WithValidationError(Errors.Group.NotFound);
         RuleFor(x => x.Day).MustAsync(BeValidSession)
-            .WithValidationError(ValidationErrors.Session.SessionIsConflict);
+            .WithValidationError(Errors.Session.SessionIsConflict);
     }
 
     private Task<bool> BeValidSession(CreateSessionCommand command, DayOfWeek day, CancellationToken token)

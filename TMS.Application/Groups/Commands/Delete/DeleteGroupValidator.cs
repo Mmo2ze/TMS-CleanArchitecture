@@ -2,6 +2,7 @@ using FluentValidation;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
 
@@ -17,7 +18,7 @@ public class DeleteGroupValidator:AbstractValidator<DeleteGroupCommand>
         _teacherHelper = teacherHelper;
         
         
-        RuleFor(g => g.Id).MustAsync(BeFoundGroup).WithValidationError(ValidationErrors.Group.NotFound);
+        RuleFor(g => g.Id).MustAsync(BeFoundGroup).WithValidationError(Errors.Group.NotFound);
     }
 
     private Task<bool> BeFoundGroup(GroupId arg1, CancellationToken arg2)

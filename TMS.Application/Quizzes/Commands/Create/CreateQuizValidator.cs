@@ -3,6 +3,7 @@ using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Account;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Quizzes.Commands.Create;
@@ -27,11 +28,11 @@ public class CreateQuizValidator : AbstractValidator<CreateQuizCommand>
             .WithMessage("Degree must be less than or equal to MaxDegree");
         RuleFor(x => x.AccountId)
             .MustAsync(AccountExists)
-            .WithValidationError(ValidationErrors.Account.NotFound);
+            .WithValidationError(Errors.Account.NotFound);
 
         RuleFor(x => x.AccountId)
             .MustAsync(AccountDoseNotHaveQuizToday)
-            .WithValidationError(ValidationErrors.Account.HasQuizToday);
+            .WithValidationError(Errors.Account.HasQuizToday);
     }
 
     private async Task<bool> AccountDoseNotHaveQuizToday(AccountId arg1, CancellationToken arg2)

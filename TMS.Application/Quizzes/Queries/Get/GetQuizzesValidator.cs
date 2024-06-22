@@ -4,6 +4,7 @@ using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Account;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Quizzes.Queries.Get;
@@ -19,7 +20,7 @@ public class GetQuizzesValidator : AbstractValidator<GetQuizzesQuery>
         _teacherHelper = teacherHelper;
         RuleFor(x => x.AccountId)
             .MustAsync(BeFoundAccount)
-            .WithValidationError(ValidationErrors.Account.NotFound);
+            .WithValidationError(Errors.Account.NotFound);
     }
 
     private Task<bool> BeFoundAccount(AccountId arg1, CancellationToken arg2)

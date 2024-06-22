@@ -2,6 +2,7 @@
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Common.Constrains;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Teachers.Commands.Create;
@@ -21,10 +22,10 @@ public class CreateTeacherValidator : AbstractValidator<CreateTeacherCommand>
             .Length(Constrains.Email);
         RuleFor(x => x.SubscriptionPeriodInDays).InclusiveBetween(1, 365);
         RuleFor(x => x.Phone).MustAsync(BeUniquePhone)
-            .WithValidationError(ValidationErrors.Teacher.PhoneAlreadyExists);
+            .WithValidationError(Errors.Teacher.PhoneAlreadyExists);
         RuleFor(x => x.Email).MustAsync(BeUniqueEmail)
             .When(x => !string.IsNullOrEmpty(x.Email))
-            .WithValidationError(ValidationErrors.Teacher.EmailAlreadyExists);
+            .WithValidationError(Errors.Teacher.EmailAlreadyExists);
     }
 
     private async Task<bool> BeUniquePhone(string phone, CancellationToken token)

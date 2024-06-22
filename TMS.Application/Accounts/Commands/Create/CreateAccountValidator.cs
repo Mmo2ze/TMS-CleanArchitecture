@@ -32,9 +32,9 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountCommand>
         RuleFor(x => x.GroupId).NotEmpty();
         RuleFor(x => x.StudentId).NotEmpty();
 
-        RuleFor(x => x.StudentId).MustAsync(BeFoundStudent).WithValidationError(ValidationErrors.Student.NotFound);
-        RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).WithValidationError(ValidationErrors.Group.NotFound);
-        RuleFor(x => x.StudentId).MustAsync(BeNotInGroup).WithValidationError(ValidationErrors.Student.AlreadyInGroup);
+        RuleFor(x => x.StudentId).MustAsync(BeFoundStudent).WithValidationError(Errors.Student.NotFound);
+        RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).WithValidationError(Errors.Group.NotFound);
+        RuleFor(x => x.StudentId).MustAsync(BeNotInGroup).WithValidationError(Errors.Student.AlreadyInGroup);
         RuleFor(x => x.ParentId)
             .MustAsync(BeFoundParent)
             .WithValidationError(Errors.Parnet.NotFound)

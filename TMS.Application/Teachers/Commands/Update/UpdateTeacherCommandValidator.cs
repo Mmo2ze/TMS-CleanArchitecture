@@ -1,6 +1,7 @@
 using FluentValidation;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.ValidationErrors;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Teachers.Commands.Update;
@@ -18,10 +19,10 @@ public class UpdateTeacherCommandValidator : AbstractValidator<UpdateTeacherComm
             .When(x => !string.IsNullOrEmpty(x.Email))
             .MaximumLength(128);
         RuleFor(x => x.Phone).MustAsync(BeUniquePhone)
-            .WithValidationError(ValidationErrors.Teacher.PhoneAlreadyExists);
+            .WithValidationError(Errors.Teacher.PhoneAlreadyExists);
         RuleFor(x => x.Email).MustAsync(BeUniqueEmail)
             .When(x => !string.IsNullOrEmpty(x.Email))
-            .WithValidationError(ValidationErrors.Teacher.EmailAlreadyExists);
+            .WithValidationError(Errors.Teacher.EmailAlreadyExists);
     }
 
     private async Task<bool> BeUniquePhone(UpdateTeacherCommand command, string phone,

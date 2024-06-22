@@ -3,6 +3,7 @@ using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Account;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
 using TMS.Domain.Students;
@@ -27,7 +28,7 @@ public class CreatAccountValidator : AbstractValidator<DeleteAccountCommand>
         RuleFor(x => x.GroupId).NotEmpty().NotNull();
         RuleFor(x => x.Id).NotEmpty()
             .MustAsync(BeFoundAccount)
-            .WithValidationError(ValidationErrors.Account.NotFound);
+            .WithValidationError(Errors.Account.NotFound);
     }
 
     private Task<bool> BeFoundAccount(DeleteAccountCommand command, AccountId arg1, CancellationToken arg2)

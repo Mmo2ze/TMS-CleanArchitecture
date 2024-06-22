@@ -3,6 +3,7 @@ using TMS.Application.Accounts.Queries.Get;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;
 
@@ -21,7 +22,7 @@ public class GetSessionsValidator : AbstractValidator<GetSessionsQuery>
        
 
         RuleFor(x => x.GroupId).MustAsync(BeFoundGroup).When(x => x.GroupId != null)
-            .WithValidationError(ValidationErrors.Group.NotFound);
+            .WithValidationError(Errors.Group.NotFound);
     }
 
     private async Task<bool> BeFoundGroup(GroupId? groupId, CancellationToken token)
