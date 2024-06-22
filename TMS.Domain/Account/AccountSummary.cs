@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using TMS.Domain.Common.Enums;
 using TMS.Domain.Groups;
+using TMS.Domain.Parents;
 using TMS.Domain.Students;
 
 namespace TMS.Domain.Account;
@@ -8,6 +9,7 @@ namespace TMS.Domain.Account;
 public record AccountSummary(
     AccountId AccountId,
     StudentId StudentId,
+    ParentId? ParentId,
     GroupId GroupId,
     double BasePrice,
     bool HasCustomPrice,
@@ -18,6 +20,7 @@ public record AccountSummary(
         new(
             account.Id,
             account.StudentId,
+            account.ParentId,
             account.GroupId,
             account.BasePrice,
             account.HasCustomPrice,

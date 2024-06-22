@@ -34,6 +34,7 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery,ErrorOr<
             .Select(account => new AccountSummary(
                 account.Id,
                 account.StudentId,
+                account.ParentId,
                 account.GroupId!,
                 account.BasePrice,
                 account.HasCustomPrice,

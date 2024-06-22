@@ -56,6 +56,7 @@ public class AccountMapping : IRegister
         config.NewConfig<AccountSummary, AccountSummaryDto>()
             .Map(dest => dest.AccountId, src => src.AccountId.Value)
             .Map(dest => dest.StudentId, src => src.StudentId.Value)
+            .Map(dest => dest.ParentId, src => src.ParentId != null? src.ParentId.Value : null)
             .Map(dest => dest.GroupId, src => src.GroupId.Value);
 
 
