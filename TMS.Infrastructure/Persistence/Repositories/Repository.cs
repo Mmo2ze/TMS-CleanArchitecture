@@ -39,6 +39,11 @@ public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where
         DbContext.Remove(entity);
     }
 
+    public void RemoveRange(IEnumerable<TEntity> entities)
+    {
+        DbContext.RemoveRange(entities);
+    }
+
     public async Task<List<TEntity>> GetAllAsync()
     {
         return await DbContext.Set<TEntity>().ToListAsync();

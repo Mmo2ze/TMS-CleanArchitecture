@@ -8,6 +8,7 @@ public interface IRepository<TEntity, TId> where TEntity : Aggregate<TId> where 
     void Add(TEntity entity);
     void Update (TEntity entity);
     void Remove(TEntity entity);
+    void RemoveRange(IEnumerable<TEntity> entities);
     Task<List<TEntity>> GetAllAsync();
     IQueryable<TEntity> GetQueryable();
     bool Any(Expression<Func<TEntity, bool>> predicate);

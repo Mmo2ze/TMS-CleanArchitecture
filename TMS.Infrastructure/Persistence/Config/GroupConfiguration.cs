@@ -24,12 +24,13 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
         
         builder.HasMany(t => t.Sessions)
             .WithOne()
-            .HasForeignKey(a => a.GroupId);
+            .HasForeignKey(a => a.GroupId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(g => g.Students)
             .WithOne()
             .HasForeignKey(a => a.GroupId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.SetNull);
         
         builder.HasIndex(c => new {c.TeacherId,c.Name,c.Grade} ).IsUnique();
     }

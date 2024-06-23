@@ -22,7 +22,7 @@ public class UpdateGroupValidator : AbstractValidator<UpdateGroupCommand>
             .Length(Constrains.Group.Name);
 
         RuleFor(x => x.Grade)
-            .IsInEnum().WithMessage("Grade is invalid");
+            .IsInEnum();
 
         RuleFor(x => x.BasePrice)
             .GreaterThanOrEqualTo(1);
@@ -38,6 +38,7 @@ public class UpdateGroupValidator : AbstractValidator<UpdateGroupCommand>
         return !await _groupRepository.AnyAsync(
             group => group.Name == name &&
                      group.TeacherId == teacherId &&
+                     group.Grade == command.Grade &&
                      group.Id != command.Id
             , token);
     }
@@ -47,6 +48,4 @@ public class UpdateGroupValidator : AbstractValidator<UpdateGroupCommand>
         var teacherId = _teacherHelper.GetTeacherId();
         return _groupRepository.AnyAsync(group => group.Id == id && group.TeacherId == teacherId, cancellationToken);
     }
-
-
 }

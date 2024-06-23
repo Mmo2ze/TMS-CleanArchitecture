@@ -7,10 +7,10 @@ namespace TMS.Domain.Teachers;
 
 public class Teacher : Aggregate<TeacherId>
 {
-    private Teacher():base(TeacherId.CreateUnique())
+    private Teacher() : base(TeacherId.CreateUnique())
     {
-        
     }
+
     private readonly List<Assistant> _assistants = [];
     private readonly List<Account.Account> _students = [];
     private readonly List<Group> _groups = [];
@@ -93,5 +93,14 @@ public class Teacher : Aggregate<TeacherId>
     public void AddGroup(Group group)
     {
         _groups.Add(group);
+    }
+
+    public void RemoveGroup(GroupId groupId)
+    {
+        var group = _groups.FirstOrDefault(x => x.Id == groupId);
+        if (group is null)
+            return;
+        _groups.Remove(group);
+        RaiseDomainEvent(new GroupRemovedDomainEvent(Id, group.Id));
     }
 }
