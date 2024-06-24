@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Groups;
 
 namespace TMS.Application.Accounts.Commands.Delete;

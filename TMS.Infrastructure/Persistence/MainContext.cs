@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;

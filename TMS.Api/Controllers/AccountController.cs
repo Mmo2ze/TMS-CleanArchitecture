@@ -15,7 +15,7 @@ using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
 using TMS.Contracts.Quiz.Create;
 using TMS.Contracts.Quiz.Get;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Quizzes;

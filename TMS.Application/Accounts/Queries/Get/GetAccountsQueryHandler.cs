@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Mapping;
 using TMS.Application.Common.Services;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
 

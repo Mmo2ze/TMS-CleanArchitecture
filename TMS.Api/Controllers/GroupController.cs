@@ -17,7 +17,7 @@ using TMS.Contracts.Group.Create;
 using TMS.Contracts.Group.GetGroups;
 using TMS.Contracts.Group.Update;
 using TMS.Contracts.Session.Get;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Sessions;

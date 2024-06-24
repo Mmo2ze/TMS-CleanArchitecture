@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 

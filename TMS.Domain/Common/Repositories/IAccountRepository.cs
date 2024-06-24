@@ -1,9 +1,9 @@
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Students;
 
 namespace TMS.Domain.Common.Repositories;
 
-public interface IAccountRepository: IRepository<Account.Account, AccountId>
+public interface IAccountRepository: IRepository<Account, AccountId>
 {
-    Task<Account.Account?> GetIncludeStudentAsync(AccountId accountId, CancellationToken cancellationToken);
+    Task<Account?> GetIncludeStudentAsync(AccountId accountId, CancellationToken cancellationToken);
 }

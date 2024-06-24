@@ -40,9 +40,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .WithOne()
             .HasForeignKey(a => a.TeacherId);
 
-        builder.HasMany<Payment>()
-            .WithOne()
-            .HasForeignKey(p => p.TeacherId).IsRequired();
+      
         builder.HasMany<Session>()
             .WithOne()
             .HasForeignKey(p => p.TeacherId).IsRequired();

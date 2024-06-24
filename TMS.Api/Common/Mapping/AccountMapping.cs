@@ -13,7 +13,7 @@ using TMS.Contracts.Account.Update;
 using TMS.Contracts.Session.Get;
 using TMS.Contracts.Teacher.Common;
 using TMS.Contracts.Teacher.Create;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;

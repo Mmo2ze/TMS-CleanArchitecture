@@ -1,4 +1,4 @@
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 
 namespace TMS.Domain.Groups.Events;
 

@@ -1,3 +1,4 @@
+using TMS.Domain.Accounts;
 using TMS.Domain.Groups.Events;
 using TMS.Domain.Sessions;
 using TMS.Domain.Students;
@@ -11,7 +12,7 @@ public class Group : Aggregate<GroupId>
     {
         
     }
-    private readonly List<Account.Account> _students = [];
+    private readonly List<Account> _students = [];
     private readonly List<Session> _sessions = [];
     public string Name { get; private set; }
     public Grade Grade { get; private set; }
@@ -21,7 +22,7 @@ public class Group : Aggregate<GroupId>
     public int StudentsCount { get; private set; }
     public int SessionsCount { get; private set; }
 
-    public IReadOnlyList<Account.Account> Students => _students.AsReadOnly();
+    public IReadOnlyList<Account> Students => _students.AsReadOnly();
     public IReadOnlyList<Session> Sessions => _sessions.AsReadOnly();
 
 
@@ -55,7 +56,7 @@ public class Group : Aggregate<GroupId>
         return basePrice.HasValue && Math.Abs(basePrice.Value - BasePrice) > 0.5;
     }
 
-    public void AddStudent(Account.Account account)
+    public void AddStudent(Account account)
     {
         _students.Add(account);
         StudentsCount++;
@@ -67,7 +68,7 @@ public class Group : Aggregate<GroupId>
         SessionsCount++;
     }
 
-    public void RemoveStudent(Account.Account account)
+    public void RemoveStudent(Account account)
     {
         _students.Remove(account);
         StudentsCount--;

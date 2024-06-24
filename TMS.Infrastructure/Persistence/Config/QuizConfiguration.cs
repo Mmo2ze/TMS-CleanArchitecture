@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Quizzes;
 
 namespace TMS.Infrastructure.Persistence.Config;
@@ -18,7 +18,7 @@ public class QuizConfiguration : IEntityTypeConfiguration<Quiz>
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired(false);
 
-        builder.Property(x => x.AccountId).IsRequired();
+        builder.Property(x => x.AccountId);
         builder.Property(x => x.AddedById).IsRequired(false);
         builder.Property(x => x.UpdatedById).IsRequired(false);
 
@@ -27,6 +27,8 @@ public class QuizConfiguration : IEntityTypeConfiguration<Quiz>
             .WithMany()
             .HasForeignKey(x => x.TeacherId);
 
+
+        
         builder.HasOne(x => x.AddedBy)
             .WithMany()
             .HasForeignKey(x => x.AddedById);

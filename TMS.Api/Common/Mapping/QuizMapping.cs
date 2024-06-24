@@ -5,7 +5,7 @@ using TMS.Application.Quizzes.Queries.Get;
 using TMS.Contracts.Quiz.Create;
 using TMS.Contracts.Quiz.Get;
 using TMS.Contracts.Quiz.Update;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Quizzes;
 

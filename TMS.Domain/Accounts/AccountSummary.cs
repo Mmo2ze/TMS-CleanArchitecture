@@ -1,10 +1,9 @@
-using System.Security.Cryptography;
 using TMS.Domain.Common.Enums;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
 using TMS.Domain.Students;
 
-namespace TMS.Domain.Account;
+namespace TMS.Domain.Accounts;
 
 public record AccountSummary(
     AccountId AccountId,

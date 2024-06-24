@@ -1,4 +1,4 @@
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Assistants;
 
 namespace TMS.Domain.Quizzes.Events;

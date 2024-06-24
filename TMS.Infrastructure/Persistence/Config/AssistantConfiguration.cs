@@ -26,9 +26,7 @@ public class AssistantConfiguration: IEntityTypeConfiguration<Assistant>
 		builder.Property(a => a.Phone).IsRequired().HasMaxLength(Constrains.Phone.Max);
 		
 		// Configure relationships
-		builder.HasMany<Payment>()
-			.WithOne()
-			.HasForeignKey(p => p.AssistantId);
+		
 		builder.HasMany<RefreshToken>()
 			.WithOne()
 			.HasForeignKey(rt => rt.AssistantId).OnDelete(DeleteBehavior.Cascade);

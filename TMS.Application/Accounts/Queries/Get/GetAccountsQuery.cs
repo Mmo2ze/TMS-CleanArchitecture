@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 using TMS.Application.Common;
-using TMS.Domain.Account;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 

@@ -1,4 +1,5 @@
-﻿using TMS.Domain.Assistants;
+﻿using TMS.Domain.Accounts;
+using TMS.Domain.Assistants;
 using TMS.Domain.Groups;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers.Events;
@@ -12,7 +13,7 @@ public class Teacher : User<TeacherId>
     }
 
     private readonly List<Assistant> _assistants = [];
-    private readonly List<Account.Account> _students = [];
+    private readonly List<Account> _students = [];
     private readonly List<Group> _groups = [];
 
     public Subject Subject { get; private set; }
@@ -22,7 +23,7 @@ public class Teacher : User<TeacherId>
     public DateOnly EndOfSubscription { get; private set; }
     public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
-    public IReadOnlyList<Account.Account> Students => _students.AsReadOnly();
+    public IReadOnlyList<Account> Students => _students.AsReadOnly();
     public string WhatsappLink => $"https://wa.me/{Phone}";
 
 
