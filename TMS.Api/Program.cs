@@ -1,3 +1,4 @@
+using Coravel;
 using MassTransit;
 
 using Microsoft.AspNetCore.DataProtection;
@@ -25,8 +26,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApi(builder.Configuration);
 builder.Services.AddConsumer(builder.Configuration);
 var app = builder.Build();
-var myConfigVar = Environment.GetEnvironmentVariable("test");
-Console.WriteLine("fuck",myConfigVar);
+app.Services.AddInfrastructure(app.Configuration);
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -42,4 +42,5 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();

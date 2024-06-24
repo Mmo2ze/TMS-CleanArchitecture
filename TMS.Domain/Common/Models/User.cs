@@ -10,5 +10,11 @@ public class User<TId>:Aggregate<TId>
     public string Name { get; protected set; } = string.Empty;
     public virtual string Phone { get; protected set; } = string.Empty;
     public  string? Email { get; protected set; } = string.Empty;
+    public bool? HasWhatsapp { get;  set; } 
+    public virtual void SetHasWhatsapp(bool value)
+    {
+        HasWhatsapp = value;
+    }
     
+
 }

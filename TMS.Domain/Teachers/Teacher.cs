@@ -5,7 +5,7 @@ using TMS.Domain.Teachers.Events;
 
 namespace TMS.Domain.Teachers;
 
-public class Teacher : Aggregate<TeacherId>
+public class Teacher : User<TeacherId>
 {
     private Teacher() : base(TeacherId.CreateUnique())
     {
@@ -14,9 +14,7 @@ public class Teacher : Aggregate<TeacherId>
     private readonly List<Assistant> _assistants = [];
     private readonly List<Account.Account> _students = [];
     private readonly List<Group> _groups = [];
-    public string Name { get; private set; }
-    public string? Email { get; private set; }
-    public string Phone { get; private set; }
+
     public Subject Subject { get; private set; }
     public TeacherStatus Status { get; private set; }
 
@@ -102,5 +100,12 @@ public class Teacher : Aggregate<TeacherId>
             return;
         _groups.Remove(group);
         RaiseDomainEvent(new GroupRemovedDomainEvent(Id, group.Id));
+    }
+
+    public override void SetHasWhatsapp(bool value)
+    {
+        base.SetHasWhatsapp(value);
+        if(!value)
+            RaiseDomainEvent(new TeacherDontHaveWhatsappDomainEvent(Id));
     }
 }

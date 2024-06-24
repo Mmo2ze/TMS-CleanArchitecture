@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Coravel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ using TMS.Infrastructure.Persistence;
 using TMS.Infrastructure.Persistence.Interceptors;
 using TMS.Infrastructure.Persistence.Repositories;
 using TMS.Infrastructure.Services;
+using TMS.Infrastructure.Services.BackGroundJobs;
 using TMS.Infrastructure.Services.WhatsappSender;
 using TMS.Infrastructure.Services.WhatsappSender.ApiDefinition;
 
@@ -22,6 +24,15 @@ namespace TMS.Infrastructure;
 
 public static class DependencyInjection
 {
+    public static void AddInfrastructure(this IServiceProvider services, IConfiguration configuration)
+    {
+        services.UseScheduler(sc =>
+        {
+            sc.Schedule<WhatsappCheckerJob>()
+                .Cron("01 * * * *");
+        });
+    }
+
     public static void AddInfrastructure(this IServiceCollection services,
         ConfigurationManager builderConfiguration)
     {
@@ -34,8 +45,15 @@ public static class DependencyInjection
         services.AddPersistence(builderConfiguration);
         services.AddAuthentication(builderConfiguration);
         services.AddLogging();
+        services.AddScheduler();
+        AddBackGroundJobs(services);
+
         AddWhatsappService(services);
-        
+    }
+
+    private static void AddBackGroundJobs(IServiceCollection services)
+    {
+        services.AddTransient<WhatsappCheckerJob>();
     }
 
     private static void AddWhatsappService(IServiceCollection services)
@@ -94,8 +112,8 @@ public static class DependencyInjection
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<ISessionRepository, SessionRepository>();
-        services.AddScoped<IAccountRepository,AccountRepository>();
-        services.AddScoped<IQuizRepository,QuizRepository>();
+        services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IQuizRepository, QuizRepository>();
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
