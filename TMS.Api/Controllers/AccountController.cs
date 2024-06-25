@@ -19,6 +19,7 @@ using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
 using TMS.Contracts.Attendance;
 using TMS.Contracts.Attendance.Create;
+using TMS.Contracts.Attendance.Get;
 using TMS.Contracts.Attendance.Update;
 using TMS.Contracts.Quiz.Create;
 using TMS.Contracts.Quiz.Get;
