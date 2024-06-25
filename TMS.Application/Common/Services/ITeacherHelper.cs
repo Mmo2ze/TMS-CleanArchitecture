@@ -9,4 +9,7 @@ public interface ITeacherHelper
     bool IsAssistant();
     TeacherId GetTeacherId();
     AssistantId? GetAssistantId();
+    AssistantInfo GetAssistantInfo();
+
+    string GetTeacherName();
 }

@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Common\Entites\" />
       <Folder Include="Common\Interfaces\" />
     </ItemGroup>
 

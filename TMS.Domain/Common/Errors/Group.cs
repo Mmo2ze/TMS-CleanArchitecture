@@ -24,4 +24,10 @@ public static partial class Errors
         public static Error NotFound => Error.NotFound("Session.NotFound", "Session not found");
         public static Error SessionIsConflict => Error.Conflict("Session.IsConflict", "Session is conflict");
     }
+
+    public static class Attendance
+    {
+        public static Error NotFound => Error.NotFound("Attendance.NotFound", "Attendance not found");
+        public static Error AlreadyExist => Error.Conflict("Attendance.AlreadyExists", "Attendance already exists");
+    }
 }

@@ -46,10 +46,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
 
 
         var claims = await _claimGenerator.GenerateClaims(userId, agent);
-        if (cancellationToken.IsCancellationRequested)
-        {
-            Console.WriteLine("canceld request2");
-        }
+
         return
             claims.IsError
                 ? claims.FirstError

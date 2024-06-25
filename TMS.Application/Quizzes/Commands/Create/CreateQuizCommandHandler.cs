@@ -24,7 +24,7 @@ public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, Error
 
     public async Task<ErrorOr<QuizId>> Handle(CreateQuizCommand request, CancellationToken cancellationToken)
     {
-        var account = await _accountRepository.GetAsync(request.AccountId, cancellationToken);
+        var account = await _accountRepository.FindAsync(request.AccountId, cancellationToken);
         var quiz = Quiz.Create(request.Degree, request.MaxDegree, request.AccountId,
             _teacherHelper.GetAssistantId(), _teacherHelper.GetTeacherId(), _dateTimeProvider.Today);
         account!.AddQuiz(quiz);

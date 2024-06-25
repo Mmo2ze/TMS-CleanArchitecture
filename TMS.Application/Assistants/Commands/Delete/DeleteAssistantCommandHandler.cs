@@ -21,7 +21,7 @@ public class DeleteAssistantCommandHandler: IRequestHandler<DeleteAssistantComma
     public async Task<ErrorOr<string>> Handle(DeleteAssistantCommand request, CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
-        var assistant = await _assistantRepository.GetAsync(request.Id, cancellationToken);
+        var assistant = await _assistantRepository.FindAsync(request.Id, cancellationToken);
         _assistantRepository.Remove(assistant!);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return $"Assistant with id {request.Id.Value} has been deleted";

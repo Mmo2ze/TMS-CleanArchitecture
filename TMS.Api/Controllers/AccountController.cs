@@ -6,6 +6,10 @@ using TMS.Application.Accounts.Commands.Create;
 using TMS.Application.Accounts.Commands.Delete;
 using TMS.Application.Accounts.Commands.Update;
 using TMS.Application.Accounts.Queries.Get;
+using TMS.Application.Attendance.Commands.Create;
+using TMS.Application.Attendance.Commands.Delete;
+using TMS.Application.Attendance.Commands.Update;
+using TMS.Application.Attendance.Queries.Get;
 using TMS.Application.Quizzes.Commands.Create;
 using TMS.Application.Quizzes.Commands.Delete;
 using TMS.Application.Quizzes.Queries.Get;
@@ -13,9 +17,13 @@ using TMS.Contracts.Account.Create;
 using TMS.Contracts.Account.DTOs;
 using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
+using TMS.Contracts.Attendance;
+using TMS.Contracts.Attendance.Create;
+using TMS.Contracts.Attendance.Update;
 using TMS.Contracts.Quiz.Create;
 using TMS.Contracts.Quiz.Get;
 using TMS.Domain.Accounts;
+using TMS.Domain.Attendances;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Quizzes;
@@ -124,7 +132,7 @@ public class AccountController : ApiController
             _ => NoContent(),
             Problem);
     }
-    
+
     [HttpDelete("{id}/quiz/{quizId}")]
     public async Task<IActionResult> DeleteQuiz(string id, string quizId)
     {
@@ -132,6 +140,74 @@ public class AccountController : ApiController
         var result = await _mediator.Send(command);
         return result.Match(
             _ => Ok(result.Value),
+            Problem
+        );
+    }
+
+    [HttpPost("{id}/attendance")]
+    public async Task<IActionResult> AddAttendance([FromBody] CreateAttendanceRequest request, string id)
+    {
+        if (request.AccountId != id)
+        {
+            return BadRequest("account Id in the request body does not match the account Id in the route.");
+        }
+
+        var command = _mapper.Map<CreateAttendanceCommand>(request);
+
+        var result = await _mediator.Send(command);
+        var response = _mapper.Map<AttendanceResponse>(result.Value);
+
+        return result.Match(
+            _ => Ok(response),
+            Problem
+        );
+    }
+
+    [HttpGet("{id}/attendance")]
+    public async Task<IActionResult> GetAttendances([FromQuery] GetAttendancesRequest request, string id)
+    {
+        if (request.AccountId != id)
+        {
+            return BadRequest("account Id in the request body does not match the account Id in the route.");
+        }
+
+        var query = _mapper.Map<GetAttendancesQuery>(request);
+
+        var result = await _mediator.Send(query);
+        var response = _mapper.Map<PaginatedList<AttendanceResponse>>(result.Value);
+        return result.Match(
+            _ => Ok(response),
+            Problem);
+    }
+
+    [HttpPut("attendance/{id}")]
+    public async Task<IActionResult> UpdateAttendance([FromBody] UpdateAttendanceRequest request, string id)
+    {
+        if (request.Id != id)
+        {
+            return BadRequest("attendance Id in the request body does not match the attendance Id in the route.");
+        }
+
+        var command = _mapper.Map<UpdateAttendanceCommand>(request);
+        command = command with { Id = AttendanceId.Create(id) };
+
+        var result = await _mediator.Send(command);
+
+        var response = _mapper.Map<AttendanceResponse>(result.Value);
+
+        return result.Match(
+            _ => Ok(response),
+            Problem
+        );
+    }
+
+    [HttpDelete("{id}/attendance/{attendanceId}")]
+    public async Task<IActionResult> DeleteAttendance(string id, string attendanceId)
+    {
+        var command = new DeleteAttendanceCommand(AttendanceId.Create(attendanceId), AccountId.Create(id));
+        var result = await _mediator.Send(command);
+        return result.Match(
+            _ => NoContent(),
             Problem
         );
     }

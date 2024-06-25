@@ -15,5 +15,6 @@ public interface IRepository<TEntity, TId> where TEntity : Aggregate<TId> where 
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
     Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
     Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
-    Task<TEntity?> GetAsync(TId id, CancellationToken cancellationToken = default);
+    Task<TEntity?> FindAsync(TId id, CancellationToken cancellationToken = default);
+    Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
 }

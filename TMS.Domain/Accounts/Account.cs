@@ -1,4 +1,5 @@
 using TMS.Domain.Accounts.Events;
+using TMS.Domain.Assistants;
 using TMS.Domain.Attendances;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
@@ -29,7 +30,7 @@ public class Account : Aggregate<AccountId>
     public IReadOnlyList<Quiz> Quizzes => _quizzes.AsReadOnly();
     public IReadOnlyList<Attendance> Attendances => _attendances.AsReadOnly();
     public StudentId StudentId { get; private set; }
-    public Student Student { get; private set; }
+    public Student Student { get; private set; } = null!;
     public ParentId? ParentId { get; private set; }
 
     public TeacherId TeacherId { get; private set; }
@@ -85,14 +86,16 @@ public class Account : Aggregate<AccountId>
         RaiseDomainEvent(new QuizRemovedDomainEvent(quiz.Id, Id));
     }
     
-    public void AddAttendance(Attendance attendance)
+    public Attendance AddAttendance(AttendanceStatus status,DateOnly date,AssistantId? assistantId)
     {
+        var attendance = Attendance.Create(Id, TeacherId, assistantId, date, status);
         _attendances.Add(attendance);
         RaiseDomainEvent(new AttendanceCreatedDomainEvent(attendance.Id, attendance.Date, attendance.AccountId, attendance.TeacherId));
+        return attendance;
     }
     public void RemoveAttendance(Attendance attendance)
     {
-        _attendances.Remove(attendance);
         RaiseDomainEvent(new AttendanceRemovedDomainEvent(attendance.Id, Id));
+        _attendances.Remove(attendance);
     }
 }

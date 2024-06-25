@@ -20,7 +20,7 @@ public class UnitOfWorkBehavior<TRequest,TResponse>:
             return await next();
         }
         var response = await next();
-        _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return response;
     }
 

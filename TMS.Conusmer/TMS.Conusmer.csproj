@@ -17,4 +17,8 @@
       <PackageReference Include="MassTransit.AmazonSQS" Version="8.2.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Consumers\Attendance\" />
+    </ItemGroup>
+
 </Project>

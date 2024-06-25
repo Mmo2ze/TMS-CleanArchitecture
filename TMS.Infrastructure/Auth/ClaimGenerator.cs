@@ -65,6 +65,8 @@ private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, Li
         claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
         claims.Add(new Claim(ClaimTypes.MobilePhone, teacher.Phone));
         claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
+        claims.Add(new Claim(ClaimTypes.Name, teacher.Name));
+
         return claims;
     }
 
@@ -81,6 +83,8 @@ private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, Li
     claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
     claims.Add(new Claim(ClaimTypes.MobilePhone, assistant.Phone));
     claims.Add(new Claim(CustomClaimTypes.TeacherId, assistant.TeacherId.Value));
+    claims.Add(new Claim(ClaimTypes.Name, assistant.Name));
+
     return claims;
 }
 
@@ -95,6 +99,7 @@ private async Task<ErrorOr<List<Claim>>> GenerateAdminClaims(string userId, List
 
     claims.Add(new Claim(ClaimTypes.Role, Roles.Admin.Role));
     claims.Add(new Claim(ClaimTypes.MobilePhone, admin.Phone));
+    claims.Add(new Claim(ClaimTypes.Name, admin.Name));
     return claims;
 }
 }

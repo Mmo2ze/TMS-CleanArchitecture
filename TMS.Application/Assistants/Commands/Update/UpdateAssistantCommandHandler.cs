@@ -22,7 +22,7 @@ public class UpdateAssistantCommandHandler: IRequestHandler<UpdateAssistantComma
 
     public async Task<ErrorOr<AssistantDto>> Handle(UpdateAssistantCommand request, CancellationToken cancellationToken)
     {
-        var assistant = await _assistantRepository.GetAsync(request.Id, cancellationToken);
+        var assistant = await _assistantRepository.FindAsync(request.Id, cancellationToken);
         
         assistant!.Update(request.Name, request.Phone, request.Email);
         assistant.UpdateRoles(request.Roles);

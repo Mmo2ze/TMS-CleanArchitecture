@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
@@ -45,5 +46,16 @@ public class TeacherHelper : ITeacherHelper
         return assistantId == null || !AssistantId.IsValidId(assistantId)
             ? null
             : new AssistantId(assistantId);
+    }
+
+    public AssistantInfo GetAssistantInfo()
+    {
+        var assistantId = GetAssistantId();
+        return new AssistantInfo( _claimsReader.GetByClaimType(ClaimTypes.Name)!, assistantId);
+    }
+
+    public string GetTeacherName()
+    {
+        return _claimsReader.GetByClaimType(ClaimTypes.Name)!;
     }
 }
