@@ -1,5 +1,6 @@
 using ErrorOr;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Services;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
@@ -24,13 +25,14 @@ public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, Err
         CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
-        if (teacherId == null)
-            return Errors.Auth.InvalidCredentials;
 
-        var group = await _groupRepository.ByIdAsync(request.Id, cancellationToken);
 
-        group!.Update(request.Name, request.Grade, request.BasePrice);
-        
+        var group = _groupRepository.GetQueryable()
+                .Include(x => x.Sessions)
+                .First(x => x.Id == request.Id);
+
+        group.Update(request.Name, request.Grade, request.BasePrice);
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return UpdateGroupResult.From(group);

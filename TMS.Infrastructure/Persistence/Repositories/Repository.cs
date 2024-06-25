@@ -80,6 +80,15 @@ public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where
         return DbContext.Set<TEntity>().AllAsync(predicate, cancellationToken);
     }
 
+    public Task<List<TEntity>> Where(Expression<Func<TEntity, bool>> predicate)
+    {
+        return DbContext.Set<TEntity>().Where(predicate).ToListAsync();
+    }
+
+    public IQueryable<TEntity> WhereQueryable(Expression<Func<TEntity, bool>> predicate)
+    {
+        return DbContext.Set<TEntity>().Where(predicate);  
+    }
 
 
     public bool Any(Expression<Func<TEntity, bool>> predicate)

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.AttendanceScheduler;
+using TMS.Domain.AttendanceSchedulers;
 using TMS.Domain.Teachers;
 
 namespace TMS.Infrastructure.Persistence.Config;
@@ -19,7 +19,7 @@ public class AttendanceSchedulerConfiguration : IEntityTypeConfiguration<Attenda
 
         // relationships
         builder.HasOne<Teacher>()
-            .WithMany()
+            .WithMany(x=> x.AttendanceSchedulers)
             .HasForeignKey(x => x.TeacherId)
             .OnDelete(DeleteBehavior.Cascade);
 

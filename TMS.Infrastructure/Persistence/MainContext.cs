@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using TMS.Domain.Accounts;
 using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
+using TMS.Domain.Attendances;
+using TMS.Domain.AttendanceSchedulers;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
@@ -61,4 +63,6 @@ public class MainContext :DbContext
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Account> Accounts { get; set; }
     public DbSet<Quiz> Quizzes { get; set; }
+    public DbSet<Attendance> Attendances { get; set; }
+    public DbSet<AttendanceScheduler> AttendanceSchedulers { get; set; }
 }

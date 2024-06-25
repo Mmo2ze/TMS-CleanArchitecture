@@ -1,5 +1,7 @@
 ﻿using TMS.Domain.Accounts;
 using TMS.Domain.Assistants;
+using TMS.Domain.AttendanceSchedulers;
+using TMS.Domain.AttendanceSchedulers.Enums;
 using TMS.Domain.Groups;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers.Events;
@@ -15,6 +17,7 @@ public class Teacher : User<TeacherId>
     private readonly List<Assistant> _assistants = [];
     private readonly List<Account> _students = [];
     private readonly List<Group> _groups = [];
+    private readonly List<AttendanceScheduler> _attendanceSchedulers = [];
 
     public Subject Subject { get; private set; }
     public TeacherStatus Status { get; private set; }
@@ -24,6 +27,8 @@ public class Teacher : User<TeacherId>
     public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
     public IReadOnlyList<Account> Students => _students.AsReadOnly();
+    public IReadOnlyList<AttendanceScheduler> AttendanceSchedulers => _attendanceSchedulers.AsReadOnly();
+    public AutoAttendanceSchedulerOption AttendanceScheduler { get; set; } = AutoAttendanceSchedulerOption.AfterEverySession;
     public string WhatsappLink => $"https://wa.me/{Phone}";
 
 
@@ -108,5 +113,15 @@ public class Teacher : User<TeacherId>
         base.SetHasWhatsapp(value);
         if(!value)
             RaiseDomainEvent(new TeacherDontHaveWhatsappDomainEvent(Id));
+    }
+    
+    public void RemoveSchedulers()
+    {
+        _attendanceSchedulers.Clear();
+    }
+
+    public void AddSchedulers(List<AttendanceScheduler> newSchedulers)
+    {
+        _attendanceSchedulers.AddRange(newSchedulers);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TMS.Domain.AttendanceSchedulers.Enums;
 using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Models;
 using TMS.Domain.RefreshTokens;
@@ -31,6 +32,10 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.Property(t => t.Status).HasConversion(
             v => v.ToString(),
             v => Enum.Parse<TeacherStatus>(v)
+        );
+        builder.Property(t => t.AttendanceScheduler).HasConversion(
+            v => v.ToString(),
+            v => Enum.Parse<AutoAttendanceSchedulerOption>(v)
         );
         // Configure relationships
         builder.HasMany(t => t.Assistants)

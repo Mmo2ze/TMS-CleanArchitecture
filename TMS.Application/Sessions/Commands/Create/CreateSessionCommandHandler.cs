@@ -22,14 +22,12 @@ public class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand,
     public async Task<ErrorOr<Session>> Handle(CreateSessionCommand request, CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
-        if (teacherId is null)
-            return Errors.Auth.InvalidCredentials;
 
-        var group = await _groupRepository.GetByIdAsync(request.GroupId, cancellationToken);
+        var group = await _groupRepository.FindAsync(request.GroupId, cancellationToken);
 
-        var session = Session.Create(request.GroupId, teacherId, request.Day, request.StartTime, request.EndTime);
+        var session = Session.Create(request.GroupId, teacherId, request.Day, request.StartTime, request.EndTime,group!.Grade);
         
-        group!.AddSession(session);
+        group.AddSession(session);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TMS.Domain.Groups;
 using TMS.Domain.Sessions;
 
 namespace TMS.Infrastructure.Persistence.Config;
@@ -19,7 +20,8 @@ public class SessionsConfigurations: IEntityTypeConfiguration<Session>
         builder.Property(s => s.Day).IsRequired();
         builder.Property(s => s.StartTime).IsRequired();
         builder.Property(s => s.EndTime).IsRequired();
-        
-        
+
+
+
     }
 }

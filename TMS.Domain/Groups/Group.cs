@@ -8,10 +8,7 @@ namespace TMS.Domain.Groups;
 
 public class Group : Aggregate<GroupId>
 {
-    private Group():base(GroupId.CreateUnique())
-    {
-        
-    }
+
     private readonly List<Account> _students = [];
     private readonly List<Session> _sessions = [];
     public string Name { get; private set; }
@@ -47,6 +44,13 @@ public class Group : Aggregate<GroupId>
             RaiseDomainEvent(new GroupPriceChangedDomainEvent(Guid.NewGuid(), Id, BasePrice));
         }
 
+        if (Grade != grade && grade.HasValue)
+        {
+            foreach (var session in _sessions)
+            {
+                session.UpdateGrade(grade.Value);
+            }
+        }
         Name = name ?? Name;
         Grade = grade ?? Grade;
     }

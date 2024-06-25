@@ -14,20 +14,27 @@ public class Session : Aggregate<SessionId>
     public DayOfWeek Day { get; private set; }
     public TimeOnly StartTime { get; private set; }
     public TimeOnly EndTime { get; private set; }
+    public Grade Grade { get; private set; }
 
     private Session(SessionId id, GroupId groupId, TeacherId teacherId, DayOfWeek day, TimeOnly startTime,
-        TimeOnly endTime) : base(id)
+        TimeOnly endTime,Grade grade) : base(id)
     {
         GroupId = groupId;
         TeacherId = teacherId;
         Day = day;
         StartTime = startTime;
         EndTime = endTime;
+        Grade = grade;
     }
 
     public static Session Create(GroupId groupId, TeacherId teacherId, DayOfWeek day, TimeOnly startTime,
-        TimeOnly endTime)
+        TimeOnly endTime,Grade grade)
     {
-        return new Session(SessionId.CreateUnique(), groupId, teacherId, day, startTime, endTime);
+        return new Session(SessionId.CreateUnique(), groupId, teacherId, day, startTime, endTime,grade);
+    }
+
+    public void UpdateGrade(Grade grade)
+    {
+        Grade = grade;
     }
 }
