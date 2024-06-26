@@ -1,3 +1,4 @@
+using TMS.Domain.Common.Extentions;
 using TMS.Domain.Groups;
 using TMS.Domain.Teachers;
 
@@ -30,8 +31,12 @@ public class Session : Aggregate<SessionId>
     public static Session Create(GroupId groupId, TeacherId teacherId, DayOfWeek day, TimeOnly startTime,
         TimeOnly endTime,Grade grade)
     {
+        startTime.SetSecondsToZero();
+        endTime.SetSecondsToZero();
         return new Session(SessionId.CreateUnique(), groupId, teacherId, day, startTime, endTime,grade);
     }
+    
+
 
     public void UpdateGrade(Grade grade)
     {

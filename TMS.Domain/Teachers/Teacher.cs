@@ -17,7 +17,7 @@ public class Teacher : User<TeacherId>
     private readonly List<Assistant> _assistants = [];
     private readonly List<Account> _students = [];
     private readonly List<Group> _groups = [];
-    private readonly List<AttendanceScheduler> _attendanceSchedulers = [];
+    private readonly List<Scheduler> _attendanceSchedulers = [];
 
     public Subject Subject { get; private set; }
     public TeacherStatus Status { get; private set; }
@@ -27,7 +27,7 @@ public class Teacher : User<TeacherId>
     public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
     public IReadOnlyList<Account> Students => _students.AsReadOnly();
-    public IReadOnlyList<AttendanceScheduler> AttendanceSchedulers => _attendanceSchedulers.AsReadOnly();
+    public IReadOnlyList<Scheduler> AttendanceSchedulers => _attendanceSchedulers.AsReadOnly();
     public AutoAttendanceSchedulerOption AttendanceScheduler { get; set; } = AutoAttendanceSchedulerOption.AfterEverySession;
     public string WhatsappLink => $"https://wa.me/{Phone}";
 
@@ -120,7 +120,7 @@ public class Teacher : User<TeacherId>
         _attendanceSchedulers.Clear();
     }
 
-    public void AddSchedulers(List<AttendanceScheduler> newSchedulers)
+    public void AddSchedulers(List<Scheduler> newSchedulers)
     {
         _attendanceSchedulers.AddRange(newSchedulers);
     }

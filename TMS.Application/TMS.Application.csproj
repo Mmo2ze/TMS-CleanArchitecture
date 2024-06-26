@@ -12,9 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="AttendanceScheduler\Commands\" />
-      <Folder Include="AttendanceScheduler\Events\" />
-      <Folder Include="AttendanceScheduler\Queires\" />
+      <Folder Include="Scheduler\Commands\" />
+      <Folder Include="Scheduler\Events\" />
       <Folder Include="Common\Entites\" />
       <Folder Include="Common\Interfaces\" />
     </ItemGroup>

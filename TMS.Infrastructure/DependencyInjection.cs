@@ -115,7 +115,7 @@ public static class DependencyInjection
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IQuizRepository, QuizRepository>();
         services.AddScoped<IAttendanceRepository, AttendanceRepository>();
-        services.AddScoped<IAttendanceSchedulerRepository, AttendanceSchedulerRepository>();
+        services.AddScoped<ISchedulerRepository, SchedulerRepository>();
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();

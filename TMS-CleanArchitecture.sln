@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Conusmer", "TMS.Conusmer\TMS.Conusmer.csproj", "{6D456062-2F18-477D-8A3F-D9C9393F1C77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Consumer", "TMS.Consumer\TMS.Consumer.csproj", "{6D456062-2F18-477D-8A3F-D9C9393F1C77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

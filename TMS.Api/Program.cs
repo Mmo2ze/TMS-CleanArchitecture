@@ -1,14 +1,12 @@
-using Coravel;
-using MassTransit;
+
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using TMS.Api;
 using TMS.Application;
-using TMS.Conusmer;
+using TMS.Consumer;
 using TMS.Infrastructure;
-using TMS.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

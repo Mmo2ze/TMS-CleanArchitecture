@@ -64,5 +64,5 @@ public class MainContext :DbContext
     public DbSet<Account> Accounts { get; set; }
     public DbSet<Quiz> Quizzes { get; set; }
     public DbSet<Attendance> Attendances { get; set; }
-    public DbSet<AttendanceScheduler> AttendanceSchedulers { get; set; }
+    public DbSet<Scheduler> AttendanceSchedulers { get; set; }
 }

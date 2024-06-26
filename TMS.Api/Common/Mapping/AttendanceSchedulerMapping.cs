@@ -9,9 +9,9 @@ public class AttendanceSchedulerMapping:IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<AttendanceScheduler, AttendanceSchedulerResponse>()
+        config.NewConfig<Scheduler, AttendanceSchedulerResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
-        config.NewConfig<PaginatedList<AttendanceScheduler>, PaginatedList<AttendanceSchedulerResponse>>()
+        config.NewConfig<PaginatedList<Scheduler>, PaginatedList<AttendanceSchedulerResponse>>()
             .ConstructUsing((source,
                 context) => new PaginatedList<AttendanceSchedulerResponse>(
                 source.Items.Adapt<IReadOnlyCollection<AttendanceSchedulerResponse>>(),
