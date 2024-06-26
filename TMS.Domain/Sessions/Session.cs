@@ -31,8 +31,8 @@ public class Session : Aggregate<SessionId>
     public static Session Create(GroupId groupId, TeacherId teacherId, DayOfWeek day, TimeOnly startTime,
         TimeOnly endTime,Grade grade)
     {
-        startTime.SetSecondsToZero();
-        endTime.SetSecondsToZero();
+        startTime = startTime.SetSecondsToZero();
+        endTime = endTime.SetSecondsToZero();
         return new Session(SessionId.CreateUnique(), groupId, teacherId, day, startTime, endTime,grade);
     }
     
