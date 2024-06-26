@@ -86,6 +86,6 @@ public class Group : Aggregate<GroupId>
         _sessions.Remove(session);
         SessionsCount--;
         RaiseDomainEvent(new SessionRemovedFromGroupDomainEvent(Guid.NewGuid(), TeacherId, session.Id, session.EndTime,
-            session.Day));
+            session.Day,Grade));
     }
 }

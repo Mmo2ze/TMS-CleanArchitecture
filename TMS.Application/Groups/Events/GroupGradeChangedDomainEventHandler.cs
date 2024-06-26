@@ -1,6 +1,5 @@
 using MediatR;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Groups;
 using TMS.Domain.Groups.Events;
 
 namespace TMS.Application.Groups.Events;
