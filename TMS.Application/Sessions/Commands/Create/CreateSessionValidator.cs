@@ -1,5 +1,6 @@
 using FluentValidation;
 using TMS.Application.Common.Extensions;
+using TMS.Application.Common.Services;
 using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
@@ -11,11 +12,15 @@ public class CreateSessionValidator : AbstractValidator<CreateSessionCommand>
 {
     private readonly IGroupRepository _groupRepository;
     private readonly ISessionRepository _sessionRepository;
+    private readonly ITeacherHelper _teacherHelper;
 
-    public CreateSessionValidator(IGroupRepository groupRepository, ISessionRepository sessionRepository)
+    public CreateSessionValidator(IGroupRepository groupRepository, ISessionRepository sessionRepository,
+        ITeacherHelper teacherHelper)
     {
         _groupRepository = groupRepository;
         _sessionRepository = sessionRepository;
+        _teacherHelper = teacherHelper;
+
 
         RuleFor(x => x.GroupId).NotEmpty().WithMessage("GroupId is required.");
         RuleFor(x => x.Day).IsInEnum().WithMessage("invalid Day.");
@@ -25,13 +30,25 @@ public class CreateSessionValidator : AbstractValidator<CreateSessionCommand>
 
         RuleFor(x => x.GroupId).MustAsync(BeFoundGroup)
             .WithError(Errors.Group.NotFound);
-        RuleFor(x => x.Day).MustAsync(BeValidSession)
+        RuleFor(x => x.StartTime).MustAsync(BeValidSession)
             .WithError(Errors.Session.SessionIsConflict);
+        RuleFor(x => x.Day)
+            .MustAsync(HasOneSessionPerDay)
+            .WithError(Errors.Session.SessionShouldBeOnePerDay);
     }
 
-    private Task<bool> BeValidSession(CreateSessionCommand command, DayOfWeek day, CancellationToken token)
+    private async Task<bool> HasOneSessionPerDay(CreateSessionCommand command, DayOfWeek arg1, CancellationToken arg2)
     {
-        return _sessionRepository.IsValidSessionAsync(day, command.StartTime, command.EndTime, token);
+        return !await _sessionRepository.AnyAsync(
+            x => x.TeacherId == _teacherHelper.GetTeacherId() &&
+                 x.GroupId == command.GroupId &&
+                 x.Day == command.Day,
+            arg2);
+    }
+
+    private Task<bool> BeValidSession(CreateSessionCommand command, TimeOnly startTime, CancellationToken token)
+    {
+        return _sessionRepository.IsValidSessionAsync(command.Day, startTime, command.EndTime, token);
     }
 
     private async Task<bool> BeFoundGroup(GroupId groupId, CancellationToken token)

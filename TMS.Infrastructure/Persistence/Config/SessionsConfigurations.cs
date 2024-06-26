@@ -5,7 +5,7 @@ using TMS.Domain.Sessions;
 
 namespace TMS.Infrastructure.Persistence.Config;
 
-public class SessionsConfigurations: IEntityTypeConfiguration<Session>
+public class SessionsConfigurations : IEntityTypeConfiguration<Session>
 {
     public void Configure(EntityTypeBuilder<Session> builder)
     {
@@ -21,7 +21,7 @@ public class SessionsConfigurations: IEntityTypeConfiguration<Session>
         builder.Property(s => s.StartTime).IsRequired();
         builder.Property(s => s.EndTime).IsRequired();
 
-
-
+        //index
+        builder.HasIndex(x=> new {x.TeacherId,x.Day,x.GroupId}).IsUnique();
     }
 }
