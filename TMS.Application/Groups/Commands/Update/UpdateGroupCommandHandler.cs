@@ -24,7 +24,6 @@ public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, Err
     public async Task<ErrorOr<UpdateGroupResult>> Handle(UpdateGroupCommand request,
         CancellationToken cancellationToken)
     {
-        var teacherId = _teacherHelper.GetTeacherId();
 
 
         var group = _groupRepository.GetQueryable()

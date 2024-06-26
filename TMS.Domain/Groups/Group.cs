@@ -8,7 +8,6 @@ namespace TMS.Domain.Groups;
 
 public class Group : Aggregate<GroupId>
 {
-
     private readonly List<Account> _students = [];
     private readonly List<Session> _sessions = [];
     public string Name { get; private set; }
@@ -46,13 +45,16 @@ public class Group : Aggregate<GroupId>
 
         if (Grade != grade && grade.HasValue)
         {
+            RaiseDomainEvent(new GroupGradeChangedDomainEvent(TeacherId,Id, Grade, grade.Value));
             foreach (var session in _sessions)
             {
                 session.UpdateGrade(grade.Value);
             }
+            Grade = grade.Value;
+
         }
+
         Name = name ?? Name;
-        Grade = grade ?? Grade;
     }
 
     private bool PriceChanged(double? basePrice)
@@ -70,7 +72,6 @@ public class Group : Aggregate<GroupId>
     {
         _sessions.Add(session);
         SessionsCount++;
-        RaiseDomainEvent(new SessionCreatedDomainEvent(TeacherId,session.EndTime,session.Day,Grade));
     }
 
     public void RemoveStudent(Account account)
@@ -84,6 +85,7 @@ public class Group : Aggregate<GroupId>
     {
         _sessions.Remove(session);
         SessionsCount--;
-        RaiseDomainEvent(new SessionRemovedFromGroupDomainEvent(Guid.NewGuid(),TeacherId, session.Id,session.EndTime,session.Day));
+        RaiseDomainEvent(new SessionRemovedFromGroupDomainEvent(Guid.NewGuid(), TeacherId, session.Id, session.EndTime,
+            session.Day));
     }
 }

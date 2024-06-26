@@ -1,15 +1,13 @@
 using TMS.Domain.Common.Extentions;
 using TMS.Domain.Groups;
-using TMS.Domain.Sessions.Events;
+using TMS.Domain.Groups.Events;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Sessions;
 
 public class Session : Aggregate<SessionId>
 {
-    private Session()
-    {
-    }
+
 
     public GroupId GroupId { get; private set; }
     public TeacherId TeacherId { get; private set; }
@@ -27,6 +25,7 @@ public class Session : Aggregate<SessionId>
         StartTime = startTime;
         EndTime = endTime;
         Grade = grade;
+        RaiseDomainEvent(new SessionCreatedDomainEvent(TeacherId, EndTime, Day, Grade));
     }
 
     public static Session Create(GroupId groupId, TeacherId teacherId, DayOfWeek day, TimeOnly startTime,
@@ -34,13 +33,14 @@ public class Session : Aggregate<SessionId>
     {
         startTime = startTime.SetSecondsToZero();
         endTime = endTime.SetSecondsToZero();
+
         return new Session(SessionId.CreateUnique(), groupId, teacherId, day, startTime, endTime, grade);
     }
 
 
     public void UpdateGrade(Grade grade)
     {
-        RaiseDomainEvent(new SessionGradeChangedDomainEvent(TeacherId,EndTime, Grade,grade,Day));
         Grade = grade;
     }
 }
+
