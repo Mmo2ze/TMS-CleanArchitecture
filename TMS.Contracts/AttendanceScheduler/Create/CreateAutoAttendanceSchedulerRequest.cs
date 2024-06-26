@@ -1,4 +1,4 @@
-using TMS.Domain.AttendanceSchedulers.Enums;
+using TMS.Domain.Schedulers.Enums;
 
 namespace TMS.Contracts.AttendanceScheduler.Create;
 

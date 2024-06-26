@@ -1,7 +1,7 @@
 using MassTransit;
-using TMS.Domain.AttendanceSchedulers;
-using TMS.Domain.AttendanceSchedulers.Enums;
 using TMS.Domain.Common.Repositories;
+using TMS.Domain.Schedulers;
+using TMS.Domain.Schedulers.Enums;
 using TMS.MessagingContracts.Session;
 
 namespace TMS.Consumer.Consumers.Sessions;

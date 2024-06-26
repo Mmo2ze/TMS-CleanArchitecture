@@ -1,8 +1,8 @@
 ﻿using TMS.Domain.Accounts;
 using TMS.Domain.Assistants;
-using TMS.Domain.AttendanceSchedulers;
-using TMS.Domain.AttendanceSchedulers.Enums;
 using TMS.Domain.Groups;
+using TMS.Domain.Schedulers;
+using TMS.Domain.Schedulers.Enums;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers.Events;
 

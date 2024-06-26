@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.AttendanceSchedulers;
+using TMS.Domain.Schedulers;
 using TMS.Domain.Teachers;
 
 namespace TMS.Infrastructure.Persistence.Config;

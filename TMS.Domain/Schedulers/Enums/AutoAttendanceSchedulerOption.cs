@@ -1,4 +1,4 @@
-namespace TMS.Domain.AttendanceSchedulers.Enums;
+namespace TMS.Domain.Schedulers.Enums;
 
 public enum AutoAttendanceSchedulerOption
 {

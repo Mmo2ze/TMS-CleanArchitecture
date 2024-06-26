@@ -1,7 +1,7 @@
 using TMS.Domain.Groups;
 using TMS.Domain.Teachers;
 
-namespace TMS.Domain.AttendanceSchedulers;
+namespace TMS.Domain.Schedulers;
 
 public class Scheduler : Aggregate<SchedulerId>
 {
@@ -26,5 +26,10 @@ public class Scheduler : Aggregate<SchedulerId>
     public void UpdateFiresOn(TimeOnly messageEndTime)
     {
         FiresOn = messageEndTime;
+    }
+
+    public void UpdateGrade(Grade? grade)
+    {
+        Grade = grade;
     }
 }

@@ -1,5 +1,5 @@
-using TMS.Domain.AttendanceSchedulers;
 using TMS.Domain.Common.Repositories;
+using TMS.Domain.Schedulers;
 
 namespace TMS.Infrastructure.Persistence.Repositories;
 

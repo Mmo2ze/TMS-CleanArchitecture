@@ -7,7 +7,7 @@ using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Scheduler.Queries.Get;
 
-public class GetSchedulersHandler:IRequestHandler<GetSchedulersQuery, ErrorOr<PaginatedList<Domain.AttendanceSchedulers.Scheduler>>>
+public class GetSchedulersHandler:IRequestHandler<GetSchedulersQuery, ErrorOr<PaginatedList<Domain.Schedulers.Scheduler>>>
 {
     private readonly ITeacherHelper _teacherHelper;
     private readonly ISchedulerRepository _schedulerRepository;
@@ -18,7 +18,7 @@ public class GetSchedulersHandler:IRequestHandler<GetSchedulersQuery, ErrorOr<Pa
         _schedulerRepository = schedulerRepository;
     }
 
-    public async Task<ErrorOr<PaginatedList<Domain.AttendanceSchedulers.Scheduler>>> Handle(GetSchedulersQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PaginatedList<Domain.Schedulers.Scheduler>>> Handle(GetSchedulersQuery request, CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
         var schedulers = _schedulerRepository.WhereQueryable(x => x.TeacherId == teacherId);

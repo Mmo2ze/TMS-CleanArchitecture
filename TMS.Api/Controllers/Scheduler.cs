@@ -1,7 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TMS.Application.AttendanceScheduler.Commands.Create;
+using TMS.Application.Scheduler.Commands.Create;
 using TMS.Contracts.AttendanceScheduler.Create;
 
 namespace TMS.Api.Controllers;

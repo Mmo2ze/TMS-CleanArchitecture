@@ -1,4 +1,4 @@
-using TMS.Domain.AttendanceSchedulers;
+using TMS.Domain.Schedulers;
 
 namespace TMS.Domain.Common.Repositories;
 

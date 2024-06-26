@@ -1,4 +1,4 @@
-namespace TMS.Domain.AttendanceSchedulers;
+namespace TMS.Domain.Schedulers;
 
 public record SchedulerId(string Value) : ValueObjectId<SchedulerId>(Value)
 {

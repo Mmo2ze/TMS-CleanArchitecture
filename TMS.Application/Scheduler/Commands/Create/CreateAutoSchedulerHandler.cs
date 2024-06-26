@@ -1,16 +1,14 @@
 using ErrorOr;
-using MassTransit.Initializers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Services;
-using TMS.Domain.AttendanceSchedulers.Enums;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Teachers;
+using TMS.Domain.Schedulers.Enums;
 
-namespace TMS.Application.AttendanceScheduler.Commands.Create;
+namespace TMS.Application.Scheduler.Commands.Create;
 
 public class CreateAutoSchedulerHandler : IRequestHandler<CreateAutoSchedulerCommand,
-    ErrorOr<List<Domain.AttendanceSchedulers.Scheduler>>>
+    ErrorOr<List<Domain.Schedulers.Scheduler>>>
 {
     private readonly ITeacherHelper _teacherHelper;
     private readonly ITeacherRepository _teacherRepository;
@@ -25,7 +23,7 @@ public class CreateAutoSchedulerHandler : IRequestHandler<CreateAutoSchedulerCom
         _sessionRepository = sessionRepository;
     }
 
-    public async Task<ErrorOr<List<Domain.AttendanceSchedulers.Scheduler>>> Handle(
+    public async Task<ErrorOr<List<Domain.Schedulers.Scheduler>>> Handle(
         CreateAutoSchedulerCommand request, CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
@@ -33,7 +31,7 @@ public class CreateAutoSchedulerHandler : IRequestHandler<CreateAutoSchedulerCom
             .Include(x => x.AttendanceSchedulers)
             .First(x => x.Id == teacherId);
         teacher.RemoveSchedulers();
-        List<Domain.AttendanceSchedulers.Scheduler> newSchedulers = [];
+        List<Domain.Schedulers.Scheduler> newSchedulers = [];
         var sessions = _sessionRepository.WhereQueryable(x => x.TeacherId == teacherId).Select(x =>
             new
             {
@@ -47,7 +45,7 @@ public class CreateAutoSchedulerHandler : IRequestHandler<CreateAutoSchedulerCom
             foreach (var session in sessions)
             {
                 newSchedulers.Add(
-                    Domain.AttendanceSchedulers.Scheduler.Create(session.Day, session.EndTime, teacherId));
+                    Domain.Schedulers.Scheduler.Create(session.Day, session.EndTime, teacherId));
             }
         }
         else if (request.SchedulerOption == AutoAttendanceSchedulerOption.AfterLastSessionOfSameGrade)
@@ -57,7 +55,7 @@ public class CreateAutoSchedulerHandler : IRequestHandler<CreateAutoSchedulerCom
             {
                 var lastSession = group.Last();
                 newSchedulers.Add(
-                    Domain.AttendanceSchedulers.Scheduler.Create(lastSession.Day, lastSession.EndTime,
+                    Domain.Schedulers.Scheduler.Create(lastSession.Day, lastSession.EndTime,
                         teacherId, lastSession.Grade));
             }
         }

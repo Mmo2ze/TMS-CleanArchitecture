@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.AttendanceSchedulers.Enums;
 using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Models;
 using TMS.Domain.RefreshTokens;
+using TMS.Domain.Schedulers.Enums;
 using TMS.Domain.Sessions;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;

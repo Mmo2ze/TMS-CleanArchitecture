@@ -1,7 +1,7 @@
 using Mapster;
 using TMS.Contracts.AttendanceScheduler.Create;
-using TMS.Domain.AttendanceSchedulers;
 using TMS.Domain.Common.Models;
+using TMS.Domain.Schedulers;
 
 namespace TMS.Api.Common.Mapping;
 

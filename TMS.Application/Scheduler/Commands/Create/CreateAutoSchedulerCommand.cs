@@ -1,8 +1,8 @@
 using ErrorOr;
 using MediatR;
-using TMS.Domain.AttendanceSchedulers.Enums;
+using TMS.Domain.Schedulers.Enums;
 
-namespace TMS.Application.AttendanceScheduler.Commands.Create;
+namespace TMS.Application.Scheduler.Commands.Create;
 
 public record CreateAutoSchedulerCommand(AutoAttendanceSchedulerOption SchedulerOption)
-    : IRequest<ErrorOr<List<Domain.AttendanceSchedulers.Scheduler>>>;
+    : IRequest<ErrorOr<List<Domain.Schedulers.Scheduler>>>;
