@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <Folder Include="Consumers\Attendance\" />
+      <Folder Include="Consumers\Sessions\" />
     </ItemGroup>
 
 </Project>

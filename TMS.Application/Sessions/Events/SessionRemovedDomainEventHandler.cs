@@ -1,22 +1,23 @@
-using MassTransit;
 using MediatR;
+using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups.Events;
-using TMS.MessagingContracts.Session;
 
-namespace TMS.Application.Sessions.Commands.Events;
+namespace TMS.Application.Sessions.Events;
 
 public class SessionRemovedDomainEventHandler : INotificationHandler<SessionRemovedFromGroupDomainEvent>
 {
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly ISchedulerRepository _schedulerRepository;
 
-    public SessionRemovedDomainEventHandler(IPublishEndpoint publishEndpoint)
+    public SessionRemovedDomainEventHandler(ISchedulerRepository schedulerRepository)
     {
-        _publishEndpoint = publishEndpoint;
+        _schedulerRepository = schedulerRepository;
     }
 
-    public Task Handle(SessionRemovedFromGroupDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(SessionRemovedFromGroupDomainEvent notification, CancellationToken cancellationToken)
     {
-        return _publishEndpoint.Publish(
-            new SessionRemovedEvent(notification.TeacherId, notification.Day, notification.EndTime), cancellationToken);
+        var scheduler = await _schedulerRepository.FirstOrDefaultAsync(x =>
+                x.TeacherId == notification.TeacherId && x.Day == notification.Day && x.FiresOn == notification.EndTime,
+            cancellationToken);
+        if (scheduler != null) _schedulerRepository.Remove(scheduler);
     }
 }

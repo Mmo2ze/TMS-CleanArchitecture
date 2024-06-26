@@ -1,6 +1,7 @@
 using TMS.Domain.Common.Extentions;
 using TMS.Domain.Groups;
 using TMS.Domain.Groups.Events;
+using TMS.Domain.Sessions.Events;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Sessions;

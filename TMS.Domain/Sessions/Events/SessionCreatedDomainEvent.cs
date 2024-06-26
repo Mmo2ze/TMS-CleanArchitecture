@@ -1,5 +1,6 @@
+using TMS.Domain.Groups;
 using TMS.Domain.Teachers;
 
-namespace TMS.Domain.Groups.Events;
+namespace TMS.Domain.Sessions.Events;
 
-internal record SessionCreatedDomainEvent(TeacherId TeacherId, TimeOnly EndTime, DayOfWeek Day, Grade Grade) : DomainEvent;
+public record SessionCreatedDomainEvent(TeacherId TeacherId, TimeOnly EndTime, DayOfWeek Day, Grade Grade) : DomainEvent;
