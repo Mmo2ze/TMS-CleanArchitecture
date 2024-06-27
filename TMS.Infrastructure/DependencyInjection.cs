@@ -101,7 +101,7 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("Postgres"))
                 .EnableSensitiveDataLogging()
-                .EnableDetailedErrors() ;
+                .EnableDetailedErrors();
         });
         services.AddScoped<IAdminRepository, AdminRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -115,7 +115,7 @@ public static class DependencyInjection
         services.AddScoped<IQuizRepository, QuizRepository>();
         services.AddScoped<IAttendanceRepository, AttendanceRepository>();
         services.AddScoped<ISchedulerRepository, SchedulerRepository>();
-
+        services.AddScoped<IHolidayRepository, HolidayRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

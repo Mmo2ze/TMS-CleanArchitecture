@@ -28,7 +28,7 @@ public class Holiday : Aggregate<HolidayId>
     }
 
     public static Holiday Create(TeacherId teacherId, GroupId? groupId, DateOnly startDate, DateOnly endDate,
-        Grade? grade, AssistantId? createdById)
+        AssistantId? createdById)
     {
         return new Holiday(new HolidayId(), teacherId, groupId, startDate, endDate, createdById);
     }

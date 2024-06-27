@@ -47,7 +47,6 @@ public class Teacher : User<TeacherId>
 
     public void AddAssistant(Assistant assistant)
     {
-        //adding assistant
         _assistants.Add(assistant);
     }
 
@@ -126,5 +125,15 @@ public class Teacher : User<TeacherId>
     public void AddSchedulers(List<Scheduler> newSchedulers)
     {
         _attendanceSchedulers.AddRange(newSchedulers);
+    }
+    
+    public void AddHoliday(Holiday holiday)
+    {
+        _holidays.Add(holiday);
+    }
+    
+    public void RemoveHoliday(Holiday holiday)
+    {
+        _holidays.Remove(holiday);
     }
 }
