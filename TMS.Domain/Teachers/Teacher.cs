@@ -1,6 +1,7 @@
 ﻿using TMS.Domain.Accounts;
 using TMS.Domain.Assistants;
 using TMS.Domain.Groups;
+using TMS.Domain.Holidays;
 using TMS.Domain.Schedulers;
 using TMS.Domain.Schedulers.Enums;
 using TMS.Domain.Students;
@@ -18,6 +19,7 @@ public class Teacher : User<TeacherId>
     private readonly List<Account> _students = [];
     private readonly List<Group> _groups = [];
     private readonly List<Scheduler> _attendanceSchedulers = [];
+    private readonly List<Holiday> _holidays = [];
 
     public Subject Subject { get; private set; }
     public TeacherStatus Status { get; private set; }
@@ -28,6 +30,7 @@ public class Teacher : User<TeacherId>
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
     public IReadOnlyList<Account> Students => _students.AsReadOnly();
     public IReadOnlyList<Scheduler> AttendanceSchedulers => _attendanceSchedulers.AsReadOnly();
+    public IReadOnlyList<Holiday> Holidays => _holidays.AsReadOnly();
     public AutoAttendanceSchedulerOption AttendanceScheduler { get; set; } = AutoAttendanceSchedulerOption.AfterEverySession;
     public string WhatsappLink => $"https://wa.me/{Phone}";
 
