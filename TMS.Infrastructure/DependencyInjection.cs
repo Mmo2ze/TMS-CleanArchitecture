@@ -101,8 +101,7 @@ public static class DependencyInjection
         {
             options.UseNpgsql(configuration.GetConnectionString("Postgres"))
                 .EnableSensitiveDataLogging()
-                .EnableDetailedErrors()
-                ;
+                .EnableDetailedErrors() ;
         });
         services.AddScoped<IAdminRepository, AdminRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();

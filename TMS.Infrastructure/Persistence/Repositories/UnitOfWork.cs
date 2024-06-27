@@ -13,6 +13,13 @@ public class UnitOfWork : IUnitOfWork
 
     public Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return _dbContext.SaveChangesAsync(cancellationToken);
+        try
+        {
+            return _dbContext.SaveChangesAsync(cancellationToken);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
     }
 }

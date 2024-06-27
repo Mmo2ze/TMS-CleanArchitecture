@@ -1,6 +1,7 @@
 using TMS.Domain.Accounts;
 using TMS.Domain.Groups.Events;
 using TMS.Domain.Sessions;
+using TMS.Domain.Sessions.Events;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
@@ -72,6 +73,7 @@ public class Group : Aggregate<GroupId>
     {
         _sessions.Add(session);
         SessionsCount++;
+        RaiseDomainEvent(new SessionCreatedDomainEvent(TeacherId, session.EndTime, session.Day, Grade));
     }
 
     public void RemoveStudent(Account account)

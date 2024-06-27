@@ -26,7 +26,6 @@ public class Session : Aggregate<SessionId>
         StartTime = startTime;
         EndTime = endTime;
         Grade = grade;
-        RaiseDomainEvent(new SessionCreatedDomainEvent(TeacherId, EndTime, Day, Grade));
     }
 
     public static Session Create(GroupId groupId, TeacherId teacherId, DayOfWeek day, TimeOnly startTime,

@@ -10,14 +10,11 @@ namespace TMS.Application.Groups.Commands.Update;
 public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, ErrorOr<UpdateGroupResult>>
 {
     private readonly ITeacherHelper _teacherHelper;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IGroupRepository _groupRepository;
-
     public UpdateGroupCommandHandler(ITeacherHelper teacherHelper,
-        IUnitOfWork unitOfWork, IGroupRepository groupRepository)
+       IGroupRepository groupRepository)
     {
         _teacherHelper = teacherHelper;
-        _unitOfWork = unitOfWork;
         _groupRepository = groupRepository;
     }
 
@@ -32,7 +29,6 @@ public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, Err
 
         group.Update(request.Name, request.Grade, request.BasePrice);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return UpdateGroupResult.From(group);
     }

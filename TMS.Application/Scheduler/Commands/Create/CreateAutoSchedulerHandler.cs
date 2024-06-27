@@ -53,10 +53,15 @@ public class CreateAutoSchedulerHandler : IRequestHandler<CreateAutoSchedulerCom
             var sessionsGroupedByGrade = sessions.GroupBy(x => x.Grade);
             foreach (var group in sessionsGroupedByGrade)
             {
-                var lastSession = group.Last();
-                newSchedulers.Add(
-                    Domain.Schedulers.Scheduler.Create(lastSession.Day, lastSession.EndTime,
-                        teacherId, lastSession.Grade));
+                var sessionsByDay = group.GroupBy(x => x.Day);
+                foreach (var day in sessionsByDay)
+                {
+                    var lastSession = day.OrderBy(x => x.EndTime).Last();
+                    newSchedulers.Add(
+                        Domain.Schedulers.Scheduler.Create(lastSession.Day, lastSession.EndTime,
+                            teacherId, lastSession.Grade));
+                }
+
             }
         }
 
