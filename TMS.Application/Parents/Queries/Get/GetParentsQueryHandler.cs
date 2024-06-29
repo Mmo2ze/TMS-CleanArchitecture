@@ -37,7 +37,7 @@ public class GetParentsQueryHandler : IRequestHandler<GetParentsQuery, ErrorOr<P
 
         var result = await parents
             .OrderBy(x => x.Name)
-            .Select(x => new ParentResult(x.Id, x.Name, x.Email, x.Phone, x.Gender))
+            .Select(x => new ParentResult(x.Id, x.Name, x.Email, x.Phone, x.Gender,x.HasWhatsapp))
             .PaginatedListAsync(request.Page, request.PageSize);
         return result;
     }

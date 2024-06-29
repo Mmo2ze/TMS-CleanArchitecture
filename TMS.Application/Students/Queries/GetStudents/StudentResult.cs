@@ -8,8 +8,9 @@ public record StudentResult(
     string Name,
     string? Phone,
     string? Email,
-    Gender Gender)
+    Gender Gender,
+    bool ? HasWhatsapp)
 {
     public static StudentResult FromStudent(Student student) =>
-        new(student.Id, student.Name, student.Phone, student.Email, student.Gender);
+        new(student.Id, student.Name, student.Phone, student.Email, student.Gender,student.HasWhatsapp);
 };

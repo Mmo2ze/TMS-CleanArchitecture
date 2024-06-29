@@ -7,4 +7,5 @@ public record StudentDto(
     string Name,
     string? Phone,
     string? Email,
-    Gender Gender);
+    Gender Gender,
+    bool? HasWhatsapp);

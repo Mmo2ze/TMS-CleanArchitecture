@@ -23,6 +23,6 @@ public class CreateParentCommandHandler : IRequestHandler<CreateParentCommand, E
         var parent = Parent.Create(request.Name, request.Gender, request.Email, request.Phone);
         _parentRepository.Add(parent);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return new ParentResult(parent.Id, parent.Name,parent.Email,parent.Phone,parent.Gender);
+        return new ParentResult(parent.Id, parent.Name, parent.Email, parent.Phone, parent.Gender, parent.HasWhatsapp);
     }
 }

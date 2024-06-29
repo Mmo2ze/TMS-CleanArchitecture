@@ -8,4 +8,5 @@ public record ParentResult(
     string Name,
     string? Email,
     string? Phone,
-    Gender Gender);
+    Gender Gender,
+    bool? HasWhatsapp);

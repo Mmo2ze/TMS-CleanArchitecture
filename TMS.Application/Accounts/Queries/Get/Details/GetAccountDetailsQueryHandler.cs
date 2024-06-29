@@ -38,7 +38,8 @@ public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQu
                         x.Parent.Name,
                         x.Parent.Email,
                         x.Parent.Phone,
-                        x.Parent.Gender
+                        x.Parent.Gender,
+                        x.Parent.HasWhatsapp
                     }
                     : null,
                 Student = new
@@ -47,7 +48,8 @@ public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQu
                     x.Student.Name,
                     x.Student.Phone,
                     x.Student.Email,
-                    x.Student.Gender
+                    x.Student.Gender,
+                    x.Student.HasWhatsapp
                 },
                 x.GroupId,
                 x.BasePrice,
@@ -69,14 +71,16 @@ public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQu
                     account.Parent.Name,
                     account.Parent.Email,
                     account.Parent.Phone,
-                    account.Parent.Gender)
+                    account.Parent.Gender,
+                    account.Parent.HasWhatsapp)
                 : null,
             new StudentResult(
                 account.Student.Id,
                 account.Student.Name,
                 account.Student.Phone,
                 account.Student.Email,
-                account.Student.Gender
+                account.Student.Gender,
+                account.Student.HasWhatsapp
             ),
             account.GroupId,
             account.BasePrice,
