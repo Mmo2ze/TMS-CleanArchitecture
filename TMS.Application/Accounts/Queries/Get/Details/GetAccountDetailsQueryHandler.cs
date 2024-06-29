@@ -52,7 +52,7 @@ public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQu
                 x.GroupId,
                 x.BasePrice,
                 x.HasCustomPrice,
-                IsPayed = x.IsPaid
+                 x.IsPaid
             })
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
@@ -81,7 +81,7 @@ public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQu
             account.GroupId,
             account.BasePrice,
             account.HasCustomPrice,
-            account.IsPayed
+            account.IsPaid
         );
     }
 }

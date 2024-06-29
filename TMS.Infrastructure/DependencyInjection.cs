@@ -34,6 +34,10 @@ public static class DependencyInjection
                 .EveryMinute()
                 .PreventOverlapping("AttendanceCheckerJob")
                 .RunOnceAtStart();
+            sc.Schedule<PaymentCleanerJob>()
+                .Cron("5 3 1 * *")
+                .PreventOverlapping("PaymentCleanerJob")
+                .RunOnceAtStart();
         });
     }
 
@@ -59,6 +63,7 @@ public static class DependencyInjection
     {
         services.AddTransient<WhatsappCheckerJob>();
         services.AddTransient<AttendanceCheckerJob>();
+        services.AddTransient<PaymentCleanerJob>();
     }
 
     private static void AddWhatsappService(IServiceCollection services)

@@ -21,6 +21,6 @@ public class QuizRemovedDomainEventHandler: INotificationHandler<QuizRemovedDoma
     {
         var quiz = await _quizRepository.FindAsync(notification.QuizId, cancellationToken);
         _quizRepository.Remove(quiz!);
-        _publishEndpoint.Publish(new QuizRemovedEvent(notification.QuizId,notification.accountId), cancellationToken);
+        await _publishEndpoint.Publish(new QuizRemovedEvent(notification.QuizId,notification.accountId), cancellationToken);
     }
 }

@@ -119,12 +119,21 @@ public class Account : Aggregate<AccountId>
     public void AddPayment(Payment payment)
     {
         _payments.Add(payment);
+        if (IsTheSameDate(payment))
+            IsPaid = true;
         RaiseDomainEvent(new PaymentCreatedDomainEvent(payment.Id, payment.Amount, payment.BillDate,
             payment.TeacherId, payment.AccountId));
     }
 
-    public void RemovePayment(Payment payment)
+    private static bool IsTheSameDate(Payment payment)
     {
+        return payment.CreatedAt.Month == payment.BillDate.Month && payment.CreatedAt.Year == payment.BillDate.Year;
+    }
+
+    public void RemovePayment(Payment payment,DateTime now)
+    {
+        if (IsTheSameDate(payment))
+            IsPaid = false;
         _payments.Remove(payment);
         RaiseDomainEvent(new PaymentRemovedDomainEvent(payment.Id, Id));
     }
