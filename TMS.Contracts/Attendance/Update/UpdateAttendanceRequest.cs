@@ -1,3 +1,4 @@
+using TMS.Domain.Attendances;
 using TMS.Domain.Students;
 
 namespace TMS.Contracts.Attendance.Update;

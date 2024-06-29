@@ -15,6 +15,17 @@ public class User<TId>:Aggregate<TId>
     {
         HasWhatsapp = value;
     }
+    public string ShortName
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+                return string.Empty;
+
+            var nameParts = Name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            return string.Join(' ', nameParts.Take(2));
+        }
+    }
     
 
 }

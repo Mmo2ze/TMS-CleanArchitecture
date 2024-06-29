@@ -27,7 +27,7 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
             .HasForeignKey(a => a.GroupId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany(g => g.Students)
+        builder.HasMany(g => g.Accounts)
             .WithOne()
             .HasForeignKey(a => a.GroupId)
             .OnDelete(DeleteBehavior.SetNull);

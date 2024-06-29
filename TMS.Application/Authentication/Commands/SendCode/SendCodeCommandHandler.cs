@@ -24,14 +24,13 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<A
     private readonly ITeacherRepository _teacherRepository;
     private readonly IAssistantRepository _assistantRepository;
     private readonly IPublishEndpoint _publishEndpoint;
-    private readonly IUnitOfWork _unitOfWork;
 
     public SendCodeCommandHandler(ICodeManger codeManger,
         IJwtTokenGenerator tokenGenerator,
         IAdminRepository adminRepository,
         ITeacherRepository teacherRepository,
         IAssistantRepository assistantRepository,
-        IPublishEndpoint publishEndpoint, IUnitOfWork unitOfWork)
+        IPublishEndpoint publishEndpoint)
     {
         _codeManger = codeManger;
         _tokenGenerator = tokenGenerator;
@@ -39,7 +38,6 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<A
         _teacherRepository = teacherRepository;
         _assistantRepository = assistantRepository;
         _publishEndpoint = publishEndpoint;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(SendCodeCommand request,
@@ -69,7 +67,6 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<A
         await _publishEndpoint.Publish(new VerificationCodeCreatedEvent(verificationCode.Code, verificationCode.Phone),
             cancellationToken);
         var result = GenerateToken(request, verificationCode.ExpireDate, request.UserAgent, userId);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return result;
         
     }

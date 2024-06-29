@@ -1,4 +1,4 @@
-﻿namespace TMS.Domain.Students;
+﻿namespace TMS.Domain.Payments;
 
 public record PaymentId(string Value) : ValueObjectId<PaymentId>(Value)
 {

@@ -10,26 +10,24 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand,
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IGroupRepository _groupRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateAccountCommandHandler(IAccountRepository accountRepository, IUnitOfWork unitOfWork,
+    public UpdateAccountCommandHandler(IAccountRepository accountRepository,
         IGroupRepository groupRepository)
     {
         _accountRepository = accountRepository;
-        _unitOfWork = unitOfWork;
         _groupRepository = groupRepository;
     }
 
     public async Task<ErrorOr<AccountSummary>> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
     {
         var account = await _accountRepository.GetIncludeStudentAsync(request.Id, cancellationToken);
-        
-        var groupPrice = _groupRepository.GetQueryable().FirstOrDefault(g => g.Id == request.GroupId)?.BasePrice;
-        if (groupPrice == null)
+
+        var group = _groupRepository.GetQueryable()
+            .Select(x => new { x.Id, x.BasePrice, x.Grade }).FirstOrDefault(g => g.Id == request.GroupId);
+        if (group == null)
             return Errors.Group.NotFound;
 
-        account!.Update(request.BasePrice, groupPrice.Value, request.GroupId, request.StudentId,request.ParentId);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        account!.Update(request.BasePrice, group.BasePrice, request.GroupId, request.StudentId, request.ParentId,group.Grade);
 
         return AccountSummary.From(account);
     }

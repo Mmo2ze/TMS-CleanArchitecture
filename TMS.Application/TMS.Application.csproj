@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <Folder Include="Holidays\Events\" />
-      <Folder Include="Holidays\Queries\" />
       <Folder Include="Scheduler\Commands\" />
       <Folder Include="Scheduler\Events\" />
       <Folder Include="Common\Entites\" />

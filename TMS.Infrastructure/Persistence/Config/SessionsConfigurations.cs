@@ -20,8 +20,16 @@ public class SessionsConfigurations : IEntityTypeConfiguration<Session>
         builder.Property(s => s.Day).IsRequired();
         builder.Property(s => s.StartTime).IsRequired();
         builder.Property(s => s.EndTime).IsRequired();
+        builder.Property(s => s.Day).HasConversion(
+            v => v.ToString(),
+            v => Enum.Parse<DayOfWeek>(v)
+        );
+        builder.Property(s => s.Grade).HasConversion(
+            v => v.ToString(),
+            v => Enum.Parse<Grade>(v)
+        );
 
         //index
-        builder.HasIndex(x=> new {x.TeacherId,x.Day,x.GroupId}).IsUnique();
+        builder.HasIndex(x => new { x.TeacherId, x.Day, x.GroupId }).IsUnique();
     }
 }

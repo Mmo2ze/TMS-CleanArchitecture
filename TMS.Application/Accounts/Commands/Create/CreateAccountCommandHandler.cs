@@ -16,14 +16,12 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand,
     private readonly ITeacherHelper _teacherHelper;
     private readonly IAccountRepository _accountRepository;
     private readonly IStudentRepository _studentRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
     public CreateAccountCommandHandler(IGroupRepository groupRepository, ITeacherHelper teacherHelper,
-        IUnitOfWork unitOfWork, IAccountRepository accountRepository, IStudentRepository studentRepository)
+        IAccountRepository accountRepository, IStudentRepository studentRepository)
     {
         _groupRepository = groupRepository;
         _teacherHelper = teacherHelper;
-        _unitOfWork = unitOfWork;
         _accountRepository = accountRepository;
         _studentRepository = studentRepository;
     }
@@ -41,19 +39,19 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand,
         if (account?.Value == null)
         {
             var newAccount = Account.Create(request.StudentId, group.BasePrice, group.Id, group.TeacherId,
-                request.ParentId);
+                group.Grade, request.ParentId);
             group.AddStudent(newAccount);
             var student = await _studentRepository.FirstAsync(x => x.Id == request.StudentId, cancellationToken)
                 .Select(x => new { x.Name, x.Gender });
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return new AccountSummary(newAccount.Id, newAccount.StudentId,newAccount.ParentId, group.Id, newAccount.BasePrice,
+            return new AccountSummary(newAccount.Id, newAccount.StudentId, newAccount.ParentId, group.Id,
+                newAccount.BasePrice,
                 newAccount.HasCustomPrice, student.Name,
                 student.Gender);
         }
 
         group.AddStudent(account.Value);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return new AccountSummary(account.Value.Id, account.Value.StudentId,account.Value.ParentId, group.Id, account.Value.BasePrice,
+        return new AccountSummary(account.Value.Id, account.Value.StudentId, account.Value.ParentId, group.Id,
+            account.Value.BasePrice,
             account.Value.HasCustomPrice, account.Name, account.Gender);
     }
 }

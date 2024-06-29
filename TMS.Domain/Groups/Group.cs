@@ -9,7 +9,7 @@ namespace TMS.Domain.Groups;
 
 public class Group : Aggregate<GroupId>
 {
-    private readonly List<Account> _students = [];
+    private readonly List<Account> _accounts = [];
     private readonly List<Session> _sessions = [];
     public string Name { get; private set; }
     public Grade Grade { get; private set; }
@@ -19,7 +19,7 @@ public class Group : Aggregate<GroupId>
     public int StudentsCount { get; private set; }
     public int SessionsCount { get; private set; }
 
-    public IReadOnlyList<Account> Students => _students.AsReadOnly();
+    public IReadOnlyList<Account> Accounts => _accounts.AsReadOnly();
     public IReadOnlyList<Session> Sessions => _sessions.AsReadOnly();
 
 
@@ -51,6 +51,11 @@ public class Group : Aggregate<GroupId>
             {
                 session.UpdateGrade(grade.Value);
             }
+
+            foreach (var account in _accounts)
+            {
+                account.UpdateGrade(grade.Value);
+            }
             Grade = grade.Value;
 
         }
@@ -65,7 +70,7 @@ public class Group : Aggregate<GroupId>
 
     public void AddStudent(Account account)
     {
-        _students.Add(account);
+        _accounts.Add(account);
         StudentsCount++;
     }
 
@@ -78,7 +83,7 @@ public class Group : Aggregate<GroupId>
 
     public void RemoveStudent(Account account)
     {
-        _students.Remove(account);
+        _accounts.Remove(account);
         StudentsCount--;
         RaiseDomainEvent(new AccountRemovedFromGroupDomainEvent(Guid.NewGuid(), account.Id));
     }

@@ -10,12 +10,10 @@ public class UpdateAccountPartialCommandHandler : IRequestHandler<UpdateAccountP
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IGroupRepository _groupRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateAccountPartialCommandHandler(IUnitOfWork unitOfWork, IAccountRepository accountRepository,
+    public UpdateAccountPartialCommandHandler( IAccountRepository accountRepository,
         IGroupRepository groupRepository)
     {
-        _unitOfWork = unitOfWork;
         _accountRepository = accountRepository;
         _groupRepository = groupRepository;
     }
@@ -26,13 +24,12 @@ public class UpdateAccountPartialCommandHandler : IRequestHandler<UpdateAccountP
         var account = await _accountRepository.GetIncludeStudentAsync(request.Id, cancellationToken);
 
         var groupId = request.GroupId ?? account!.GroupId;
-        var groupPrice = _groupRepository.GetQueryable().FirstOrDefault(g => g.Id == groupId)?.BasePrice;
-        if (groupPrice == null)
+        var group = _groupRepository.GetQueryable()
+            .Select(x => new { x.Id, x.BasePrice, x.Grade }).FirstOrDefault(g => g.Id == groupId);
+        if (group == null)
             return Errors.Group.NotFound;
 
-        var accountPrice = request.BasePrice ?? groupPrice.Value;
-        account!.Update(accountPrice, groupPrice.Value, request.GroupId, request.StudentId, request.ParentId);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        account!.Update(request.BasePrice, group.BasePrice, request.GroupId, request.StudentId, request.ParentId,group.Grade);
 
         return AccountSummary.From(account);
     }

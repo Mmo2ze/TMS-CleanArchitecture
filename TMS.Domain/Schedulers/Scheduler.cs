@@ -18,6 +18,7 @@ public class Scheduler : Aggregate<SchedulerId>
     public TimeOnly FiresOn { get; private set; }
     public Grade? Grade { get; private set; }
     public TeacherId TeacherId { get; private set; }
+    public DateTime LastFire { get; private set; }
     public static Scheduler Create(DayOfWeek day, TimeOnly startTime, TeacherId teacherId,Grade? grade = null)
     {
         return new Scheduler(SchedulerId.CreateUnique(), day, startTime, grade, teacherId);
@@ -31,5 +32,9 @@ public class Scheduler : Aggregate<SchedulerId>
     public void UpdateGrade(Grade? grade)
     {
         Grade = grade;
+    }
+    public void UpdateFiresOn(DateTime dateTime)
+    {
+        LastFire = dateTime;
     }
 }

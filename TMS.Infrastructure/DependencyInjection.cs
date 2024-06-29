@@ -30,6 +30,10 @@ public static class DependencyInjection
         {
             sc.Schedule<WhatsappCheckerJob>()
                 .Cron("01 * * * *");
+            sc.Schedule<AttendanceCheckerJob>()
+                .EveryMinute()
+                .PreventOverlapping("AttendanceCheckerJob")
+                .RunOnceAtStart();
         });
     }
 
@@ -54,6 +58,7 @@ public static class DependencyInjection
     private static void AddBackGroundJobs(IServiceCollection services)
     {
         services.AddTransient<WhatsappCheckerJob>();
+        services.AddTransient<AttendanceCheckerJob>();
     }
 
     private static void AddWhatsappService(IServiceCollection services)
@@ -116,6 +121,7 @@ public static class DependencyInjection
         services.AddScoped<IAttendanceRepository, AttendanceRepository>();
         services.AddScoped<ISchedulerRepository, SchedulerRepository>();
         services.AddScoped<IHolidayRepository, HolidayRepository>();
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

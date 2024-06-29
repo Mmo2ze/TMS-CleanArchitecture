@@ -26,11 +26,11 @@ public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommand,
         
         
         var group = await _groupRepository.GetQueryable()
-            .Include(x => x.Students.Where(s => s.Id == request.Id))
+            .Include(x => x.Accounts.Where(s => s.Id == request.Id))
             .FirstOrDefaultAsync(g => g.Id == request.GroupId, cancellationToken: cancellationToken);
 
 
-        group!.RemoveStudent(group.Students[0]);
+        group!.RemoveStudent(group.Accounts[0]);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return "deleted Successfully";

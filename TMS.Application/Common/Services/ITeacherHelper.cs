@@ -12,4 +12,5 @@ public interface ITeacherHelper
     AssistantInfo GetAssistantInfo();
 
     string GetTeacherName();
+    AssistantInfo TeacherInfo();
 }

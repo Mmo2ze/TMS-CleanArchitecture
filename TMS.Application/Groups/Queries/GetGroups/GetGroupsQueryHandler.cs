@@ -23,7 +23,7 @@ public class GetGroupsQueryHandler: IRequestHandler<GetGroupsQuery, ErrorOr<Pagi
 
 
         var groups =   _groupRepository.GetGroups()
-            .Include(x => x.Students);
+            .Include(x => x.Accounts);
         var result = await groups
             .Select(g => GetGroupResult.FromGroup(g))
             .PaginatedListAsync(request.Page, request.PageSize);

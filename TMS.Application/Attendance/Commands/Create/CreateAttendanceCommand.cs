@@ -1,6 +1,7 @@
 using ErrorOr;
 using MediatR;
 using TMS.Domain.Accounts;
+using TMS.Domain.Attendances;
 using TMS.Domain.Students;
 
 namespace TMS.Application.Attendance.Commands.Create;

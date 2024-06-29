@@ -17,7 +17,7 @@ public class Holiday : Aggregate<HolidayId>
 
 
     private Holiday(HolidayId id, TeacherId teacherId, GroupId? groupId, DateOnly startDate, DateOnly endDate,
-        AssistantId? createdById): base(id)
+        AssistantId? createdById) : base(id)
     {
         Id = id;
         TeacherId = teacherId;
@@ -32,4 +32,13 @@ public class Holiday : Aggregate<HolidayId>
     {
         return new Holiday(new HolidayId(), teacherId, groupId, startDate, endDate, createdById);
     }
+
+    public void Update(DateOnly requestStartDate, DateOnly requestEndDate, GroupId? requestGroupId,AssistantId? modifiedById)
+    {
+        StartDate = requestStartDate;
+        EndDate = requestEndDate;
+        GroupId = requestGroupId;
+        ModifiedById = modifiedById;
+    }
+    
 }

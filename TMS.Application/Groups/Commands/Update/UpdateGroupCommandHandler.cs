@@ -9,12 +9,10 @@ namespace TMS.Application.Groups.Commands.Update;
 
 public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, ErrorOr<UpdateGroupResult>>
 {
-    private readonly ITeacherHelper _teacherHelper;
     private readonly IGroupRepository _groupRepository;
-    public UpdateGroupCommandHandler(ITeacherHelper teacherHelper,
+    public UpdateGroupCommandHandler(
        IGroupRepository groupRepository)
     {
-        _teacherHelper = teacherHelper;
         _groupRepository = groupRepository;
     }
 
@@ -25,6 +23,7 @@ public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, Err
 
         var group = _groupRepository.GetQueryable()
                 .Include(x => x.Sessions)
+                .Include(x => x.Accounts)
                 .First(x => x.Id == request.Id);
 
         group.Update(request.Name, request.Grade, request.BasePrice);

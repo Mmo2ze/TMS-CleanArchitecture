@@ -58,4 +58,9 @@ public class TeacherHelper : ITeacherHelper
     {
         return _claimsReader.GetByClaimType(ClaimTypes.Name)!;
     }
+
+    public AssistantInfo TeacherInfo()
+    {
+        return new AssistantInfo(_claimsReader.GetByClaimType(ClaimTypes.Name)!);
+    }
 }
