@@ -6,6 +6,7 @@ using TMS.Application.Accounts.Commands.Create;
 using TMS.Application.Accounts.Commands.Delete;
 using TMS.Application.Accounts.Commands.Update;
 using TMS.Application.Accounts.Queries.Get;
+using TMS.Application.Accounts.Queries.Get.Details;
 using TMS.Application.Attendance.Commands.Create;
 using TMS.Application.Attendance.Commands.Delete;
 using TMS.Application.Attendance.Commands.Update;
@@ -17,6 +18,7 @@ using TMS.Application.Quizzes.Commands.Delete;
 using TMS.Application.Quizzes.Queries.Get;
 using TMS.Contracts.Account.Create;
 using TMS.Contracts.Account.DTOs;
+using TMS.Contracts.Account.Get.Details;
 using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
 using TMS.Contracts.Attendance;
@@ -242,6 +244,17 @@ public class AccountController : ApiController
         var result = await _mediator.Send(command);
         return result.Match(
             _ => NoContent(),
+            Problem
+        );
+    }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetAccountDetails(string id)
+    {
+        var query = new GetAccountDetailsQuery(AccountId.Create(id));
+        var result = await _mediator.Send(query);
+        var response = _mapper.Map<AccountDetailsDto>(result.Value);
+        return result.Match(
+            _ => Ok(response),
             Problem
         );
     }

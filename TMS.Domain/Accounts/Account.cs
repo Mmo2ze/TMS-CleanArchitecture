@@ -44,6 +44,7 @@ public class Account : Aggregate<AccountId>
     public double BasePrice { get; private set; }
 
     public bool HasCustomPrice { get; private set; } = true;
+    public bool IsPaid { get; private set; }
     public Parent? Parent { get; set; }
     public Grade Grade { get; set; }
 
