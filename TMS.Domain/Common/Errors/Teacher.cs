@@ -43,4 +43,11 @@ public static partial class Errors
         public static Error AccountHasBeenDeleted =>
             Error.NotFound("Payment.AccountHasBeenDeleted", "Account has been deleted");
     }
+
+    public static class Card
+    {
+        public static Error NotFound => Error.NotFound("Card.NotFound", "Card not found");
+
+        public static Error AccountsNotFound => Error.NotFound("Card.AccountsNotFound", "Accounts not found");
+    }
 }

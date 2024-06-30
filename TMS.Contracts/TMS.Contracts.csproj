@@ -10,4 +10,8 @@
       <ProjectReference Include="..\TMS.Application\TMS.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="CardOrder\Create\" />
+    </ItemGroup>
+
 </Project>

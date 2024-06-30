@@ -127,6 +127,7 @@ public static class DependencyInjection
         services.AddScoped<ISchedulerRepository, SchedulerRepository>();
         services.AddScoped<IHolidayRepository, HolidayRepository>();
         services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<ICardOrderRepository, CardOrderRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

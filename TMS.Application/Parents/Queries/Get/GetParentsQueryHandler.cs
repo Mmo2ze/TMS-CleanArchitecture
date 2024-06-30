@@ -34,10 +34,10 @@ public class GetParentsQueryHandler : IRequestHandler<GetParentsQuery, ErrorOr<P
                 x.Phone.Contains(request.Search) ||
                 x.Id == new ParentId(request.Search));
         }
-
+        
         var result = await parents
             .OrderBy(x => x.Name)
-            .Select(x => new ParentResult(x.Id, x.Name, x.Email, x.Phone, x.Gender,x.HasWhatsapp))
+            .Select(x => new ParentResult(x.Id, x.Name, x.Email, x.Phone, x.Gender, x.HasWhatsapp))
             .PaginatedListAsync(request.Page, request.PageSize);
         return result;
     }
