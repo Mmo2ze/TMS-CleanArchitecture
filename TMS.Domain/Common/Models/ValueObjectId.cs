@@ -9,6 +9,11 @@ public record ValueObjectId<T>(string Value)
         return (T)Activator.CreateInstance(typeof(T), value)!;
     }
 
+    public override string ToString()
+    {
+        return Value;
+    } 
+
     public static T CreateUnique()
     {
         var value = Guid.NewGuid().ToString();
@@ -27,5 +32,6 @@ public record ValueObjectId<T>(string Value)
     {
         return value.StartsWith(GetPrefixedId());
     }
+
     public bool HasValue => !string.IsNullOrWhiteSpace(Value);
 }

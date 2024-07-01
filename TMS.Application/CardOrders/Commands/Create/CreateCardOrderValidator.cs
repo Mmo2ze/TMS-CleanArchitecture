@@ -23,6 +23,6 @@ public class CreateCardOrderValidator : AbstractValidator<CreateCardOrderCommand
 
                 return ids.All(id => existingAccountIds.Contains(id));
             })
-            .WithError(Errors.Card.AccountsNotFound);
+            .WithError(Errors.CardOrder.AccountsNotFound);
     }
 }

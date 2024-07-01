@@ -30,7 +30,7 @@ public record CardOrderResult(
             cardOrder.TeacherId,
             cardOrder.TeacherName,
             cardOrder.CreatedAt,
-            cardOrder.CompletedAt,
+            cardOrder.AcceptedAt,
             cardOrder.CancelledAt,
             cardOrder.AcceptedBy,
             cardOrder.CancelledBy,

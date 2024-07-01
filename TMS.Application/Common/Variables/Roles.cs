@@ -40,6 +40,7 @@ public static class Roles
         public const string RegisterPayment = "RegisterPayment";
         public const string ViewPayments = "ViewPayments";
         public const string RecordAttendance = "RecordAttendance";
+        public const string AddCardOrder ="AddCardOrder";
     }
 		
 }

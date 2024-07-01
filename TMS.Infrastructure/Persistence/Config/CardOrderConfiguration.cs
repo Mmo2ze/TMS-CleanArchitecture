@@ -13,8 +13,7 @@ public class CardOrderConfiguration : IEntityTypeConfiguration<CardOrder>
     public void Configure(EntityTypeBuilder<CardOrder> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion(x => x.Value, x => new CardOrderId(x));
-
+        builder.Property(x => x.Id).HasConversion(x => x.Value, x => CardOrderId.Create(x));
 
 
         //relationships
@@ -39,5 +38,8 @@ public class CardOrderConfiguration : IEntityTypeConfiguration<CardOrder>
         builder.HasOne<Admin>()
             .WithMany()
             .HasForeignKey(x => x.CancelledBy);
+        builder.HasOne<Admin>()
+            .WithMany()
+            .HasForeignKey(x => x.CompletedBy);
     }
 }

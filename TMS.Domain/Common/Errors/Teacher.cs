@@ -44,10 +44,15 @@ public static partial class Errors
             Error.NotFound("Payment.AccountHasBeenDeleted", "Account has been deleted");
     }
 
-    public static class Card
+    public static class CardOrder
     {
         public static Error NotFound => Error.NotFound("Card.NotFound", "Card not found");
 
-        public static Error AccountsNotFound => Error.NotFound("Card.AccountsNotFound", "Accounts not found");
+        public static Error AccountsNotFound => Error.NotFound("CardOrder.AccountsNotFound", "Accounts not found");
+        public static Error OrderAlreadyAccepted => Error.Conflict("CardOrder.OrderAlreadyAccepted", "Order already accepted");
+        public static Error OrderAlreadyRejected => Error.Conflict("CardOrder.OrderAlreadyRejected", "Order already rejected");
+        public static Error OrderIsNotOnProcessing => Error.Conflict("CardOrder.OrderIsNotOnProcessing", "Order is not on processing");
+        public static Error CanNotCompletePendingOrder => Error.Conflict("CardOrder.CanNotCompletePendingOrder", "Can not complete pending order");
+        public static Error OrderIsNotOnPending => Error.Conflict("CardOrder.OrderIsNotOnPending", "Order is not on pending");
     }
 }

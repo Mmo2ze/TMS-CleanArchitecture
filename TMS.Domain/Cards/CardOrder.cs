@@ -23,15 +23,17 @@ public class CardOrder : Aggregate<CardOrderId>
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string TeacherName { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime? CompletedAt { get; set; }
-    public DateTime? CancelledAt { get; set; }
+    public DateTime? AcceptedAt { get; set; }
     public AdminId? AcceptedBy { get; set; }
+    public DateTime? CancelledAt { get; set; }
     public AdminId? CancelledBy { get; set; }
+    public DateTime? CompletedAt { get; set; }
+    public AdminId? CompletedBy { get; set; }
     public CardOrderStatus Status { get; set; }
 
     public static CardOrder Create(List<AccountId> accountIds, TeacherId teacherId, DateTime now, string teacherName)
     {
-        var order = new CardOrder(new CardOrderId(), teacherId, now,
+        var order = new CardOrder(CardOrderId.CreateUnique(), teacherId, now,
             CardOrderStatus.Pending, teacherName);
         order.AddAccounts(accountIds);
         return order;
@@ -47,19 +49,31 @@ public class CardOrder : Aggregate<CardOrderId>
         _accountIds.AddRange(accountIds);
     }
 
-    public void Accept(AdminId adminId, DateTime now)
+    public void UpdateAccounts(List<AccountId> accountIds)
     {
-        if (Status != CardOrderStatus.Pending) return;
-        Status = CardOrderStatus.Accepted;
-        AcceptedBy = adminId;
-        CompletedAt = now;
+        _accountIds.Clear();
+        _accountIds.AddRange(accountIds);
     }
 
-    public void Cancel(AdminId adminId, DateTime now)
+
+    public void UpdateStatus(AdminId adminId, CardOrderStatus status, DateTime now)
     {
         if (Status != CardOrderStatus.Pending) return;
-        Status = CardOrderStatus.Cancelled;
-        CancelledBy = adminId;
-        CancelledAt = now;
+        Status = status;
+        switch (status)
+        {
+            case CardOrderStatus.Processing:
+                AcceptedBy = adminId;
+                AcceptedAt = now;
+                break;
+            case CardOrderStatus.Cancelled:
+                CancelledBy = adminId;
+                CancelledAt = now;
+                break;
+            case CardOrderStatus.Completed:
+                CompletedBy = adminId;
+                CompletedAt = now;
+                break;
+        }
     }
 }
