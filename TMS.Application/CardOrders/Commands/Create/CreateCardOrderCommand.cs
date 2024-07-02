@@ -19,14 +19,13 @@ public record CardOrderResult(
     DateTime? CancelledAt,
     AdminId? AcceptedBy,
     AdminId? CancelledBy,
-    int Count,
     CardOrderStatus Status)
 {
     public static CardOrderResult From(CardOrder cardOrder)
     {
         return new CardOrderResult(
             cardOrder.Id,
-            cardOrder.AccountIds,
+            cardOrder.Accounts.Select(x => x.Id).ToList(),
             cardOrder.TeacherId,
             cardOrder.TeacherName,
             cardOrder.CreatedAt,
@@ -34,7 +33,8 @@ public record CardOrderResult(
             cardOrder.CancelledAt,
             cardOrder.AcceptedBy,
             cardOrder.CancelledBy,
-            cardOrder.AccountIds.Count(),
             cardOrder.Status);
     }
+
+    public int Count = AccountIds.Count;
 }

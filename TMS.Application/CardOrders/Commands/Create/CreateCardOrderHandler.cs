@@ -12,14 +12,16 @@ public class CreateCardOrderHandler : IRequestHandler<CreateCardOrderCommand, Er
     private readonly ITeacherRepository _teacherRepository;
     private readonly ICardOrderRepository _cardOrderRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IAccountRepository _accountRepository;
 
     public CreateCardOrderHandler(ITeacherRepository teacherRepository, ICardOrderRepository cardOrderRepository,
-        ITeacherHelper teacherHelper, IDateTimeProvider dateTimeProvider)
+        ITeacherHelper teacherHelper, IDateTimeProvider dateTimeProvider, IAccountRepository accountRepository)
     {
         _teacherRepository = teacherRepository;
         _cardOrderRepository = cardOrderRepository;
         _teacherHelper = teacherHelper;
         _dateTimeProvider = dateTimeProvider;
+        _accountRepository = accountRepository;
     }
 
     public async Task<ErrorOr<CardOrderResult>> Handle(CreateCardOrderCommand request,
@@ -29,7 +31,8 @@ public class CreateCardOrderHandler : IRequestHandler<CreateCardOrderCommand, Er
             .Select(x => new { x.Id, x.Name })
             .First(x => x.Id == _teacherHelper.GetTeacherId()).Name;
 
-        var cardOrder = CardOrder.Create(request.AccountIds, _teacherHelper.GetTeacherId(), _dateTimeProvider.Now,
+        var accounts = _accountRepository.WhereQueryable(x => request.AccountIds.Contains(x.Id)).ToList();
+        var cardOrder = CardOrder.Create(accounts, _teacherHelper.GetTeacherId(), _dateTimeProvider.Now,
             teacherName);
         _cardOrderRepository.Add(cardOrder);
         return CardOrderResult.From(cardOrder);

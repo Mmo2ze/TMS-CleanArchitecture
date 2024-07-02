@@ -17,18 +17,10 @@ public class CardOrderConfiguration : IEntityTypeConfiguration<CardOrder>
 
 
         //relationships
-        builder.OwnsMany(m => m.AccountIds, ab =>
-        {
-            ab.ToTable("CardOrderAccountIds");
-            ab.WithOwner()
-                .HasForeignKey("CardOrderId");
-            ab.HasKey("Id");
-            ab.Property(a => a.Value)
-                .HasColumnName("AccountId")
-                .ValueGeneratedNever();
-        });
-        builder.Metadata.FindNavigation(nameof(CardOrder.AccountIds))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.HasMany(x => x.Accounts)
+            .WithMany();
+        
+
         builder.HasOne<Teacher>()
             .WithMany()
             .HasForeignKey(x => x.TeacherId);

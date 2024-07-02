@@ -1,10 +1,12 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.CardOrders.Commands.Create;
 using TMS.Application.CardOrders.Commands.UpdateCardOrderCommand;
 using TMS.Application.CardOrders.Queries.Get;
 using TMS.Application.CardOrders.Queries.Get.Order;
+using TMS.Application.Common.Variables;
 using TMS.Contracts.CardOrder;
 using TMS.Contracts.CardOrder.Get;
 using TMS.Contracts.CardOrder.Update;
@@ -24,7 +26,7 @@ public class CardOrderController : ApiController
         _mapper = mapper;
         _mediator = mediator;
     }
-
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpPost]
     public async Task<IActionResult> CreateCardOrder([FromBody] CreateCardOrderRequest request)
     {
@@ -35,7 +37,9 @@ public class CardOrderController : ApiController
             _ => Ok(response),
             Problem);
     }
-
+    
+    
+    [Authorize(Roles =$"{Roles.Admin.Role},{Roles.Teacher.Role},{Roles.Teacher.Role}")]
     [HttpGet]
     public async Task<IActionResult> GetCardOrders([FromQuery] GetCardOrdersRequest request)
     {
@@ -46,7 +50,8 @@ public class CardOrderController : ApiController
             _ => Ok(response),
             Problem);
     }
-
+    
+    [Authorize($"{Roles.Admin.Role},{Roles.Teacher.Role},{Roles.Teacher.Role}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCardOrder([FromRoute] string id, [FromBody] UpdateCardOrderRequest request)
     {
@@ -60,6 +65,7 @@ public class CardOrderController : ApiController
             Problem);
     }
 
+    [Authorize(Roles = $"{Roles.Admin.Role},{Roles.Teacher.Role},{Roles.Teacher.Role}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCardOrder([FromRoute] string id)
     {

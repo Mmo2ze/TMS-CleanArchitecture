@@ -17,14 +17,16 @@ public class UpdateCardOrderCommandHandler : IRequestHandler<UpdateCardOrderComm
     private readonly ICardOrderRepository _cardOrderRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ITeacherHelper _teacherHelper;
+    private readonly IAccountRepository _accountRepository;
 
     public UpdateCardOrderCommandHandler(IClaimsReader claimsReader, ICardOrderRepository cardOrderRepository,
-        IDateTimeProvider dateTimeProvider, ITeacherHelper teacherHelper)
+        IDateTimeProvider dateTimeProvider, ITeacherHelper teacherHelper, IAccountRepository accountRepository)
     {
         _claimsReader = claimsReader;
         _cardOrderRepository = cardOrderRepository;
         _dateTimeProvider = dateTimeProvider;
         _teacherHelper = teacherHelper;
+        _accountRepository = accountRepository;
     }
 
     public async Task<ErrorOr<CardOrderResult>> Handle(UpdateCardOrderCommand request,
@@ -33,7 +35,7 @@ public class UpdateCardOrderCommandHandler : IRequestHandler<UpdateCardOrderComm
         var roles = _claimsReader.GetRoles();
         if (roles.Contains(Roles.Admin.Role))
         {
-            var order = _cardOrderRepository.GetQueryable().Include(x => x.AccountIds)
+            var order = _cardOrderRepository.GetQueryable().Include(x => x.Accounts)
                 .FirstOrDefault(x => x.Id == request.Id);
             if (order == null)
                 return Errors.CardOrder.NotFound;
@@ -65,22 +67,23 @@ public class UpdateCardOrderCommandHandler : IRequestHandler<UpdateCardOrderComm
         else
         {
             var teacherId = _teacherHelper.GetTeacherId();
-            var order = _cardOrderRepository.GetQueryable().Include(x => x.AccountIds)
+            var order = _cardOrderRepository.GetQueryable().Include(x => x.Accounts)
                 .FirstOrDefault(x => x.Id == request.Id && x.TeacherId == teacherId);
+
             if (order == null)
                 return Errors.CardOrder.NotFound;
-            
+
             if (order.Status != CardOrderStatus.Pending)
                 return Errors.CardOrder.OrderIsNotOnPending;
-            
+
             if (request.Ids is not null)
             {
-                order.UpdateAccounts(request.Ids);
+                var accounts = _accountRepository.GetQueryable().Where(x => request.Ids.Contains(x.Id)).ToList();
+                order.UpdateAccounts(accounts);
             }
 
             order.Status = request.Status;
             return CardOrderResult.From(order);
-            
         }
     }
 }

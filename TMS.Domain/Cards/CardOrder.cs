@@ -6,7 +6,7 @@ namespace TMS.Domain.Cards;
 
 public class CardOrder : Aggregate<CardOrderId>
 {
-    private readonly List<AccountId> _accountIds = [];
+    private readonly List<Account> _accounts = [];
 
     private CardOrder(CardOrderId id, TeacherId teacherId, DateTime createdAt,
         CardOrderStatus status, string teacherName) : base(id)
@@ -17,7 +17,7 @@ public class CardOrder : Aggregate<CardOrderId>
         TeacherName = teacherName;
     }
 
-    public IReadOnlyList<AccountId> AccountIds => _accountIds.AsReadOnly();
+    public IReadOnlyList<Account> Accounts => _accounts.AsReadOnly();
     public TeacherId TeacherId { get; set; }
 
     // ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
@@ -31,28 +31,28 @@ public class CardOrder : Aggregate<CardOrderId>
     public AdminId? CompletedBy { get; set; }
     public CardOrderStatus Status { get; set; }
 
-    public static CardOrder Create(List<AccountId> accountIds, TeacherId teacherId, DateTime now, string teacherName)
+    public static CardOrder Create(List<Account> accounts, TeacherId teacherId, DateTime now, string teacherName)
     {
         var order = new CardOrder(CardOrderId.CreateUnique(), teacherId, now,
             CardOrderStatus.Pending, teacherName);
-        order.AddAccounts(accountIds);
+        order.AddAccounts(accounts);
         return order;
     }
 
-    public void AddAccount(AccountId accountId)
+    public void AddAccount(Account accountId)
     {
-        _accountIds.Add(accountId);
+        _accounts.Add(accountId);
     }
 
-    public void AddAccounts(List<AccountId> accountIds)
+    public void AddAccounts(List<Account> accountIds)
     {
-        _accountIds.AddRange(accountIds);
+        _accounts.AddRange(accountIds);
     }
 
-    public void UpdateAccounts(List<AccountId> accountIds)
+    public void UpdateAccounts(List<Account> accountIds)
     {
-        _accountIds.Clear();
-        _accountIds.AddRange(accountIds);
+        _accounts.Clear();
+        _accounts.AddRange(accountIds);
     }
 
 

@@ -31,10 +31,10 @@ public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, Err
         if (role.Contains("Admin"))
         {
             orders = _cardOrderRepository.GetQueryable()
-                .Include(x => x.AccountIds)
+                .Include(x => x.Accounts)
                 .Select(x => new CardOrderResult(
                     x.Id,
-                    x.AccountIds,
+                    x.Accounts.Select(account => account.Id).ToList(),
                     x.TeacherId,
                     x.TeacherName,
                     x.CreatedAt,
@@ -42,17 +42,16 @@ public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, Err
                     x.CancelledAt,
                     x.AcceptedBy,
                     x.CancelledBy,
-                    x.AccountIds.Count,
                     x.Status));
         }
         else
         {
             var teacherId = _teacherHelper.GetTeacherId();
             orders = _cardOrderRepository.WhereQueryable(x => x.TeacherId == teacherId)
-                .Include(x => x.AccountIds)
+                .Include(x => x.Accounts)
                 .Select(x => new CardOrderResult(
                     x.Id,
-                    x.AccountIds,
+                    x.Accounts.Select(account => account.Id).ToList(),
                     x.TeacherId,
                     x.TeacherName,
                     x.CreatedAt,
@@ -60,7 +59,6 @@ public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, Err
                     x.CancelledAt,
                     x.AcceptedBy,
                     x.CancelledBy,
-                    x.AccountIds.Count,
                     x.Status));
         }
 
