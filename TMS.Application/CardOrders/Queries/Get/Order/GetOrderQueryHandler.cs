@@ -32,7 +32,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetCardOrderQuery, ErrorOr<C
         var role = _claimsReader.GetRoles();
         var order = await _cardOrderRepository.WhereQueryable(x =>
                 x.Id == request.Id && (role.Contains(Roles.Admin.Role) || x.TeacherId == _teacherHelper.GetTeacherId()))
-            .Include(x => x.Accounts)
+            .Include(x => x.Accounts).ThenInclude(x =>x.Student)
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (order is null)
