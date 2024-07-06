@@ -18,6 +18,8 @@ public class GetAttendancesValidator : AbstractValidator<GetAttendancesQuery>
         _accountRepository = accountRepository;
         RuleFor(x => x.AccountId).MustAsync(BeFound)
             .WithError(Errors.Account.NotFound);
+        RuleFor(x => x.Month).GreaterThanOrEqualTo(1).LessThanOrEqualTo(12);
+        RuleFor(x => x.Year).GreaterThanOrEqualTo(2000).LessThanOrEqualTo(2100);
     }
 
     private Task<bool> BeFound(AccountId arg1, CancellationToken arg2)
