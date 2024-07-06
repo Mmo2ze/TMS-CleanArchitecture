@@ -9,7 +9,7 @@ using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Attendance.Queries.Get;
 
-public class GetAttendancesHandler : IRequestHandler<GetAttendancesQuery, ErrorOr<PaginatedList<AttendanceResult>>>
+public class GetAttendancesHandler : IRequestHandler<GetAttendancesQuery, ErrorOr<GetAttendancesResult>>
 {
     private readonly IAttendanceRepository _attendanceRepository;
     private readonly ITeacherHelper _teacherHelper;
@@ -20,12 +20,12 @@ public class GetAttendancesHandler : IRequestHandler<GetAttendancesQuery, ErrorO
         _teacherHelper = teacherHelper;
     }
 
-    public async Task<ErrorOr<PaginatedList<AttendanceResult>>> Handle(GetAttendancesQuery request,
+    public Task<ErrorOr<GetAttendancesResult>> Handle(GetAttendancesQuery request,
         CancellationToken cancellationToken)
     {
         var teacherName = _teacherHelper.GetTeacherName();
-        var account = _attendanceRepository.GetQueryable()
-            .Where(x => x.AccountId == request.AccountId)
+        var attendances = _attendanceRepository.GetQueryable()
+            .Where(x => x.AccountId == request.AccountId && x.Date.Year == request.Year && x.Date.Month == request.Month)
             .OrderByDescending(x => x.Date)
             .Select(x => new AttendanceResult(
                 x.Id,
@@ -40,7 +40,7 @@ public class GetAttendancesHandler : IRequestHandler<GetAttendancesQuery, ErrorO
                     x.CreatedById
                 ), x.UpdatedAt
             ));
-        var response = await account.PaginatedListAsync(request.Page, request.PageSize);
-        return response;
+
+        return Task.FromResult<ErrorOr<GetAttendancesResult>>(new GetAttendancesResult(attendances.ToList(), attendances.Count()));
     }
 }

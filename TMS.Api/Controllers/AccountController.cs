@@ -182,7 +182,7 @@ public class AccountController : ApiController
         var query = _mapper.Map<GetAttendancesQuery>(request);
 
         var result = await _mediator.Send(query);
-        var response = _mapper.Map<PaginatedList<AttendanceResponse>>(result.Value);
+        var response = _mapper.Map<GetAttendancesResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem);
