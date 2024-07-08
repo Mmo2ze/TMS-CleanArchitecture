@@ -14,12 +14,14 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand,
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IGroupRepository _groupRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdateAccountCommandHandler(IAccountRepository accountRepository,
-        IGroupRepository groupRepository)
+        IGroupRepository groupRepository, IUnitOfWork unitOfWork)
     {
         _accountRepository = accountRepository;
         _groupRepository = groupRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<AccountDetailsResult>> Handle(UpdateAccountCommand request,
@@ -37,7 +39,7 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand,
 
         account!.Update(request.BasePrice, group.BasePrice, request.GroupId, request.StudentId, request.ParentId,
             group.Grade);
-
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return new AccountDetailsResult(
             account.Id,
             account.Parent != null
