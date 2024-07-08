@@ -16,6 +16,7 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand,
     private readonly IGroupRepository _groupRepository;
     private readonly IUnitOfWork _unitOfWork;
 
+
     public UpdateAccountCommandHandler(IAccountRepository accountRepository,
         IGroupRepository groupRepository, IUnitOfWork unitOfWork)
     {
@@ -30,16 +31,20 @@ public class UpdateAccountCommandHandler : IRequestHandler<UpdateAccountCommand,
         var account = await _accountRepository.GetQueryable()
             .Include(x => x.Student)
             .Include(x => x.Parent)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            .FirstAsync(x => x.Id == request.Id, cancellationToken);
 
         var group = _groupRepository.GetQueryable()
             .Select(x => new { x.Id, x.BasePrice, x.Grade }).FirstOrDefault(g => g.Id == request.GroupId);
         if (group == null)
             return Errors.Group.NotFound;
 
-        account!.Update(request.BasePrice, group.BasePrice, request.GroupId, request.StudentId, request.ParentId,
+        account.Update(request.BasePrice, group.BasePrice, request.GroupId, request.StudentId, request.ParentId,
             group.Grade);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+        account = await _accountRepository.GetQueryable()
+            .Include(x => x.Student)
+            .Include(x => x.Parent)
+            .FirstAsync(x => x.Id == request.Id, cancellationToken);
         return new AccountDetailsResult(
             account.Id,
             account.Parent != null
