@@ -1,5 +1,6 @@
 using ErrorOr;
 using MediatR;
+using TMS.Application.Accounts.Queries.Get.Details;
 using TMS.Domain.Accounts;
 using TMS.Domain.Groups;
 using TMS.Domain.Parents;
@@ -13,4 +14,4 @@ public record UpdateAccountCommand(
     GroupId GroupId,
     double BasePrice,
     ParentId? ParentId)
-    : IRequest<ErrorOr<AccountSummary>>;
+    : IRequest<ErrorOr<AccountDetailsResult>>;

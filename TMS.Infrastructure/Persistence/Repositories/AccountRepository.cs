@@ -15,6 +15,7 @@ public class AccountRepository : Repository<Account, AccountId>, IAccountReposit
     {
         return DbContext.Accounts
             .Include(a => a.Student)
+            .Include(x => x.Parent)
             .FirstOrDefaultAsync(a => a.Id == accountId, cancellationToken);
     }
 }
