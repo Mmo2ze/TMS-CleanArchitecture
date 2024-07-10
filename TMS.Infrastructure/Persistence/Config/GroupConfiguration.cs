@@ -28,7 +28,7 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(g => g.Accounts)
-            .WithOne()
+            .WithOne(x => x.Group)
             .HasForeignKey(a => a.GroupId)
             .OnDelete(DeleteBehavior.SetNull);
         

@@ -8,7 +8,7 @@ public record AccountDetailsDto(
     string Id,
     ParentDto Parent,
     StudentDto Student,
-    string GroupId,
+    string? GroupId,
     double BasePrice,
     bool HasCustomPrice,
     bool IsPaid);

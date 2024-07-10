@@ -40,6 +40,7 @@ public class Account : Aggregate<AccountId>
     public TeacherId TeacherId { get; private set; }
 
     public GroupId? GroupId { get; private set; }
+    public Group? Group { get; private set; }
 
     public double BasePrice { get; private set; }
 

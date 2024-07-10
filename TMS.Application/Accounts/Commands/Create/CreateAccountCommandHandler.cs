@@ -2,56 +2,56 @@ using ErrorOr;
 using MassTransit.Initializers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TMS.Application.Accounts.Queries.Get.Details;
 using TMS.Application.Common.Services;
 using TMS.Domain.Accounts;
+using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
 namespace TMS.Application.Accounts.Commands.Create;
 
-public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, ErrorOr<AccountSummary>>
+public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, ErrorOr<AccountDetailsResult>>
 {
     private readonly IGroupRepository _groupRepository;
     private readonly ITeacherHelper _teacherHelper;
     private readonly IAccountRepository _accountRepository;
-    private readonly IStudentRepository _studentRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CreateAccountCommandHandler(IGroupRepository groupRepository, ITeacherHelper teacherHelper,
-        IAccountRepository accountRepository, IStudentRepository studentRepository)
+        IAccountRepository accountRepository, IUnitOfWork unitOfWork)
     {
         _groupRepository = groupRepository;
         _teacherHelper = teacherHelper;
         _accountRepository = accountRepository;
-        _studentRepository = studentRepository;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<ErrorOr<AccountSummary>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AccountDetailsResult>> Handle(CreateAccountCommand request,
+        CancellationToken cancellationToken)
     {
         var account = await _accountRepository.GetQueryable()
+                .Include(x => x.Group)
                 .Include(x => x.Student)
+                .Include(x => x.Parent)
                 .FirstOrDefaultAsync(x => x.StudentId == request.StudentId &&
                                           x.TeacherId == _teacherHelper.GetTeacherId(),
-                    cancellationToken)
-                .Select(x => new { x.Student.Name, x.Student.Gender, Value = x })
-            ;
+                    cancellationToken);
         var group = await _groupRepository.FirstAsync(g => g.Id == request.GroupId, cancellationToken);
-        if (account?.Value == null)
+        if (account == null)
         {
             var newAccount = Account.Create(request.StudentId, group.BasePrice, group.Id, group.TeacherId,
                 group.Grade, request.ParentId);
             group.AddStudent(newAccount);
-            var student = await _studentRepository.FirstAsync(x => x.Id == request.StudentId, cancellationToken)
-                .Select(x => new { x.Name, x.Gender });
-            return new AccountSummary(newAccount.Id, newAccount.StudentId, newAccount.ParentId, group.Id,
-                newAccount.BasePrice,
-                newAccount.HasCustomPrice, student.Name,
-                student.Gender);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+             newAccount = await _accountRepository.GetIncludeStudentAsync(newAccount.Id, cancellationToken);
+             if(newAccount is null)
+                 return Error.Failure("something went wrong");
+            return AccountDetailsResult.From(newAccount);
         }
 
-        group.AddStudent(account.Value);
-        return new AccountSummary(account.Value.Id, account.Value.StudentId, account.Value.ParentId, group.Id,
-            account.Value.BasePrice,
-            account.Value.HasCustomPrice, account.Name, account.Gender);
+        group.AddStudent(account);
+        return AccountDetailsResult.From(account,group.Id);
     }
 }

@@ -54,7 +54,7 @@ public class AccountController : ApiController
     {
         var command = _mapper.Map<CreateAccountCommand>(request);
         var result = await _mediator.Send(command);
-        var response = _mapper.Map<AccountSummaryDto>(result.Value);
+        var response = _mapper.Map<AccountDetailsDto>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem

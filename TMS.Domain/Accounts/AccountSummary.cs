@@ -9,11 +9,14 @@ public record AccountSummary(
     AccountId AccountId,
     StudentId StudentId,
     ParentId? ParentId,
-    GroupId GroupId,
+    GroupId? GroupId,
     double BasePrice,
     bool HasCustomPrice,
     string StudentName,
-    Gender Gender)
+    Gender Gender,
+    bool IsPaid,
+    string? GroupName,
+    Grade ?Grade)
 {
     public static AccountSummary From(Account account) =>
         new(
@@ -24,6 +27,15 @@ public record AccountSummary(
             account.BasePrice,
             account.HasCustomPrice,
             account.Student.Name,
-            account.Student.Gender
+            account.Student.Gender,
+            account.IsPaid,
+            account.Group?.Name,
+            account.Group?.Grade
         );
+}
+
+public record GroupSummary(GroupId GroupId, string Name, Grade Grade)
+{
+    public static GroupSummary From(Group group) =>
+        new(group.Id, group.Name, group.Grade);
 };

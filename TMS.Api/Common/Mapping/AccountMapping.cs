@@ -66,6 +66,7 @@ public class AccountMapping : IRegister
 
         config.NewConfig<DeleteAccountRequest, DeleteAccountCommand>()
             .Map(dest => dest.Id, src => AccountId.Create(src.Id));
+        
 
 
         config.NewConfig<PaginatedList<AccountSummary>, PaginatedList<AccountSummaryDto>>()

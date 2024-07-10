@@ -25,7 +25,7 @@ public class UpdateAccountPartialCommandHandler : IRequestHandler<UpdateAccountP
 
         var groupId = request.GroupId ?? account!.GroupId;
         var group = _groupRepository.GetQueryable()
-            .Select(x => new { x.Id, x.BasePrice, x.Grade }).FirstOrDefault(g => g.Id == groupId);
+            .Select(x => new { x.Id, x.BasePrice, x.Grade,x.Name }).FirstOrDefault(g => g.Id == groupId);
         if (group == null)
             return Errors.Group.NotFound;
 
