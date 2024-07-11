@@ -7,7 +7,7 @@ using TMS.Application.Common.Services;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
 
-namespace TMS.Application.CardOrders.Queries.Get;
+namespace TMS.Application.CardOrders.Queries.Get.List;
 
 public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, ErrorOr<PaginatedList<CardOrderResult>>>
 {

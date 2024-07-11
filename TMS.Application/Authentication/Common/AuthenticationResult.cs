@@ -1,4 +1,3 @@
-using TMS.Application.Common.Variables;
 using TMS.Domain.Common.Enums;
 
 namespace TMS.Application.Authentication.Common;

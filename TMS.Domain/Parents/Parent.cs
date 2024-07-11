@@ -1,6 +1,5 @@
 ﻿using TMS.Domain.Accounts;
 using TMS.Domain.Common.Enums;
-using TMS.Domain.Students;
 
 namespace TMS.Domain.Parents;
 

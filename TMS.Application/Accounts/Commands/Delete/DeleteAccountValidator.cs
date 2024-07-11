@@ -1,12 +1,9 @@
 using FluentValidation;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
-using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Accounts;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Groups;
-using TMS.Domain.Students;
 
 namespace TMS.Application.Accounts.Commands.Delete;
 

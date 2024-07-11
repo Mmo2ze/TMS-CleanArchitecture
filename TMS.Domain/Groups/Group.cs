@@ -2,7 +2,6 @@ using TMS.Domain.Accounts;
 using TMS.Domain.Groups.Events;
 using TMS.Domain.Sessions;
 using TMS.Domain.Sessions.Events;
-using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Groups;

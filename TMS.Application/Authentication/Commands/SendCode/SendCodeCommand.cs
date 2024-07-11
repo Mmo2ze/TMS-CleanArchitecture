@@ -1,6 +1,5 @@
 ﻿using ErrorOr;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
 

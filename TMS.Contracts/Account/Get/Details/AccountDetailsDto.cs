@@ -1,6 +1,5 @@
 using TMS.Contracts.Parent.Get;
 using TMS.Contracts.Student.Get;
-using TMS.Domain.Common.Enums;
 
 namespace TMS.Contracts.Account.Get.Details;
 

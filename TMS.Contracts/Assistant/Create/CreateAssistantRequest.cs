@@ -1,4 +1,3 @@
-using TMS.Application.Common.Variables;
 using TMS.Domain.Assistants;
 
 namespace TMS.Contracts.Assistant.Create;

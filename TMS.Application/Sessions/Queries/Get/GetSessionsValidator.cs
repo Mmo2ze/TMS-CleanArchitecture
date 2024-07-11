@@ -1,8 +1,6 @@
 using FluentValidation;
-using TMS.Application.Accounts.Queries.Get;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
-using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups;

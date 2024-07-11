@@ -1,9 +1,7 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups.Events;
 using TMS.Domain.Schedulers.Enums;
-using TMS.Domain.Sessions;
 
 namespace TMS.Application.Groups.Events;
 

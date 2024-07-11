@@ -1,9 +1,7 @@
 using ErrorOr;
 using MediatR;
-using TMS.Application.Assistants.Commands.Create;
 using TMS.Application.Common;
 using TMS.Domain.Accounts;
-using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Models;
 
 namespace TMS.Application.Quizzes.Queries.Get;

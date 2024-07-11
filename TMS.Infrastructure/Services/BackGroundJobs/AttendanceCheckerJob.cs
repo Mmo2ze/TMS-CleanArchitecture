@@ -1,9 +1,7 @@
-using System.Runtime.InteropServices.Marshalling;
 using Coravel.Invocable;
 using TMS.Application.Common.Services;
 using TMS.Domain.Attendances;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Students;
 
 namespace TMS.Infrastructure.Services.BackGroundJobs;
 

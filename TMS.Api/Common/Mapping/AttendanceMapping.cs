@@ -1,12 +1,8 @@
 using Mapster;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using TMS.Application.Accounts.Queries.Get;
 using TMS.Application.Attendance.Commands.Create;
 using TMS.Application.Attendance.Commands.Delete;
 using TMS.Application.Attendance.Commands.Update;
 using TMS.Application.Attendance.Queries.Get;
-using TMS.Contracts.Account.Get.List;
-using TMS.Contracts.Attendance;
 using TMS.Contracts.Attendance.Create;
 using TMS.Contracts.Attendance.Delelte;
 using TMS.Contracts.Attendance.Get;

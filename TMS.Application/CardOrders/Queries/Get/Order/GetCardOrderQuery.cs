@@ -1,9 +1,7 @@
 using ErrorOr;
 using MediatR;
-using TMS.Domain.Accounts;
 using TMS.Domain.Admins;
 using TMS.Domain.Cards;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Teachers;
 
 namespace TMS.Application.CardOrders.Queries.Get.Order;

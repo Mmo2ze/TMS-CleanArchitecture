@@ -1,4 +1,3 @@
-using TMS.Domain.Assistants;
 using TMS.Domain.Payments;
 using TMS.Domain.Teachers;
 

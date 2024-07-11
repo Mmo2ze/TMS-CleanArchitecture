@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.RefreshTokens;
 

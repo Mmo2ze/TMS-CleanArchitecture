@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using ErrorOr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

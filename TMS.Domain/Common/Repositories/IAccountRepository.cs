@@ -1,5 +1,4 @@
 using TMS.Domain.Accounts;
-using TMS.Domain.Students;
 
 namespace TMS.Domain.Common.Repositories;
 

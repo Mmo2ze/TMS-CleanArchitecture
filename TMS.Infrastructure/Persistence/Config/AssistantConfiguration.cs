@@ -2,9 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Constrains;
-using TMS.Domain.Common.Models;
 using TMS.Domain.RefreshTokens;
-using TMS.Domain.Students;
 
 namespace TMS.Infrastructure.Persistence.Config;
 

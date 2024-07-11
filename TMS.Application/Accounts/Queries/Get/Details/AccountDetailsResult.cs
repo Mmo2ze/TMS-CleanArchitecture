@@ -1,7 +1,6 @@
 using TMS.Application.Parents.Queries.Get;
 using TMS.Application.Students.Queries.GetStudents;
 using TMS.Domain.Accounts;
-using TMS.Domain.Common.Errors;
 using TMS.Domain.Groups;
 
 namespace TMS.Application.Accounts.Queries.Get.Details;

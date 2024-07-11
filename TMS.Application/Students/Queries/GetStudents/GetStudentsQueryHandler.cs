@@ -4,7 +4,6 @@ using TMS.Application.Common.Mapping;
 using TMS.Application.Common.Services;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Students;
 
 namespace TMS.Application.Students.Queries.GetStudents;
 

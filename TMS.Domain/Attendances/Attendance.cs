@@ -1,7 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using TMS.Domain.Accounts;
 using TMS.Domain.Assistants;
-using TMS.Domain.Students;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Attendances;

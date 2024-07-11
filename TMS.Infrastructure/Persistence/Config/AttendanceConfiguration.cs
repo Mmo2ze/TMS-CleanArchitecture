@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.Accounts;
 using TMS.Domain.Attendances;
-using TMS.Domain.Quizzes;
-using TMS.Domain.Students;
 
 namespace TMS.Infrastructure.Persistence.Config;
 

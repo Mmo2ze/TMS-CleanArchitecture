@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TMS.Domain.Assistants;
 using TMS.Domain.Groups;
 using TMS.Domain.Holidays;
 using TMS.Domain.Teachers;

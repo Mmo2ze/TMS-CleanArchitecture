@@ -1,6 +1,4 @@
-using System.Linq.Expressions;
 using TMS.Domain.Groups;
-using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Common.Repositories;
 

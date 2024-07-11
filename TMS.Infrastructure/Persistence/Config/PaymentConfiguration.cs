@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Accounts;
-using TMS.Domain.Assistants;
-using TMS.Domain.Common.Errors;
 using TMS.Domain.Payments;
 using TMS.Domain.Teachers;
 

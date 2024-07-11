@@ -1,4 +1,3 @@
-using TMS.Domain.Groups;
 using TMS.Domain.Sessions;
 
 namespace TMS.Domain.Common.Repositories;

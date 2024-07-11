@@ -1,5 +1,4 @@
 using FluentValidation;
-using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
 using TMS.Domain.Cards;

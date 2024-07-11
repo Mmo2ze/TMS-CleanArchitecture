@@ -1,6 +1,5 @@
 using ErrorOr;
 using MediatR;
-using TMS.Application.Common;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Groups;
 using TMS.Domain.Sessions;

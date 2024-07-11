@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Groups.Events;
 

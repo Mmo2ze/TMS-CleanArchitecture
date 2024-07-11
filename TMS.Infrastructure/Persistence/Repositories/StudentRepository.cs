@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Groups;
 using TMS.Domain.Students;
 
 namespace TMS.Infrastructure.Persistence.Repositories;

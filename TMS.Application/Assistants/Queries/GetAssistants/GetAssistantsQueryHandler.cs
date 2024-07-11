@@ -1,10 +1,8 @@
 using ErrorOr;
-using MassTransit.Initializers;
 using MediatR;
 using TMS.Application.Assistants.Commands.Create;
 using TMS.Application.Common.Mapping;
 using TMS.Application.Common.Services;
-using TMS.Domain.Assistants;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
 

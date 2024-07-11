@@ -1,15 +1,18 @@
+using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Quizzes.Commands.Update;
+using TMS.Application.Quizzes.Commands.UpdateDefaultDegree;
+using TMS.Application.Quizzes.Queries.GetDefaultDegree;
 using TMS.Contracts.Quiz.Get;
 using TMS.Contracts.Quiz.Update;
 
 namespace TMS.Api.Controllers;
 
-public class QuizController: ApiController
+[Route("quiz")]
+public class QuizController : ApiController
 {
- 
     private readonly IMapper _mapper;
     private readonly ISender _mediator;
 
@@ -18,15 +21,15 @@ public class QuizController: ApiController
         _mapper = mapper;
         _mediator = mediator;
     }
-    
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateQuiz([FromBody] UpdateQuizRequest request, string id)
     {
-        if(request.Id != id)
+        if (request.Id != id)
         {
             return BadRequest("Id mismatch");
         }
-        
+
         var command = _mapper.Map<UpdateQuizCommand>(request);
         var result = await _mediator.Send(command);
         var response = _mapper.Map<QuizDto>(result.Value);
@@ -35,5 +38,25 @@ public class QuizController: ApiController
             Problem
         );
     }
-    
+
+    [HttpGet("default-degree")]
+    public async Task<IActionResult> GetDefaultDegree()
+    {
+        var query = new GetDefaultDegreeQuery();
+        var results = await _mediator.Send(query);
+        return results.Match(
+            x => Ok(results.Value),
+            Problem
+        );
+    }
+
+    [HttpPut("default-degree")]
+    public async Task<IActionResult> UpdateDefaultDegree([FromBody] UpdateDefaultDegreeCommand request)
+    {
+        var result = await _mediator.Send(request);
+        return result.Match(
+            _ => NoContent(),
+            Problem
+        );
+    }
 }

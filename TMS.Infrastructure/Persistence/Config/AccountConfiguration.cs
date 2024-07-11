@@ -1,10 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Accounts;
-using TMS.Domain.Common.Constrains;
-using TMS.Domain.Groups;
-using TMS.Domain.Students;
-using TMS.Domain.Teachers;
 
 namespace TMS.Infrastructure.Persistence.Config;
 

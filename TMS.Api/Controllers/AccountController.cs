@@ -1,9 +1,7 @@
-using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Accounts.Commands.Create;
-using TMS.Application.Accounts.Commands.Delete;
 using TMS.Application.Accounts.Commands.Update;
 using TMS.Application.Accounts.Queries.Get;
 using TMS.Application.Accounts.Queries.Get.Details;
@@ -21,7 +19,6 @@ using TMS.Contracts.Account.DTOs;
 using TMS.Contracts.Account.Get.Details;
 using TMS.Contracts.Account.Get.List;
 using TMS.Contracts.Account.Update;
-using TMS.Contracts.Attendance;
 using TMS.Contracts.Attendance.Create;
 using TMS.Contracts.Attendance.Get;
 using TMS.Contracts.Attendance.Update;
@@ -32,7 +29,6 @@ using TMS.Contracts.Quiz.Get;
 using TMS.Domain.Accounts;
 using TMS.Domain.Attendances;
 using TMS.Domain.Common.Models;
-using TMS.Domain.Groups;
 using TMS.Domain.Payments;
 using TMS.Domain.Quizzes;
 

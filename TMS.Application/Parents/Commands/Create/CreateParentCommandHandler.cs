@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using TMS.Application.Parents.Queries.Get;
-using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Parents;
 

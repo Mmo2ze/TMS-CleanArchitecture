@@ -1,7 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using TMS.Domain.Common.Repositories;
-using TMS.Domain.Teachers;
 using TMS.Domain.Teachers.Events;
 
 namespace TMS.Application.Groups.Events;

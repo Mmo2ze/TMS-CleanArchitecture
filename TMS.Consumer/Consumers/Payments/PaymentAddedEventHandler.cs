@@ -2,7 +2,6 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Services;
 using TMS.Consumer.MessageTemplates;
-using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 using TMS.MessagingContracts.Payments;
 

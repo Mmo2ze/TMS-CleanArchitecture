@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Xml.Linq;
 using ErrorOr;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +14,6 @@ using TMS.Domain.Admins;
 using TMS.Domain.Assistants;
 using TMS.Domain.Common.Enums;
 using TMS.Domain.Common.Errors;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Parents;
 using TMS.Domain.RefreshTokens;
 using TMS.Domain.Students;

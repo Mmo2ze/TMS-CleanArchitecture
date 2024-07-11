@@ -1,10 +1,7 @@
-using System.Formats.Asn1;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using TMS.Application.Common.Variables;
 using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Students;
 
 namespace TMS.Infrastructure.Persistence.Repositories;
 

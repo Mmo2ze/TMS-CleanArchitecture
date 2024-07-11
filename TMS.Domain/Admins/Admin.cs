@@ -1,6 +1,4 @@
-﻿using TMS.Domain.Common.Constrains;
-
-namespace TMS.Domain.Admins;
+﻿namespace TMS.Domain.Admins;
 
 public class Admin:User<AdminId>
 {

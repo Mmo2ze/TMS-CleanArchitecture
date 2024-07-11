@@ -1,9 +1,6 @@
 using Mapster;
-using TMS.Application.Groups.Queries.GetGroups;
-using TMS.Application.Sessions;
 using TMS.Application.Sessions.Commands.Create;
 using TMS.Application.Sessions.Queries.Get;
-using TMS.Contracts.Group.GetGroups;
 using TMS.Contracts.Session.Create;
 using TMS.Contracts.Session.Get;
 using TMS.Domain.Common.Models;

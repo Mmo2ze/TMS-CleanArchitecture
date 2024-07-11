@@ -1,10 +1,8 @@
 using FluentValidation;
 using TMS.Application.Common.Extensions;
-using TMS.Application.Common.ValidationErrors;
 using TMS.Domain.Common.Constrains;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Parents;
 
 namespace TMS.Application.Students.Commands.Create;
 

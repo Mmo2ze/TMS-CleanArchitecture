@@ -1,5 +1,4 @@
 using TMS.Domain.Accounts;
-using TMS.Domain.Assistants;
 using TMS.Domain.Quizzes;
 
 namespace TMS.MessagingContracts.Quiz;

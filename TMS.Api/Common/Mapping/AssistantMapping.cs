@@ -2,7 +2,6 @@ using Mapster;
 using TMS.Application.Assistants.Commands.Create;
 using TMS.Application.Assistants.Commands.Delete;
 using TMS.Application.Assistants.Commands.Update;
-using TMS.Contracts.Account.DTOs;
 using TMS.Contracts.Assistant.Create;
 using TMS.Contracts.Assistant.Delete;
 using TMS.Contracts.Assistant.Update;

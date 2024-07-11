@@ -4,16 +4,13 @@ using TMS.Domain.Groups;
 using TMS.Domain.Holidays;
 using TMS.Domain.Schedulers;
 using TMS.Domain.Schedulers.Enums;
-using TMS.Domain.Students;
 using TMS.Domain.Teachers.Events;
 
 namespace TMS.Domain.Teachers;
 
 public class Teacher : User<TeacherId>
 {
-    private Teacher() : base(TeacherId.CreateUnique())
-    {
-    }
+
 
     private readonly List<Assistant> _assistants = [];
     private readonly List<Account> _students = [];
@@ -23,9 +20,9 @@ public class Teacher : User<TeacherId>
 
     public Subject Subject { get; private set; }
     public TeacherStatus Status { get; private set; }
-
     public DateTime JoinDate { get; private set; }
     public DateOnly EndOfSubscription { get; private set; }
+    public double DefaultDegree { get; private set; } = 10;
     public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
     public IReadOnlyList<Assistant> Assistants => _assistants.AsReadOnly();
     public IReadOnlyList<Account> Students => _students.AsReadOnly();
@@ -54,7 +51,7 @@ public class Teacher : User<TeacherId>
     private Teacher(TeacherId id,
         string name,
         string phone,
-        DateOnly endOfSubscription, Subject subject, TeacherStatus status, string? email = null) : base(id)
+        DateOnly endOfSubscription, Subject subject, TeacherStatus status,  string? email = null) : base(id)
     {
         Name = name;
         Email = email;
@@ -92,7 +89,6 @@ public class Teacher : User<TeacherId>
 
     private bool PhoneChanged(string? requestPhone)
     {
-        //if Phone change we set the new one
         return requestPhone is not null && requestPhone != Phone;
     }
 
@@ -135,5 +131,9 @@ public class Teacher : User<TeacherId>
     public void RemoveHoliday(Holiday holiday)
     {
         _holidays.Remove(holiday);
+    }
+    public void UpdateDefaultDegree(double degree)
+    {
+        DefaultDegree = degree;
     }
 }

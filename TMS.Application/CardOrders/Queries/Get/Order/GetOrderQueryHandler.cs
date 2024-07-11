@@ -1,11 +1,9 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TMS.Application.CardOrders.Commands.Create;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
 using TMS.Domain.Common.Errors;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.CardOrders.Queries.Get.Order;

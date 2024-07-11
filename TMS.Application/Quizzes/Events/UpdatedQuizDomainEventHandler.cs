@@ -1,6 +1,5 @@
 using MassTransit;
 using MediatR;
-using TMS.Domain.Assistants;
 using TMS.Domain.Quizzes.Events;
 using TMS.MessagingContracts.Quiz;
 

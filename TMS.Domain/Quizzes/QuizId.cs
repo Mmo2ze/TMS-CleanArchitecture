@@ -1,5 +1,3 @@
-using TMS.Domain.Common.Models;
-
 namespace TMS.Domain.Quizzes;
 
 public record QuizId(string Value) : ValueObjectId<QuizId>(Value)

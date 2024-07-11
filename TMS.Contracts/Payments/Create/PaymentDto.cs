@@ -1,5 +1,3 @@
-using TMS.Domain.Assistants;
-
 namespace TMS.Contracts.Payments.Create;
 
 public record PaymentDto(

@@ -1,8 +1,5 @@
 ﻿using TMS.Domain.Accounts;
-using TMS.Domain.Assistants;
-using TMS.Domain.Attendances;
 using TMS.Domain.Common.Enums;
-using TMS.Domain.Groups;
 using TMS.Domain.Teachers;
 
 namespace TMS.Domain.Students;

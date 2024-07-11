@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Services;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Groups;
 using TMS.Domain.Sessions;
 using TMS.Domain.Teachers;
 

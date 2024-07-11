@@ -2,7 +2,6 @@ using ErrorOr;
 using MediatR;
 using TMS.Application.Parents.Queries.Get;
 using TMS.Domain.Common.Enums;
-using TMS.Domain.Parents;
 
 namespace TMS.Application.Parents.Commands.Create;
 

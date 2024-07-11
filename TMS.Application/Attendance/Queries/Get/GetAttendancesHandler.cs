@@ -1,10 +1,8 @@
 using ErrorOr;
 using MediatR;
 using TMS.Application.Attendance.Commands.Create;
-using TMS.Application.Common.Mapping;
 using TMS.Application.Common.Services;
 using TMS.Domain.Assistants;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Attendance.Queries.Get;

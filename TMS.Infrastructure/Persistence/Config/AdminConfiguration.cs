@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Admins;
 using TMS.Domain.Common.Constrains;
-using TMS.Domain.Common.Models;
 using TMS.Domain.RefreshTokens;
 
 namespace TMS.Infrastructure.Persistence.Config;

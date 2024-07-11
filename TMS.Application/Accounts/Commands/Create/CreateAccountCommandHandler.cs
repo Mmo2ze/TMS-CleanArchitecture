@@ -1,14 +1,10 @@
 using ErrorOr;
-using MassTransit.Initializers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Accounts.Queries.Get.Details;
 using TMS.Application.Common.Services;
 using TMS.Domain.Accounts;
-using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Students;
-using TMS.Domain.Teachers;
 
 namespace TMS.Application.Accounts.Commands.Create;
 

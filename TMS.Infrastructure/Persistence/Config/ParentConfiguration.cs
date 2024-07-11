@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TMS.Domain.Common.Constrains;
-using TMS.Domain.Common.Models;
 using TMS.Domain.Parents;
 using TMS.Domain.RefreshTokens;
 

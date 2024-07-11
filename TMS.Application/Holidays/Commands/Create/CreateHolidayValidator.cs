@@ -3,7 +3,6 @@ using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Groups;
 
 namespace TMS.Application.Holidays.Commands.Create;
 

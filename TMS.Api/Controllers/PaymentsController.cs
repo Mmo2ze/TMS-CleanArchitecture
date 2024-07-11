@@ -5,7 +5,6 @@ using TMS.Application.Payments.Commands.Create;
 using TMS.Application.Payments.Commands.Update;
 using TMS.Contracts.Payments.Create;
 using TMS.Contracts.Payments.Update;
-using TMS.Domain.Payments;
 
 namespace TMS.Api.Controllers;
 

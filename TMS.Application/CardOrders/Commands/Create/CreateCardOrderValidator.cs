@@ -1,5 +1,4 @@
 using FluentValidation;
-using MassTransit.Initializers;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Services;

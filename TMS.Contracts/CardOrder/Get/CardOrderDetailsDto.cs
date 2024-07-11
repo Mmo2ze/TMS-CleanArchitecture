@@ -1,5 +1,3 @@
-using TMS.Application.CardOrders.Queries.Get.Order;
-
 namespace TMS.Contracts.CardOrder.Get;
 
 public record CardOrderDetailsDto(

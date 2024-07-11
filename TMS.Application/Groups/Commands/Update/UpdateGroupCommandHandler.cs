@@ -1,8 +1,6 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TMS.Application.Common.Services;
-using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
 namespace TMS.Application.Groups.Commands.Update;
