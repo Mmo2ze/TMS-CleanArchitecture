@@ -112,9 +112,10 @@ public class AccountController : ApiController
         command = command with { AccountId = AccountId.Create(id) };
 
         var result = await _mediator.Send(command);
+        var response = _mapper.Map<QuizDto>(result.Value);
 
         return result.Match(
-            _ => Ok(result.Value),
+            _ => Ok(response),
             Problem
         );
     }
@@ -133,7 +134,7 @@ public class AccountController : ApiController
         var result = await _mediator.Send(query);
         var response = _mapper.Map<PaginatedList<QuizDto>>(result.Value);
         return result.Match(
-            _ => NoContent(),
+            _ => Ok(response),
             Problem);
     }
 

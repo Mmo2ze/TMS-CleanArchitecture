@@ -32,9 +32,6 @@ public class QuizMapping : IRegister
                 source.PageNumber,
                 source.GetPageSize()));
 
-        config.NewConfig<QuizAssistantResult, QuizAssistantResponse>()
-            .Map(dest => dest.Id, src => src.Id.Value);
-
         config.NewConfig<UpdateQuizRequest, UpdateQuizCommand>()
             .Map(dest => dest.Id, src => QuizId.Create(src.Id));
     }

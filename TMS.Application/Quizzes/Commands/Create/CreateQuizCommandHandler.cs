@@ -1,12 +1,13 @@
 using ErrorOr;
 using MediatR;
 using TMS.Application.Common.Services;
+using TMS.Application.Quizzes.Queries.Get;
 using TMS.Domain.Common.Repositories;
 using TMS.Domain.Quizzes;
 
 namespace TMS.Application.Quizzes.Commands.Create;
 
-public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, ErrorOr<QuizId>>
+public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, ErrorOr<QuizResult>>
 {
     private readonly ITeacherHelper _teacherHelper;
     private readonly IAccountRepository _accountRepository;
@@ -22,13 +23,20 @@ public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, Error
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<ErrorOr<QuizId>> Handle(CreateQuizCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<QuizResult>> Handle(CreateQuizCommand request, CancellationToken cancellationToken)
     {
         var account = await _accountRepository.FindAsync(request.AccountId, cancellationToken);
         var quiz = Quiz.Create(request.Degree, request.MaxDegree, request.AccountId,
             _teacherHelper.GetAssistantId(), _teacherHelper.GetTeacherId(), _dateTimeProvider.Today);
         account!.AddQuiz(quiz);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return quiz.Id;
+
+        return new QuizResult(
+            quiz.Id,
+            quiz.Degree,
+            quiz.MaxDegree,
+            _teacherHelper.GetAssistantInfo(),
+            null,
+            quiz.CreatedAt,
+            null);
     }
 }

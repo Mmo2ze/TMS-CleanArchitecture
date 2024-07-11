@@ -7,5 +7,5 @@ public record QuizDto(
     QuizAssistantResponse ? AddedBy,
     QuizAssistantResponse? UpdatedBy,
     DateOnly CreatedAt,
-    DateTime? UpdatedAt,
-    string TeacherName);
+    DateTime? UpdatedAt
+    );
