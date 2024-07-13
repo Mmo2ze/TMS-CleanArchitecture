@@ -31,8 +31,7 @@ public class CardOrderMapping : IRegister
         config.NewConfig<CardOrderDetailsResult, CardOrderDetailsDto>()
             .Map(x => x.Id, x => x.Id.Value)
             .Map(x => x.TeacherId, x => x.TeacherId.Value);
-        config.NewConfig<ShortAccount, ShortAccountDto>()
-            .Map(x => x.Id, x => x.Id.Value);
+
         config.NewConfig<PaginatedList<CardOrderResult>, PaginatedList<CardOrderDto>>()
             .ConstructUsing((source,
                 context) => new PaginatedList<CardOrderDto>(

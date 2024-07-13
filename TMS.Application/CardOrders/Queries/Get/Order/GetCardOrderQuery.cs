@@ -1,5 +1,6 @@
 using ErrorOr;
 using MediatR;
+using TMS.Domain.Accounts;
 using TMS.Domain.Admins;
 using TMS.Domain.Cards;
 using TMS.Domain.Teachers;
@@ -20,7 +21,6 @@ public record CardOrderDetailsResult(
     AdminId? CancelledBy,
     int Count,
     CardOrderStatus Status,
-    List<ShortAccount> ShortAccounts)
+    List<AccountSummary> Accounts)
 {
-    public List<ShortAccount> AccountCards { get; set; } = ShortAccounts;
 };

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
+using TMS.Domain.Accounts;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
 
@@ -30,7 +31,10 @@ public class GetOrderQueryHandler : IRequestHandler<GetCardOrderQuery, ErrorOr<C
         var role = _claimsReader.GetRoles();
         var order = await _cardOrderRepository.WhereQueryable(x =>
                 x.Id == request.Id && (role.Contains(Roles.Admin.Role) || x.TeacherId == _teacherHelper.GetTeacherId()))
-            .Include(x => x.Accounts).ThenInclude(x =>x.Student)
+            .Include(x => x.Accounts)
+            .ThenInclude(x =>x.Student)
+            .Include(x => x.Accounts)
+            .ThenInclude(x =>x.Group)
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (order is null)
@@ -47,6 +51,6 @@ public class GetOrderQueryHandler : IRequestHandler<GetCardOrderQuery, ErrorOr<C
             order.CancelledBy,
             order.Accounts.Count,
             order.Status,
-            order.Accounts.Select(x => new ShortAccount(x.Id, x.Student.Name)).ToList());
+            order.Accounts.Select(AccountSummary.From).ToList());
     }
 }

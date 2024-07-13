@@ -1,3 +1,5 @@
+using TMS.Contracts.Account.DTOs;
+
 namespace TMS.Contracts.CardOrder.Get;
 
 public record CardOrderDetailsDto(
@@ -12,6 +14,5 @@ public record CardOrderDetailsDto(
     string CancelledBy,
     int Count,
     string Status,
-    List<ShortAccountDto> ShortAccounts);
+    List<AccountSummaryDto> Accounts);
 
-public record ShortAccountDto(string Id, string Name);
