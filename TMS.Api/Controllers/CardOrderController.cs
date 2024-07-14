@@ -41,7 +41,7 @@ public class CardOrderController : ApiController
     }
     
     
-    [Authorize(Roles =$"{Roles.Admin.Role},{Roles.Teacher.Role},{Roles.Teacher.Role}")]
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpGet]
     public async Task<IActionResult> GetCardOrders([FromQuery] GetCardOrdersRequest request)
     {
@@ -53,7 +53,7 @@ public class CardOrderController : ApiController
             Problem);
     }
     
-    [Authorize($"{Roles.Admin.Role},{Roles.Teacher.Role},{Roles.Teacher.Role}")]
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCardOrder([FromRoute] string id, [FromBody] UpdateCardOrderRequest request)
     {
@@ -67,7 +67,7 @@ public class CardOrderController : ApiController
             Problem);
     }
 
-    [Authorize(Roles = $"{Roles.Admin.Role},{Roles.Teacher.Role},{Roles.Teacher.Role}")]
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCardOrder([FromRoute] string id)
     {

@@ -11,7 +11,6 @@ public record CreateCardOrderCommand(List<AccountId> AccountIds) : IRequest<Erro
 
 public record CardOrderResult(
     CardOrderId Id,
-    IReadOnlyList<AccountId> AccountIds,
     TeacherId TeacherId,
     string TeacherName,
     DateTime CreatedAt,
@@ -19,13 +18,13 @@ public record CardOrderResult(
     DateTime? CancelledAt,
     AdminId? AcceptedBy,
     AdminId? CancelledBy,
-    CardOrderStatus Status)
+    CardOrderStatus Status,
+    int Count)
 {
     public static CardOrderResult From(CardOrder cardOrder)
     {
         return new CardOrderResult(
             cardOrder.Id,
-            cardOrder.Accounts.Select(x => x.Id).ToList(),
             cardOrder.TeacherId,
             cardOrder.TeacherName,
             cardOrder.CreatedAt,
@@ -33,8 +32,8 @@ public record CardOrderResult(
             cardOrder.CancelledAt,
             cardOrder.AcceptedBy,
             cardOrder.CancelledBy,
-            cardOrder.Status);
+            cardOrder.Status,
+            cardOrder.Accounts.Count);
     }
 
-    public int Count = AccountIds.Count;
 }

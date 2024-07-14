@@ -25,8 +25,7 @@ public class CardOrderMapping : IRegister
             .Map(dest => dest.Id, src => src.Id.Value)
             .Map(dest => dest.TeacherId, src => src.TeacherId.Value)
             .Map(dest => dest.AcceptedBy, src => src.AcceptedBy.Value)
-            .Map(dest => dest.CancelledBy, src => src.CancelledBy.Value)
-            .Map(dest => dest.AccountIds, src => src.AccountIds.Select(a => a.Value).ToList());
+            .Map(dest => dest.CancelledBy, src => src.CancelledBy.Value);
 
         config.NewConfig<CardOrderDetailsResult, CardOrderDetailsDto>()
             .Map(x => x.Id, x => x.Id.Value)

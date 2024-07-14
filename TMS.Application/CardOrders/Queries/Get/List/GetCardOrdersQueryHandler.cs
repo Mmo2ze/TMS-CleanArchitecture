@@ -34,7 +34,6 @@ public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, Err
                 .Include(x => x.Accounts)
                 .Select(x => new CardOrderResult(
                     x.Id,
-                    x.Accounts.Select(account => account.Id).ToList(),
                     x.TeacherId,
                     x.TeacherName,
                     x.CreatedAt,
@@ -42,7 +41,9 @@ public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, Err
                     x.CancelledAt,
                     x.AcceptedBy,
                     x.CancelledBy,
-                    x.Status));
+                    x.Status,
+                    x.Accounts.Count
+                    ));
         }
         else
         {
@@ -51,7 +52,6 @@ public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, Err
                 .Include(x => x.Accounts)
                 .Select(x => new CardOrderResult(
                     x.Id,
-                    x.Accounts.Select(account => account.Id).ToList(),
                     x.TeacherId,
                     x.TeacherName,
                     x.CreatedAt,
@@ -59,7 +59,8 @@ public class GetCardOrdersQueryHandler : IRequestHandler<GetCardOrdersQuery, Err
                     x.CancelledAt,
                     x.AcceptedBy,
                     x.CancelledBy,
-                    x.Status));
+                    x.Status,
+                    x.Accounts.Count));
         }
 
         return await orders.PaginatedListAsync(request.Page, request.PageSize);
