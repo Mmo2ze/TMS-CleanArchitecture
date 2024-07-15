@@ -26,6 +26,6 @@ public class UpdateAssistantCommandHandler: IRequestHandler<UpdateAssistantComma
         assistant!.Update(request.Name, request.Phone, request.Email);
         assistant.UpdateRoles(request.Roles);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return AssistantDto.From(assistant!);
+        return AssistantDto.From(assistant);
     }
 }
