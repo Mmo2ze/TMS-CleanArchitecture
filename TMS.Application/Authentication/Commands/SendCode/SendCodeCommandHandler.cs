@@ -41,7 +41,7 @@ public class SendCodeCommandHandler : IRequestHandler<SendCodeCommand, ErrorOr<A
     public async Task<ErrorOr<AuthenticationResult>> Handle(SendCodeCommand request,
         CancellationToken cancellationToken)
     {
-        string? userId = null;
+        string? userId ;
         switch (request.UserAgent)
         {
             case UserAgent.Admin:

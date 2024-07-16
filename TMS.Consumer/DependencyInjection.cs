@@ -23,10 +23,10 @@ public static class DependencyInjection
             busConfigurator.AddConsumers(typeof(DependencyInjection).Assembly);
             busConfigurator.UsingAmazonSqs((context, cfg) =>
             {
-                cfg.Host("eu-west-3", h =>
+                cfg.Host("eu-north-1", h =>
                 {
-                    h.AccessKey("AKIA4IE4QFYDYIFRPWUP");
-                    h.SecretKey("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");
+                    h.AccessKey("AKIA2UC264DEPT4T5FM6");
+                    h.SecretKey("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");
                 });
                 cfg.ConfigureEndpoints(context);
             });
