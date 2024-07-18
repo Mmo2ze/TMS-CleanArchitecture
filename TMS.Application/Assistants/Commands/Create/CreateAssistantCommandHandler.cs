@@ -24,10 +24,7 @@ public class CreateAssistantCommandHandler : IRequestHandler<CreateAssistantComm
         CancellationToken cancellationToken)
     {
         var teacherId = _teacherHelper.GetTeacherId();
-        if (teacherId is null)
-        {
-            return Errors.Auth.InvalidCredentials;
-        }
+
 
         var teacher = await _teacherRepository.GetTeacher(t => t.Id == teacherId, cancellationToken);
         if (teacher is null)

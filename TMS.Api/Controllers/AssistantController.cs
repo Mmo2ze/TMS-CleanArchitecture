@@ -29,7 +29,7 @@ public class AssistantController : ApiController
     {
         var command = _mapper.Map<CreateAssistantCommand>(request);
         var result = await _mediator.Send(command);
-        var response = _mapper.Map<CreateAssistantRequest>(result.Value);
+        var response = _mapper.Map<CreateAssistantResponse>(result.Value);
         return result.Match(
             _ => Ok(response),
             Problem
