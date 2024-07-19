@@ -23,7 +23,7 @@ public static class AssistantRoleString
     public const string ViewPayments = "ViewPayments";
     public const string RecordAttendance = "RecordAttendance";
 }
-public static class AssistantRoleExtenion
+public static class AssistantRoleExtension
 {
     public static Role ToBasic(this AssistantRole assistantRole)
     {
