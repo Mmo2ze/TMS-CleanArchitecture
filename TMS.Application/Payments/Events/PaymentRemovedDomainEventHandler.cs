@@ -23,7 +23,7 @@ public class PaymentRemovedDomainEventHandler : INotificationHandler<PaymentRemo
         if (payment is not null)
         {
             _paymentRepository.Remove(payment);
-            await _publishEndpoint.Publish(new PaymentDeletedEvent(payment.Id, payment.AccountId!, payment.TeacherId,payment.Amount,payment.BillDate), cancellationToken);
+            await _publishEndpoint.Publish(new PaymentDeletedEvent(payment.Id, notification.AccountId, payment.TeacherId,payment.Amount,payment.BillDate), cancellationToken);
         }
     }
 }
