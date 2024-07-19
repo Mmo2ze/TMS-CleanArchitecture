@@ -20,7 +20,7 @@ public static  partial class MsgTemplate
     {
         public static string AbsenceRecorded(string parentName, string studentShortName)
         {
-            return $"أهلا {parentName}، تم تسجيل غياب {studentShortName} في الحصة الخاصة بـ ";
+            return $"أهلا استاذ  {parentName}، تم تسجيل غياب  {studentShortName} في الحصة الخاصة بـ ";
         }
     }
 }

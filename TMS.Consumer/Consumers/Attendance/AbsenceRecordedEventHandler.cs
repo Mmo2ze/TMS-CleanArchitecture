@@ -5,7 +5,7 @@ using TMS.Consumer.MessageTemplates;
 using TMS.Domain.Common.Repositories;
 using TMS.MessagingContracts.Attendances;
 
-namespace TMS.Consumer.Consumers.Payments;
+namespace TMS.Consumer.Consumers.Attendance;
 
 public class AbsenceRecordedEventHandler : IConsumer<AbsenceRecordedEvent>
 {
