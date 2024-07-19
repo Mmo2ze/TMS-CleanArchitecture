@@ -74,7 +74,7 @@ public class Account : Aggregate<AccountId>
         Grade = grade ?? Grade;
         GroupId = groupId ?? GroupId;
         StudentId = studentId ?? StudentId;
-        ParentId = parentId ?? ParentId;
+        ParentId = parentId;
         HasCustomPrice = Math.Abs(BasePrice - groupPrice) >= .5;
     }
 
