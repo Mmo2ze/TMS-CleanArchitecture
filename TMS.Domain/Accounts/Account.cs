@@ -102,7 +102,7 @@ public class Account : Aggregate<AccountId>
         var attendance = Attendance.Create(Id, TeacherId, assistantId, date, status);
         _attendances.Add(attendance);
         RaiseDomainEvent(new AttendanceCreatedDomainEvent(attendance.Id, attendance.Date, attendance.AccountId,
-            attendance.TeacherId));
+            attendance.TeacherId,attendance.Status));
         return attendance;
     }
 
