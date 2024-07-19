@@ -2,7 +2,7 @@
 
 public record TeacherId(string Value) : ValueObjectId<TeacherId>(Value)
 {
-	public TeacherId() : this(Guid.NewGuid().ToString())
+	public TeacherId() : this(Ulid.NewUlid().ToString())
 	{
 	}
 };

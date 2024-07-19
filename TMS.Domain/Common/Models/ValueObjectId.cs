@@ -16,7 +16,7 @@ public record ValueObjectId<T>(string Value)
 
     public static T CreateUnique()
     {
-        var value = Guid.NewGuid().ToString();
+        var value = Ulid.NewUlid().ToString();
         var valueWithOutDashes = value.Replace("-", "");
         var newValue = GetPrefixedId() + valueWithOutDashes;
         return Create(newValue);
@@ -33,5 +33,4 @@ public record ValueObjectId<T>(string Value)
         return value.StartsWith(GetPrefixedId());
     }
 
-    public bool HasValue => !string.IsNullOrWhiteSpace(Value);
 }

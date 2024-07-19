@@ -2,7 +2,7 @@
 
 public record PaymentId(string Value) : ValueObjectId<PaymentId>(Value)
 {
-	public PaymentId() : this(Guid.NewGuid().ToString())
+	public PaymentId() : this(Ulid.NewUlid().ToString())
 	{
 	}
 }

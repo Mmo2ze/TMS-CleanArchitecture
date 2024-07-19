@@ -2,7 +2,7 @@ namespace TMS.Domain.Sessions;
 
 public record SessionId(string Value) : ValueObjectId<SessionId>(Value)
 {
-    public SessionId() : this(Guid.NewGuid().ToString())
+    public SessionId() : this(Ulid.NewUlid().ToString())
     {
     }
 }

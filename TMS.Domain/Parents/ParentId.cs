@@ -2,7 +2,7 @@
 
 public record ParentId(string Value) : ValueObjectId<ParentId>(Value)
 {
-	public ParentId() : this(Guid.NewGuid().ToString())
+	public ParentId() : this(Ulid.NewUlid().ToString())
 	{
 	}
 }

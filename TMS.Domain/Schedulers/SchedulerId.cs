@@ -2,7 +2,7 @@ namespace TMS.Domain.Schedulers;
 
 public record SchedulerId(string Value) : ValueObjectId<SchedulerId>(Value)
 {
-    public SchedulerId() : this(Guid.NewGuid().ToString())
+    public SchedulerId() : this(Ulid.NewUlid().ToString())
     {
     }
 }
