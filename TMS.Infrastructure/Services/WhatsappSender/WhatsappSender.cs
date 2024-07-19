@@ -49,7 +49,7 @@ public class WhatsappSender : IWhatsappSender
     private string AddTeacherNameToMessage(string message, Teacher? teacher)
     {
         if (teacher is null) return message;
-        var suffix = $"مستر {teacher.Name} مدرس ال{teacher.Subject} " +
+        var suffix = $"مستر  {teacher.Name} مدرس {teacher.Subject.ToArabic()} " +
                      $"للتواصل معه عبر الواتساب اضغط على الرابط التالي: {teacher.WhatsappLink}";
         return message + suffix;
     }
