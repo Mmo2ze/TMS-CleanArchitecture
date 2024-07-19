@@ -6,23 +6,18 @@ public enum AssistantRole
 {
     AddStudent,
     RemoveStudent,
-    AddSession,
-    RemoveSession,
-    RegisterPayment,
+    AddGroup,
+    RecordPayment,
     ViewPayments,
-    RecordAttendance
+    RecordAttendance,
+    AddCardOrder,
+    AddQuiz,
+    AddHoliday,
+    ScheduleAttendance
+    
 }
 
-public static class AssistantRoleString
-{
-    public const string AddStudent = "AddStudent";
-    public const string RemoveStudent = "RemoveStudent";
-    public const string AddSession = "AddSession";
-    public const string RemoveSession = "RemoveSession";
-    public const string RegisterPayment = "RegisterPayment";
-    public const string ViewPayments = "ViewPayments";
-    public const string RecordAttendance = "RecordAttendance";
-}
+
 public static class AssistantRoleExtension
 {
     public static Role ToBasic(this AssistantRole assistantRole)
@@ -31,11 +26,14 @@ public static class AssistantRoleExtension
         {
             AssistantRole.AddStudent => Role.AddStudent,
             AssistantRole.RemoveStudent => Role.RemoveStudent,
-            AssistantRole.AddSession => Role.AddSession,
-            AssistantRole.RemoveSession => Role.RemoveSession,
-            AssistantRole.RegisterPayment => Role.RegisterPayment,
+            AssistantRole.AddGroup => Role.AddGroup,
+            AssistantRole.RecordPayment => Role.RecordPayment,
             AssistantRole.ViewPayments => Role.ViewPayments,
             AssistantRole.RecordAttendance => Role.RecordAttendance,
+            AssistantRole.AddCardOrder => Role.AddCardOrder,
+            AssistantRole.AddQuiz => Role.AddQuiz,
+            AssistantRole.AddHoliday => Role.AddHoliday,
+            AssistantRole.ScheduleAttendance => Role.ScheduleAttendance,
             _ => Role.Assistant
         };
     }

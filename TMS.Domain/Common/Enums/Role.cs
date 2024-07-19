@@ -18,9 +18,13 @@ public enum Role
     Parent,
     AddStudent,
     RemoveStudent,
-    AddSession,
-    RemoveSession,
-    RegisterPayment,
+    AddGroup,
+    RecordPayment,
     ViewPayments,
-    RecordAttendance
+    RecordAttendance,
+    AddCardOrder,
+    AddQuiz,
+    AddHoliday,
+    ScheduleAttendance
+
 }

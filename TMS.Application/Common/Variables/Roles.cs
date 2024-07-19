@@ -33,9 +33,7 @@ public static class Roles
     public static class Assistant
     {
         public const string AddStudent = "AddStudent";
-        public const string RemoveStudent = "RemoveStudent";
         public const string AddGroup = "AddSession";
-        public const string RemoveSession = "RemoveSession";
         public const string RecordPayment = "RegisterPayment";
         public const string ViewPayments = "ViewPayments";
         public const string RecordAttendance = "RecordAttendance";
