@@ -1,6 +1,8 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Common.Variables;
 using TMS.Application.Payments.Commands.Create;
 using TMS.Application.Payments.Commands.Update;
 using TMS.Contracts.Payments.Create;
@@ -9,6 +11,7 @@ using TMS.Contracts.Payments.Update;
 namespace TMS.Api.Controllers;
 
 [Route("payments")]
+
 public class PaymentsController : ApiController
 {
     private readonly ISender _sender;
@@ -20,6 +23,7 @@ public class PaymentsController : ApiController
         _mapper = mapper;
     }
 
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.RecordPayment}")]
     [HttpPost]
     public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest request)
     {
@@ -31,7 +35,8 @@ public class PaymentsController : ApiController
             Problem
         );
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.RecordPayment}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePayment([FromRoute] string id, [FromBody] UpdatePaymentRequest request)
     {

@@ -1,11 +1,15 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Common.Variables;
 using TMS.Application.Scheduler.Commands.Create;
 using TMS.Contracts.AttendanceScheduler.Create;
 
 namespace TMS.Api.Controllers;
 
+
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.ScheduleAttendance}")]
 
 public class SchedulerController:ApiController
 {

@@ -21,7 +21,6 @@ public static class Roles
         public const string TeacherNonRegister = "TeacherNonRegister";
         public const string Role = "Teacher";
         public const string TeacherCodeSent = "TeacherCodeSent";
-        public const string Assistant = "Assistant";
 
     }
 		
@@ -35,12 +34,16 @@ public static class Roles
     {
         public const string AddStudent = "AddStudent";
         public const string RemoveStudent = "RemoveStudent";
-        public const string AddSession = "AddSession";
+        public const string AddGroup = "AddSession";
         public const string RemoveSession = "RemoveSession";
-        public const string RegisterPayment = "RegisterPayment";
+        public const string RecordPayment = "RegisterPayment";
         public const string ViewPayments = "ViewPayments";
         public const string RecordAttendance = "RecordAttendance";
         public const string AddCardOrder ="AddCardOrder";
+        public const string Role = "Assistant";
+        public const string AddQuiz = "AddQuiz";
+        public const string AddHoliday = "AddHoliday";
+        public const string ScheduleAttendance = "ScheduleAttendance";
     }
 		
 }

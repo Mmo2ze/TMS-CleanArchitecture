@@ -1,5 +1,6 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Accounts.Commands.Create;
 using TMS.Application.Accounts.Commands.Update;
@@ -9,6 +10,7 @@ using TMS.Application.Attendance.Commands.Create;
 using TMS.Application.Attendance.Commands.Delete;
 using TMS.Application.Attendance.Commands.Update;
 using TMS.Application.Attendance.Queries.Get;
+using TMS.Application.Common.Variables;
 using TMS.Application.Payments.Commands.Delete;
 using TMS.Application.Payments.Queries.Get;
 using TMS.Application.Quizzes.Commands.Create;
@@ -34,6 +36,8 @@ using TMS.Domain.Quizzes;
 
 namespace TMS.Api.Controllers;
 
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.Role}")]
+
 public class AccountController : ApiController
 {
     private readonly IMapper _mapper;
@@ -44,7 +48,8 @@ public class AccountController : ApiController
         _mapper = mapper;
         _mediator = mediator;
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddStudent}")]
     [HttpPost]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequest request)
     {
@@ -68,6 +73,8 @@ public class AccountController : ApiController
             , Problem);
     }
 
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddStudent}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountRequest request, string id)
     {
@@ -84,6 +91,7 @@ public class AccountController : ApiController
         );
     }
 
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddStudent}")]
     [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateAccountPartial([FromQuery] UpdateAccountPartialRequest request, string id)
     {
@@ -99,7 +107,7 @@ public class AccountController : ApiController
             Problem
         );
     }
-
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddQuiz}")]
     [HttpPost("{id}/quizzes")]
     public async Task<IActionResult> AddQuiz([FromBody] CreateQuizRequest request, string id)
     {
@@ -137,7 +145,7 @@ public class AccountController : ApiController
             _ => Ok(response),
             Problem);
     }
-
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddQuiz}")]
     [HttpDelete("{id}/quiz/{quizId}")]
     public async Task<IActionResult> DeleteQuiz(string id, string quizId)
     {
@@ -148,7 +156,7 @@ public class AccountController : ApiController
             Problem
         );
     }
-
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.RecordAttendance}")]
     [HttpPost("{id}/attendance")]
     public async Task<IActionResult> AddAttendance([FromBody] CreateAttendanceRequest request, string id)
     {
@@ -184,6 +192,7 @@ public class AccountController : ApiController
             _ => Ok(response),
             Problem);
     }
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.RecordAttendance}")]
 
     [HttpPut("attendance/{id}")]
     public async Task<IActionResult> UpdateAttendance([FromBody] UpdateAttendanceRequest request, string id)
@@ -205,6 +214,7 @@ public class AccountController : ApiController
             Problem
         );
     }
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.RecordAttendance}")]
 
     [HttpDelete("{id}/attendance/{attendanceId}")]
     public async Task<IActionResult> DeleteAttendance(string id, string attendanceId)
@@ -216,7 +226,8 @@ public class AccountController : ApiController
             Problem
         );
     }
-    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.ViewPayments}")]
+
     [HttpGet("{id}/payments")]
     public async Task<IActionResult> GetPayments([FromQuery] GetAccountPaymentsRequest request, string id)
     {
@@ -234,6 +245,7 @@ public class AccountController : ApiController
             Problem);
     }
     
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.RecordPayment}")]
     [HttpDelete("{id}/payments/{paymentId}")]
     public async Task<IActionResult> DeletePayment(string id, string paymentId)
     {
@@ -244,6 +256,7 @@ public class AccountController : ApiController
             Problem
         );
     }
+    
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAccountDetails(string id)
     {

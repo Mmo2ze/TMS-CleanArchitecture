@@ -1,10 +1,12 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMS.Application.Assistants.Commands.Create;
 using TMS.Application.Assistants.Commands.Delete;
 using TMS.Application.Assistants.Commands.Update;
 using TMS.Application.Assistants.Queries.GetAssistants;
+using TMS.Application.Common.Variables;
 using TMS.Contracts.Assistant.Create;
 using TMS.Contracts.Assistant.Delete;
 using TMS.Contracts.Assistant.Get;
@@ -13,6 +15,8 @@ using TMS.Domain.Common.Models;
 
 namespace TMS.Api.Controllers;
 
+
+[Authorize(Roles = $"{Roles.Teacher.Role}")]
 public class AssistantController : ApiController
 {
     private readonly ISender _mediator;

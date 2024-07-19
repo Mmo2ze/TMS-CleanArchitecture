@@ -1,6 +1,8 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Common.Variables;
 using TMS.Application.Parents.Commands.Create;
 using TMS.Application.Parents.Queries.Get;
 using TMS.Contracts.Parent.Create;
@@ -8,6 +10,8 @@ using TMS.Contracts.Parent.Get;
 using TMS.Domain.Common.Models;
 
 namespace TMS.Api.Controllers;
+
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.Role},{Roles.Admin.Role}")]
 
 public class ParentController : ApiController
 {

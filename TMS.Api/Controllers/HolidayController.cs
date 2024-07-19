@@ -1,6 +1,8 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Common.Variables;
 using TMS.Application.Holidays.Commands.Create;
 using TMS.Application.Holidays.Commands.Delete;
 using TMS.Application.Holidays.Commands.Update;
@@ -14,6 +16,7 @@ using TMS.Domain.Holidays;
 namespace TMS.Api.Controllers;
 
 [Route("holiday")]
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.Role}")]
 public class HolidayController : ApiController
 {
     private readonly IMapper _mapper;
@@ -24,6 +27,8 @@ public class HolidayController : ApiController
         _mediator = mediator;
         _mapper = mapper;
     }
+
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddHoliday}")]
 
     [HttpPost]
     public async Task<IActionResult> CreateHoliday([FromBody] CreateHolidayRequest request)
@@ -36,7 +41,8 @@ public class HolidayController : ApiController
             Problem
         );
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddHoliday}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateHoliday([FromRoute] string id, [FromBody] UpdateHolidayRequest request)
     {
@@ -50,7 +56,8 @@ public class HolidayController : ApiController
             Problem
         );
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddHoliday}")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteHoliday([FromRoute] string id)
     {
@@ -61,7 +68,7 @@ public class HolidayController : ApiController
             Problem
         );
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetHolidays([FromQuery] GetHolidaysRequest request)
     {

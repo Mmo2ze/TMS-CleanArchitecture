@@ -7,11 +7,12 @@ using TMS.Application.Students.Commands.Create;
 using TMS.Application.Students.Queries.GetStudents;
 using TMS.Contracts.Student.Create;
 using TMS.Contracts.Student.Get;
+using TMS.Domain.Common.Enums;
 using TMS.Domain.Common.Models;
 
 namespace TMS.Api.Controllers;
 
-[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Admin.Role}")]
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Admin.Role},{Roles.Assistant.Role}")]
 public class StudentController : ApiController
 {
     private readonly IMapper _mapper;

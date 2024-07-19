@@ -80,7 +80,7 @@ private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, Li
         return Errors.Auth.InvalidCredentials;
     }
 
-    claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
+    claims.Add(new Claim(ClaimTypes.Role, Roles.Assistant.Role));
     claims.Add(new Claim(ClaimTypes.MobilePhone, assistant.Phone));
     claims.Add(new Claim(CustomClaimTypes.TeacherId, assistant.TeacherId.Value));
     claims.Add(new Claim(ClaimTypes.Name, assistant.Name));

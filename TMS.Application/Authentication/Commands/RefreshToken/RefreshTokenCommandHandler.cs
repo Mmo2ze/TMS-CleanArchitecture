@@ -86,7 +86,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
         }
         else
         {
-            claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Assistant));
+            claims.Add(new Claim(ClaimTypes.Role, Roles.Assistant.Role));
             claims.Add(new Claim(CustomClaimTypes.Id, userId));
             claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
         }

@@ -24,7 +24,7 @@ using TMS.Domain.Sessions;
 
 namespace TMS.Api.Controllers;
 
-[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Teacher.Assistant}")]
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.Role}")]
 public class GroupController : ApiController
 {
     private readonly IMediator _mediator;
@@ -37,6 +37,8 @@ public class GroupController : ApiController
     }
 
     [HttpPost]
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddGroup}")]
+
     public async Task<IActionResult> Create([FromBody] CreateGroupRequest request)
     {
         var command = _mapper.Map<CreateGroupCommand>(request);
@@ -59,7 +61,8 @@ public class GroupController : ApiController
             Problem
         );
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddGroup}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update([FromRoute] string id, [FromBody] UpdateGroupRequest request)
     {
@@ -72,7 +75,8 @@ public class GroupController : ApiController
             Problem
         );
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddGroup}")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] string id)
     {
@@ -97,7 +101,8 @@ public class GroupController : ApiController
             _ => Ok(response),
             Problem);
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddStudent}")]
     [HttpDelete("{groupId}/accounts/{accountId}")]
     public async Task<IActionResult> DeleteAccount(string groupId, string accountId)
     {
@@ -122,6 +127,7 @@ public class GroupController : ApiController
             _ => Ok(response),
             Problem);
     }
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddGroup}")]
 
     [HttpDelete("{groupId}/sessions/{sessionId}")]
     public async Task<IActionResult> DeleteSession(string groupId, string sessionId)

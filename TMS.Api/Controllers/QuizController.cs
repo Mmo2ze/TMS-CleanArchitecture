@@ -1,7 +1,9 @@
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TMS.Application.Common.Variables;
 using TMS.Application.Quizzes.Commands.Update;
 using TMS.Application.Quizzes.Commands.UpdateDefaultDegree;
 using TMS.Application.Quizzes.Queries.GetDefaultDegree;
@@ -11,6 +13,8 @@ using TMS.Contracts.Quiz.Update;
 namespace TMS.Api.Controllers;
 
 [Route("quiz")]
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.Role}")]
+
 public class QuizController : ApiController
 {
     private readonly IMapper _mapper;
@@ -22,6 +26,7 @@ public class QuizController : ApiController
         _mediator = mediator;
     }
 
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddQuiz}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateQuiz([FromBody] UpdateQuizRequest request, string id)
     {
@@ -49,7 +54,8 @@ public class QuizController : ApiController
             Problem
         );
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddQuiz}")]
     [HttpPut("default-degree")]
     public async Task<IActionResult> UpdateDefaultDegree([FromBody] UpdateDefaultDegreeCommand request)
     {

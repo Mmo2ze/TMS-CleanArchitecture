@@ -18,6 +18,8 @@ using TMS.Domain.Common.Models;
 namespace TMS.Api.Controllers;
 
 [Route("card-order")]
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Admin.Role},{Roles.Assistant.AddCardOrder}")]
+
 public class CardOrderController : ApiController
 {
     private readonly IMapper _mapper;
@@ -28,6 +30,7 @@ public class CardOrderController : ApiController
         _mapper = mapper;
         _mediator = mediator;
     }
+    
     [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpPost]
     public async Task<IActionResult> CreateCardOrder([FromBody] CreateCardOrderRequest request)
@@ -41,7 +44,6 @@ public class CardOrderController : ApiController
     }
     
     
-    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpGet]
     public async Task<IActionResult> GetCardOrders([FromQuery] GetCardOrdersRequest request)
     {
@@ -53,7 +55,6 @@ public class CardOrderController : ApiController
             Problem);
     }
     
-    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCardOrder([FromRoute] string id, [FromBody] UpdateCardOrderRequest request)
     {
@@ -67,7 +68,6 @@ public class CardOrderController : ApiController
             Problem);
     }
 
-    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddCardOrder}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCardOrder([FromRoute] string id)
     {

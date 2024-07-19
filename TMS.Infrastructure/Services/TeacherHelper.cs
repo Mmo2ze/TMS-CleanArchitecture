@@ -26,7 +26,7 @@ public class TeacherHelper : ITeacherHelper
     public bool IsAssistant()
     {
         var roles = _claimsReader.GetRoles();
-        return roles.Contains(Roles.Teacher.Assistant);
+        return roles.Contains(Roles.Assistant.Role);
     }
 
     public TeacherId GetTeacherId()

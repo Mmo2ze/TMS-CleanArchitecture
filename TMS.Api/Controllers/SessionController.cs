@@ -11,7 +11,7 @@ using TMS.Domain.Common.Models;
 
 namespace TMS.Api.Controllers;
 
-[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Teacher.Assistant}")]
+[Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.Role}")]
 public class SessionController : ApiController
 {
     private readonly IMapper _mapper;
@@ -24,6 +24,7 @@ public class SessionController : ApiController
     }
 
 
+    [Authorize(Roles = $"{Roles.Teacher.Role},{Roles.Assistant.AddGroup}")]
     [HttpPost]
     public IActionResult Create([FromBody] CreateSessionRequest request)
     {
