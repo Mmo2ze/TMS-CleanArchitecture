@@ -74,7 +74,7 @@ private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, Li
 
     var assistantId = AssistantId.Create(userId);
 
-    var assistant = _context.Assistants.FirstOrDefault(a => a.Id == assistantId);
+    var assistant = _context.Assistants.Include(assistant => assistant.TeacherId).FirstOrDefault(a => a.Id == assistantId);
     if (assistant is null)
     {
         return Errors.Auth.InvalidCredentials;
@@ -84,6 +84,7 @@ private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, Li
     claims.Add(new Claim(ClaimTypes.MobilePhone, assistant.Phone));
     claims.Add(new Claim(CustomClaimTypes.TeacherId, assistant.TeacherId.Value));
     claims.Add(new Claim(ClaimTypes.Name, assistant.Name));
+    claims.AddRange(assistant.Roles.Select(role => new Claim(ClaimTypes.Role, role.ToString())));
 
     return claims;
 }

@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using ErrorOr;
 using MediatR;
 using TMS.Application.Authentication.Common;
@@ -7,7 +6,6 @@ using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Variables;
 using TMS.Domain.Common.Errors;
 using TMS.Domain.Common.Repositories;
-using TMS.Domain.Teachers;
 
 namespace TMS.Application.Authentication.Commands.RefreshToken;
 
@@ -51,50 +49,5 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, E
             claims.IsError
                 ? claims.FirstError
                 : await _jwtTokenGenerator.RefreshToken(claims.Value, TimeSpan.FromDays(120), agent, userId,refreshToken, cancellationToken);
-    }
-
-    private async Task<List<Claim>> GetClaims(string userId, UserAgent agent)
-    {
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.MobilePhone, userId),
-            new(CustomClaimTypes.Agent, agent.ToString())
-        };
-        switch (agent)
-        {
-            case UserAgent.Admin:
-                await GetAdminClaims(userId, claims);
-                break;
-            case UserAgent.Teacher:
-                await GetTeacherClaims(userId, claims);
-                break;
-            default:
-                throw new ArgumentException("Encountered unexpected node, i.e. `agent`");
-            
-        }
-
-        return claims;
-    }
-
-    private async Task GetTeacherClaims(string userId, List<Claim> claims)
-    {
-        if (TeacherId.IsValidId(userId))
-        {
-            claims.Add(new Claim(ClaimTypes.Role, Roles.Teacher.Role));
-            claims.Add(new Claim(CustomClaimTypes.Id, userId));
-            claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
-        }
-        else
-        {
-            claims.Add(new Claim(ClaimTypes.Role, Roles.Assistant.Role));
-            claims.Add(new Claim(CustomClaimTypes.Id, userId));
-            claims.Add(new Claim(CustomClaimTypes.TeacherId, userId));
-        }
-    }
-
-    private async Task GetAdminClaims(string userId, List<Claim> claims)
-    {
-        claims.Add(new Claim(ClaimTypes.Role, Roles.Admin.Role));
-        claims.Add(new Claim(CustomClaimTypes.Id, userId));
     }
 }

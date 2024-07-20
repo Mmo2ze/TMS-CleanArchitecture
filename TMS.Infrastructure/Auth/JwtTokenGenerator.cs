@@ -85,7 +85,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
                 case UserAgent.Teacher:
                     if (TeacherId.IsValidId(userId))
                     {
-                        var teacher = _dbContext.Teachers.Find(new TeacherId(userId));
+                        var teacher = await _dbContext.Teachers.FindAsync(new object?[] { new TeacherId(userId) }, cancellationToken: cancellationToken);
                         if (teacher is null)
                             return Errors.Auth.InvalidCredentials;
                         baseRefreshToken.TeacherId = teacher.Id;
@@ -103,7 +103,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
                     break;
                 case UserAgent.Student:
-                    var student = _dbContext.Students.Find(new StudentId(userId));
+                    var student = await _dbContext.Students.FindAsync(new object?[] { new StudentId(userId) }, cancellationToken: cancellationToken);
                     if (student is null)
                         return Errors.Auth.InvalidCredentials;
                     baseRefreshToken.StudentId = student.Id;
