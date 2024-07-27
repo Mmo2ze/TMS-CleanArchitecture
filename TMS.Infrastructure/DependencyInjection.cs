@@ -39,6 +39,7 @@ public static class DependencyInjection
                 .PreventOverlapping("PaymentCleanerJob")
                 .RunOnceAtStart();
         });
+        
     }
 
     public static void AddInfrastructure(this IServiceCollection services,
@@ -112,6 +113,11 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("Postgres"))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
+        });
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "TMS";
         });
         services.AddScoped<IAdminRepository, AdminRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();

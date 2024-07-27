@@ -8,9 +8,8 @@ namespace TMS.Domain.RefreshTokens;
 
 public class RefreshToken
 {
-
     public string Token { get; set; } = string.Empty;
-    public Guid TokenId { get; set; } 
+    public Guid TokenId { get; set; }
     public DateTime Expires { get; set; }
     public bool IsActive => DateTime.UtcNow < Expires;
     public DateTime CreatedOn { get; set; }
@@ -20,6 +19,5 @@ public class RefreshToken
     public StudentId? StudentId { get; set; }
     public ParentId? ParentId { get; set; }
     public AssistantId? AssistantId { get; set; }
-
-    
+    public TimeSpan Duration => Expires - CreatedOn;
 }

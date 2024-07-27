@@ -3,10 +3,12 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using ErrorOr;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TMS.Application.Authentication.Common;
 using TMS.Application.Common.Enums;
+using TMS.Application.Common.Extensions;
 using TMS.Application.Common.Interfaces.Auth;
 using TMS.Application.Common.Services;
 using TMS.Application.Common.Variables;
@@ -28,13 +30,15 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     private readonly JwtSettings _jwtSettings;
     private readonly ICookieManger _cookieManger;
     private readonly MainContext _dbContext;
+    private readonly IDistributedCache _cache;
 
     public JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtSettings> jwtOptions,
-        ICookieManger cookieManger, MainContext dbContext)
+        ICookieManger cookieManger, MainContext dbContext, IDistributedCache cache)
     {
         _dateTimeProvider = dateTimeProvider;
         _cookieManger = cookieManger;
         _dbContext = dbContext;
+        _cache = cache;
         _jwtSettings = jwtOptions.Value;
     }
 
@@ -85,7 +89,8 @@ public class JwtTokenGenerator : IJwtTokenGenerator
                 case UserAgent.Teacher:
                     if (TeacherId.IsValidId(userId))
                     {
-                        var teacher = await _dbContext.Teachers.FindAsync(new object?[] { new TeacherId(userId) }, cancellationToken: cancellationToken);
+                        var teacher = await _dbContext.Teachers.FindAsync(new object?[] { new TeacherId(userId) },
+                            cancellationToken: cancellationToken);
                         if (teacher is null)
                             return Errors.Auth.InvalidCredentials;
                         baseRefreshToken.TeacherId = teacher.Id;
@@ -103,7 +108,8 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
                     break;
                 case UserAgent.Student:
-                    var student = await _dbContext.Students.FindAsync(new object?[] { new StudentId(userId) }, cancellationToken: cancellationToken);
+                    var student = await _dbContext.Students.FindAsync(new object?[] { new StudentId(userId) },
+                        cancellationToken: cancellationToken);
                     if (student is null)
                         return Errors.Auth.InvalidCredentials;
                     baseRefreshToken.StudentId = student.Id;
@@ -129,10 +135,15 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             {
                 _dbContext.RefreshTokens.Add(baseRefreshToken);
                 if (oldToken is not null)
+                {
                     _dbContext.Remove(oldToken);
+                }
+
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
+                if (oldToken != null) await _cache.RemoveAsync(oldToken.Token, cancellationToken);
+                await _cache.SetRecordAsync(baseRefreshToken.Token, baseRefreshToken, baseRefreshToken.Duration);
             }
             catch (OperationCanceledException ex)
             {
