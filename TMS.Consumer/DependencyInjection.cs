@@ -25,8 +25,8 @@ public static class DependencyInjection
             {
                 cfg.Host("eu-north-1", h =>
                 {
-                    h.AccessKey("AKIA2UC264DEPT4T5FM6");
-                    h.SecretKey("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");
+                    h.AccessKey("AKIA2UC264DEHQPQI6SU");
+                    h.SecretKey("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");
                 });
                 cfg.ConfigureEndpoints(context);
             });
