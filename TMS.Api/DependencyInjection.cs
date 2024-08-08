@@ -37,16 +37,16 @@ public static class DependencyInjection
 
 	private static void AddCross(IServiceCollection services)
 	{
-		services.AddCors(options =>
-			options.AddDefaultPolicy(policy =>
-			{
-				policy
-					.AllowAnyMethod()
-					.AllowAnyHeader()
-					.AllowCredentials()
-					.SetIsOriginAllowed(hostName => true);
-			})
-		);
+            services.AddCors(options =>
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed(hostName => true);
+                })
+            );
 	}
 
 
