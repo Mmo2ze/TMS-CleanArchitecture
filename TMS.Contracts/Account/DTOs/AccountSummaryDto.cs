@@ -10,6 +10,7 @@ public record AccountSummaryDto(
     string? GroupId,
     double BasePrice,
     bool HasCustomPrice,
+    bool? HasWhatsapp,
     string StudentName,
     Gender Gender,
     string? GroupName,
