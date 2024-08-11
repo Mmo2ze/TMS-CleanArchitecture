@@ -48,12 +48,16 @@ public class Account : Aggregate<AccountId>
     public bool IsPaid { get; private set; }
     public Parent? Parent { get; set; }
     public Grade Grade { get; set; }
+    public AttendanceStatus? AttendanceStatus { get; set; }
 
     public static Account Create(StudentId studentId, double basePrice, GroupId groupId, TeacherId teacherId,
         Grade grade,
+        DateOnly today,
         ParentId? parentId = null)
     {
-        return new Account(AccountId.CreateUnique(), studentId, basePrice, groupId, teacherId, parentId, grade);
+        var account = new Account(AccountId.CreateUnique(), studentId, basePrice, groupId, teacherId, parentId, grade);
+        account.AddAttendance(Domain.Attendances.AttendanceStatus.Present, today, today);
+        return account;
     }
 
 
@@ -97,12 +101,18 @@ public class Account : Aggregate<AccountId>
         RaiseDomainEvent(new QuizRemovedDomainEvent(quiz.Id, Id));
     }
 
-    public Attendance AddAttendance(AttendanceStatus status, DateOnly date, AssistantId? assistantId = null)
+    public Attendance AddAttendance(AttendanceStatus status, DateOnly date, DateOnly today,
+        AssistantId? assistantId = null)
     {
         var attendance = Attendance.Create(Id, TeacherId, assistantId, date, status);
         _attendances.Add(attendance);
+        if (attendance.Date == today)
+        {
+            AttendanceStatus = status;
+        }
+
         RaiseDomainEvent(new AttendanceCreatedDomainEvent(attendance.Id, attendance.Date, attendance.AccountId,
-            attendance.TeacherId,attendance.Status));
+            attendance.TeacherId, attendance.Status));
         return attendance;
     }
 
@@ -131,7 +141,7 @@ public class Account : Aggregate<AccountId>
         return payment.CreatedAt.Month == payment.BillDate.Month && payment.CreatedAt.Year == payment.BillDate.Year;
     }
 
-    public void RemovePayment(Payment payment,DateTime now)
+    public void RemovePayment(Payment payment, DateTime now)
     {
         if (IsTheSameDate(payment))
             IsPaid = false;

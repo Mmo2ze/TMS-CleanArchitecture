@@ -5,9 +5,6 @@ using TMS.Domain.Common.Repositories;
 
 namespace TMS.Infrastructure.Services.BackGroundJobs;
 
-
-
-
 public class AttendanceCheckerJob : IInvocable
 {
     private readonly IHolidayRepository _holidayRepository;
@@ -61,7 +58,7 @@ public class AttendanceCheckerJob : IInvocable
                         var holidayAccounts = accounts.Where(x => x.GroupId == holiday.GroupId).ToList();
                         foreach (var holidayAccount in holidayAccounts)
                         {
-                            holidayAccount.AddAttendance(AttendanceStatus.Holiday, today);
+                            holidayAccount.AddAttendance(AttendanceStatus.Holiday, today, today);
                         }
 
                         var nonHolidayAccounts = accounts.Where(x =>
@@ -69,7 +66,7 @@ public class AttendanceCheckerJob : IInvocable
                             (teacherScheduler.Grade == null || x.Grade == teacherScheduler.Grade)).ToList();
                         foreach (var nonHolidayAccount in nonHolidayAccounts)
                         {
-                            nonHolidayAccount.AddAttendance(AttendanceStatus.Absent, today);
+                            nonHolidayAccount.AddAttendance(AttendanceStatus.Absent, today, today);
                         }
 
                         accounts.RemoveAll(x => nonHolidayAccounts.Contains(x));
@@ -78,8 +75,9 @@ public class AttendanceCheckerJob : IInvocable
                     {
                         foreach (var account in accounts)
                         {
-                            account.AddAttendance(AttendanceStatus.Holiday, today);
+                            account.AddAttendance(AttendanceStatus.Holiday, today, today);
                         }
+
                         accounts.Clear();
                     }
                 }
@@ -90,7 +88,7 @@ public class AttendanceCheckerJob : IInvocable
 
                     foreach (var account in selectedStudents)
                     {
-                        account.AddAttendance(AttendanceStatus.Absent, today);
+                        account.AddAttendance(AttendanceStatus.Absent, today, today);
                     }
                 }
             }
