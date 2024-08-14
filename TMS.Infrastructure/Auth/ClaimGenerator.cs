@@ -74,7 +74,7 @@ private async Task<ErrorOr<List<Claim>>> GenerateTeacherClaims(string userId, Li
 
     var assistantId = AssistantId.Create(userId);
 
-    var assistant = _context.Assistants.Include(assistant => assistant.TeacherId).FirstOrDefault(a => a.Id == assistantId);
+    var assistant = _context.Assistants.FirstOrDefault(a => a.Id == assistantId);
     if (assistant is null)
     {
         return Errors.Auth.InvalidCredentials;

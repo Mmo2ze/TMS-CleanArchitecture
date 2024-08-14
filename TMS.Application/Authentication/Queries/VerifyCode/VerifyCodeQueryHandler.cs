@@ -38,7 +38,6 @@ public class VerifyCodeQueryHandler : IRequestHandler<VerifyCodeQuery, ErrorOr<A
             return Errors.Auth.InvalidCredentials;
 
         var period = TimeSpan.FromDays(30);
-        var isRegistered = true;
 
         var agent = Enum.Parse<UserAgent>(agentString);
 
